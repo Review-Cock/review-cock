@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 const DropDownMenu = () => {
   return (
@@ -34,30 +34,47 @@ const DropDownMenu = () => {
   );
 };
 
+const SelectedItem = css`
+  &:focus {
+    font-weight: 700;
+  }
+  &:hover {
+    font-weight: 700;
+  }
+`;
+
 const Container = styled.div`
   width: 25rem;
   min-width: 25rem;
   height: 20rem;
-  background-color: whitesmoke;
+  background-color: #fff;
+  box-shadow: 0 0.125rem 0.25rem 0 rgb(0 0 0 / 30%);
+  border: 0.063rem solid #ddd;
   display: flex;
   justify-content: space-around;
   position: fixed;
-  top: 4.1rem;
-  left: 7rem;
+  top: 4rem;
+  left: 8.8rem;
 `;
 
-const ItemWrapper = styled.div``;
+const ItemWrapper = styled.div`
+  width: 100%;
+  border-right: 0.063rem solid #ddd;
+`;
 
 const ItemTitle = styled.div`
   margin: 1rem;
-  font-weight: 700;
+  font-size: 1rem;
+  font-weight: 600;
   cursor: pointer;
+  ${SelectedItem}
 `;
 
 const Item = styled.div`
-  font-size: 0.8rem;
+  font-size: 0.7rem;
   margin: 1rem;
   cursor: pointer;
+  ${SelectedItem}
 `;
 
 export default DropDownMenu;
