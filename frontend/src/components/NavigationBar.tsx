@@ -30,6 +30,7 @@ const NavigationBar = () => {
 };
 
 const Container = styled.div`
+  background-color: white;
   display: flex;
   justify-content: space-between;
   border-bottom: 0.05rem solid gray;
