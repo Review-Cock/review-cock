@@ -1,11 +1,9 @@
 import React from 'react';
 
+import MainPage from '../Layouts/MainPage';
+
 const Home = () => {
-  return (
-    <div>
-      <h1>home</h1>
-    </div>
-  );
+  return <MainPage></MainPage>;
 };
 
 export default Home;
