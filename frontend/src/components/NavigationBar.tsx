@@ -1,16 +1,36 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import styled, { css } from 'styled-components';
 import { AiOutlineSearch, AiOutlineMenu } from 'react-icons/ai';
+import { Link, useNavigate } from 'react-router-dom';
 
 import DropDownMenu from './DropDownMenu';
 
 const NavigationBar = () => {
+  const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(false);
+  const [isLogin, setIsLogin] = useState(false);
+  const [search, setSearch] = useState('');
+  const searchRef = useRef(null);
+
+  const onClickSearchForm = () => {
+    searchRef.current.focus();
+  };
+
+  const onChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
+  };
+  const onKeyPressSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      navigate(`/search/${search}`);
+    }
+  };
 
   return (
     <Container>
       <ItemWrapper>
-        <img alt="로고이미지" />
+        <LinkItem to={'/home'}>
+          <img alt="로고이미지" />
+        </LinkItem>
         <DropDownWrapper
           onMouseOver={() => {
             setShowMenu(true);
@@ -26,19 +46,26 @@ const NavigationBar = () => {
           {showMenu && <DropDownMenu />}
         </DropDownWrapper>
 
-        <Item>배송</Item>
-        <Item>지역</Item>
-        <Item>커뮤니티</Item>
-        <Item>등록하기</Item>
+        <LinkItem to={'/category/배송'}>배송</LinkItem>
+        <LinkItem to={'/category/지역'}>지역</LinkItem>
+        <LinkItem to={'/community'}>커뮤니티</LinkItem>
+        <LinkItem to={'/register'}>등록하기</LinkItem>
       </ItemWrapper>
       <ItemWrapper>
-        <Item>
+        <Item onClick={onClickSearchForm}>
           <AiOutlineSearch size={'1.2rem'} />
-          <SearchInput type="text" placeholder="체험단 검색" />
+          <SearchInput
+            ref={searchRef}
+            value={search}
+            onChange={onChangeSearch}
+            type="text"
+            placeholder="체험단 검색"
+            onKeyDown={onKeyPressSearch}
+          />
         </Item>
-        <Item>
+        <LinkItem to={isLogin ? '/profile' : '/login'}>
           <ProfileIcon />
-        </Item>
+        </LinkItem>
       </ItemWrapper>
     </Container>
   );
@@ -86,6 +113,12 @@ const Item = styled.div`
   & > span {
     margin-left: 0.4rem;
   }
+`;
+
+const LinkItem = styled(Link)`
+  text-decoration: none;
+  color: black;
+  ${SelectedItem}
 `;
 
 const SearchInput = styled.input`
