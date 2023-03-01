@@ -1,34 +1,32 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
+import { Link } from 'react-router-dom';
 
 const DropDownMenu = () => {
+  const deliveryCategory = ['생활', '서비스', '유아동', '디지털', '뷰티', '패션', '도서', '식품', '반려동물'];
+  const regionCategory = ['맛집', '뷰티', '숙박', '문화', '배달', '테이크아웃', '기타'];
+
   return (
     <Container>
       <ItemWrapper>
-        <ItemTitle>배송 전체</ItemTitle>
-        <Item>생활</Item>
-        <Item>서비스</Item>
-        <Item>유아동</Item>
-        <Item>디지털</Item>
-        <Item>뷰티</Item>
-        <Item>패션</Item>
-        <Item>도서</Item>
-        <Item>식품</Item>
-        <Item>반려동물</Item>
+        <ItemTitle to={'/category/배송'}>배송 전체</ItemTitle>
+        {deliveryCategory.map((v, i) => (
+          <Item key={i} to={`/category/배송/${v}`}>
+            {v}
+          </Item>
+        ))}
       </ItemWrapper>
       <ItemWrapper>
-        <ItemTitle>지역 전체</ItemTitle>
-        <Item>맛집</Item>
-        <Item>뷰티</Item>
-        <Item>숙박</Item>
-        <Item>문화</Item>
-        <Item>배달</Item>
-        <Item>테이크아웃</Item>
-        <Item>기타</Item>
+        <ItemTitle to={'/category/지역'}>지역 전체</ItemTitle>
+        {regionCategory.map((v, i) => (
+          <Item key={i} to={`/category/지역/${v}`}>
+            {v}
+          </Item>
+        ))}
       </ItemWrapper>
       <ItemWrapper>
-        <ItemTitle>서비스</ItemTitle>
-        <Item>마이페이지</Item>
+        <ItemTitle to={'/profile'}>서비스</ItemTitle>
+        <Item to={'/profile'}>마이페이지</Item>
       </ItemWrapper>
     </Container>
   );
@@ -60,9 +58,13 @@ const Container = styled.div`
 const ItemWrapper = styled.div`
   width: 100%;
   border-right: 0.063rem solid #ddd;
+  display: flex;
+  flex-direction: column;
 `;
 
-const ItemTitle = styled.div`
+const ItemTitle = styled(Link)`
+  text-decoration: none;
+  color: black;
   margin: 1rem;
   font-size: 1rem;
   font-weight: 600;
@@ -70,9 +72,11 @@ const ItemTitle = styled.div`
   ${SelectedItem}
 `;
 
-const Item = styled.div`
+const Item = styled(Link)`
+  text-decoration: none;
+  color: black;
   font-size: 0.7rem;
-  margin: 1rem;
+  margin: 0.5rem 1rem;
   cursor: pointer;
   ${SelectedItem}
 `;
