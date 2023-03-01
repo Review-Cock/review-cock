@@ -10,17 +10,17 @@ const DropDownMenu = () => {
     <Container>
       <ItemWrapper>
         <ItemTitle to={'/category/배송'}>배송 전체</ItemTitle>
-        {deliveryCategory.map((v, i) => (
-          <Item key={i} to={`/category/배송/${v}`}>
-            {v}
+        {deliveryCategory.map((categoryName, i) => (
+          <Item key={i} to={`/category/배송/${categoryName}`}>
+            {categoryName}
           </Item>
         ))}
       </ItemWrapper>
       <ItemWrapper>
         <ItemTitle to={'/category/지역'}>지역 전체</ItemTitle>
-        {regionCategory.map((v, i) => (
-          <Item key={i} to={`/category/지역/${v}`}>
-            {v}
+        {regionCategory.map((categoryName, i) => (
+          <Item key={i} to={`/category/지역/${categoryName}`}>
+            {categoryName}
           </Item>
         ))}
       </ItemWrapper>

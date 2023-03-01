@@ -9,26 +9,26 @@ const NavigationBar = () => {
   const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
-  const [search, setSearch] = useState('');
-  const searchRef = useRef(null);
+  const [keyword, setKeyword] = useState('');
+  const keywordRef = useRef(null);
 
   const onClickSearchForm = () => {
-    searchRef.current.focus();
+    keywordRef.current.focus();
   };
 
-  const onChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value);
+  const onChangeKeyword = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setKeyword(e.target.value);
   };
   const onKeyPressSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      navigate(`/search/${search}`);
+      navigate(`/search/${keyword}`);
     }
   };
 
   return (
     <Container>
       <ItemWrapper>
-        <LinkItem to={'/home'}>
+        <LinkItem to={'/'}>
           <img alt="로고이미지" />
         </LinkItem>
         <DropDownWrapper
@@ -55,9 +55,9 @@ const NavigationBar = () => {
         <Item onClick={onClickSearchForm}>
           <AiOutlineSearch size={'1.2rem'} />
           <SearchInput
-            ref={searchRef}
-            value={search}
-            onChange={onChangeSearch}
+            ref={keywordRef}
+            value={keyword}
+            onChange={onChangeKeyword}
             type="text"
             placeholder="체험단 검색"
             onKeyDown={onKeyPressSearch}
