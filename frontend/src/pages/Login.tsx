@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useCallback, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { SiNaver, SiKakaotalk } from 'react-icons/si';
 import { useMutation } from 'react-query';
 
 const LoginBox = styled.div`
@@ -31,6 +32,53 @@ const LoginInput = styled.input`
   padding: 1rem;
   border-radius: 0.5rem;
   border: 1px solid rgba(0, 0, 0, 0.1);
+`;
+
+const SnSLoginBox = styled.div`
+  margin: 1rem 0px;
+  display: flex;
+  justify-content: center;
+  width: 35%;
+  padding: 1rem 0px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 0.5rem;
+
+  div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &:first-child {
+      width: 50%;
+      font-size: 13px;
+    }
+
+    &:last-child {
+      width: 50%;
+
+      a {
+        font-size: 25px;
+        margin: 0px 10px;
+      }
+    }
+  }
+`;
+
+const NaverLogin = styled.a`
+  svg {
+    color: #07b753;
+    border-radius: 50%;
+  }
+`;
+
+const KaKaoLogin = styled.a`
+  font-size: 25px;
+  margin: 0px 10px;
+  svg {
+    background-color: #391d1d;
+    color: #f3dc03;
+    border-radius: 50%;
+  }
 `;
 
 const JoinBox = styled.button`
@@ -89,6 +137,10 @@ const Login = () => {
     [email, password],
   );
 
+  const REST_API_KEY = process.env.REACT_APP_REST_API_KEY;
+  const REDIRECT_URI = `http://localhost:3000/oauth/kakao/callback`;
+  const KAKAO_AUTH_URI = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+
   return (
     <LoginBox>
       <SiteName>
@@ -113,6 +165,18 @@ const Login = () => {
         ></LoginInput>
         <LoginInput type="submit" value="로그인"></LoginInput>
       </LoginForm>
+
+      <SnSLoginBox>
+        <div>SNS 계정 로그인</div>
+        <div>
+          <NaverLogin href="">
+            <SiNaver />
+          </NaverLogin>
+          <KaKaoLogin href={KAKAO_AUTH_URI}>
+            <SiKakaotalk />
+          </KaKaoLogin>
+        </div>
+      </SnSLoginBox>
 
       <JoinBox onClick={toLoginHandle}>회원가입하기</JoinBox>
     </LoginBox>
