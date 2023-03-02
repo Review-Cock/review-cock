@@ -1,14 +1,22 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const CampaignItem = () => {
+import { CampaignItemProps } from '../types/campaignItem';
+
+const CampaignItem = (props: CampaignItemProps) => {
+  const { imgUrl, deadLine, region, storeName, serviceName, application, total } = props;
+
   return (
     <Container>
-      <img src="defaultImage.png" alt="가게이미지" />
-      <DeadLineText>1일 남음</DeadLineText>
-      <StoreNameText>[지역] 가게이름</StoreNameText>
-      <ServiceNameText>제공 서비스</ServiceNameText>
-      <ApplicationText>신청 0/7명</ApplicationText>
+      <img src={imgUrl} alt="가게이미지" />
+      <DeadLineText>{deadLine}</DeadLineText>
+      <StoreNameText>
+        [{region}] {storeName}
+      </StoreNameText>
+      <ServiceNameText>{serviceName}</ServiceNameText>
+      <ApplicationText>
+        신청 {application} / {total}명
+      </ApplicationText>
     </Container>
   );
 };
@@ -17,6 +25,7 @@ const Container = styled.div`
   height: 18rem;
   width: 12rem;
   background-color: whitesmoke;
+  margin: 0.5rem;
   & > img {
     width: 12rem;
     height: 12rem;
