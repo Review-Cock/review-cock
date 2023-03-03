@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import styled from 'styled-components';
 
 const CampaignSelectBox = () => {
   const [currentType, setCurrentType] = useState('');
@@ -11,7 +12,7 @@ const CampaignSelectBox = () => {
   };
 
   return (
-    <div>
+    <Container>
       <select name="type" onChange={onChangeCurrentType}>
         <option value="">캠페인 종류</option>
         <option value="delivery">배송형</option>
@@ -37,8 +38,15 @@ const CampaignSelectBox = () => {
           ))}
         </select>
       )}
-    </div>
+    </Container>
   );
 };
+
+const Container = styled.div`
+  & > select {
+    outline: none;
+    margin: 0 0 0.5rem 0;
+  }
+`;
 
 export default CampaignSelectBox;
