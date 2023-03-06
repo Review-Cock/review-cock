@@ -1,9 +1,95 @@
 import axios from 'axios';
 import React, { useCallback, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { Link, useNavigate } from 'react-router-dom';
 import { SiNaver, SiKakaotalk } from 'react-icons/si';
 import { useMutation } from 'react-query';
+import { KAKAO_AUTH_URI } from '../api';
+
+interface IUser {
+  email: string;
+  password: string;
+}
+
+const Login = () => {
+  const navigate = useNavigate();
+  const toLoginHandle = () => navigate('/join');
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const loginMutation = useMutation(({ email, password }: IUser) => axios.post('', { email, password }), {
+    onSuccess: (response) => {
+      console.log(response);
+      navigate('/');
+    },
+    onError: (error) => {
+      console.log('에러 발생 => ', error);
+    },
+  });
+
+  const handleEmail = useCallback(
+    (e: React.FormEvent<HTMLInputElement>) => {
+      setEmail(e.currentTarget.value);
+    },
+    [email],
+  );
+
+  const handlePassword = useCallback(
+    (e: React.FormEvent<HTMLInputElement>) => {
+      setPassword(e.currentTarget.value);
+    },
+    [password],
+  );
+
+  const handleLoginSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    loginMutation.mutate({ email, password });
+  };
+
+  return (
+    <LoginBox>
+      <SiteName>
+        <Link to="/">리뷰콕</Link>
+      </SiteName>
+
+      <LoginForm onSubmit={handleLoginSubmit}>
+        <LoginInput
+          name="email"
+          type="email"
+          placeholder="이메일을 입력해주세요"
+          required
+          onChange={handleEmail}
+        ></LoginInput>
+
+        <LoginInput
+          name="password"
+          type="password"
+          placeholder="비밀번호를 입력해주세요"
+          required
+          onChange={handlePassword}
+        ></LoginInput>
+        <LoginInput type="submit" value="로그인"></LoginInput>
+      </LoginForm>
+
+      <SnSLoginBox>
+        <div>SNS 계정 로그인</div>
+        <div>
+          <NaverLogin href="">
+            <SiNaver />
+          </NaverLogin>
+          <KaKaoLogin href={KAKAO_AUTH_URI}>
+            <SiKakaotalk />
+          </KaKaoLogin>
+        </div>
+      </SnSLoginBox>
+
+      <JoinBox onClick={toLoginHandle}>회원가입하기</JoinBox>
+    </LoginBox>
+  );
+};
+
+export default Login;
 
 const LoginBox = styled.div`
   width: 100%;
@@ -92,95 +178,3 @@ const JoinBox = styled.button`
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 5px;
 `;
-
-interface IUser {
-  email: string;
-  password: string;
-}
-
-const Login = () => {
-  const navigate = useNavigate();
-  const toLoginHandle = () => navigate('/join');
-
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  const loginMutation = useMutation(({ email, password }: IUser) => axios.post('', { email, password }), {
-    onSuccess: (response) => {
-      console.log(response);
-      navigate('/');
-    },
-    onError: (error) => {
-      console.log('에러 발생 => ', error);
-    },
-  });
-
-  const handleEmail = useCallback(
-    (e: React.FormEvent<HTMLInputElement>) => {
-      setEmail(e.currentTarget.value);
-    },
-    [email],
-  );
-
-  const handlePassword = useCallback(
-    (e: React.FormEvent<HTMLInputElement>) => {
-      setPassword(e.currentTarget.value);
-    },
-    [password],
-  );
-
-  const handleLoginSubmit = useCallback(
-    (e: React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      loginMutation.mutate({ email, password });
-    },
-    [email, password],
-  );
-
-  const REST_API_KEY = process.env.REACT_APP_REST_API_KEY;
-  const REDIRECT_URI = `http://localhost:3000/oauth/kakao/callback`;
-  const KAKAO_AUTH_URI = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
-
-  return (
-    <LoginBox>
-      <SiteName>
-        <Link to="/">사이트 이름</Link>
-      </SiteName>
-
-      <LoginForm onSubmit={handleLoginSubmit}>
-        <LoginInput
-          name="email"
-          type="email"
-          placeholder="이메일을 입력해주세요"
-          required
-          onChange={handleEmail}
-        ></LoginInput>
-
-        <LoginInput
-          name="password"
-          type="password"
-          placeholder="비밀번호를 입력해주세요"
-          required
-          onChange={handlePassword}
-        ></LoginInput>
-        <LoginInput type="submit" value="로그인"></LoginInput>
-      </LoginForm>
-
-      <SnSLoginBox>
-        <div>SNS 계정 로그인</div>
-        <div>
-          <NaverLogin href="">
-            <SiNaver />
-          </NaverLogin>
-          <KaKaoLogin href={KAKAO_AUTH_URI}>
-            <SiKakaotalk />
-          </KaKaoLogin>
-        </div>
-      </SnSLoginBox>
-
-      <JoinBox onClick={toLoginHandle}>회원가입하기</JoinBox>
-    </LoginBox>
-  );
-};
-
-export default Login;
