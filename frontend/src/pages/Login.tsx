@@ -5,11 +5,15 @@ import { Link, useNavigate } from 'react-router-dom';
 import { SiNaver, SiKakaotalk } from 'react-icons/si';
 import { useMutation } from 'react-query';
 import { KAKAO_AUTH_URI } from '../api';
-
-interface IUser {
-  email: string;
-  password: string;
-}
+import { IUser } from '../types/login';
+import {
+  EMAIL_REQUEST,
+  JOIN_BUTTON,
+  LOGIN_BUTTON,
+  PASSWORD_REQUEST,
+  SITE_NAME,
+  SNS_NOTIFICATION,
+} from '../utils/LoginConstants';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -24,7 +28,7 @@ const Login = () => {
       navigate('/');
     },
     onError: (error) => {
-      console.log('에러 발생 => ', error);
+      console.log(error);
     },
   });
 
@@ -50,30 +54,24 @@ const Login = () => {
   return (
     <LoginBox>
       <SiteName>
-        <Link to="/">리뷰콕</Link>
+        <Link to="/">{SITE_NAME}</Link>
       </SiteName>
 
       <LoginForm onSubmit={handleLoginSubmit}>
-        <LoginInput
-          name="email"
-          type="email"
-          placeholder="이메일을 입력해주세요"
-          required
-          onChange={handleEmail}
-        ></LoginInput>
+        <LoginInput name="email" type="email" placeholder={EMAIL_REQUEST} required onChange={handleEmail}></LoginInput>
 
         <LoginInput
           name="password"
           type="password"
-          placeholder="비밀번호를 입력해주세요"
+          placeholder={PASSWORD_REQUEST}
           required
           onChange={handlePassword}
         ></LoginInput>
-        <LoginInput type="submit" value="로그인"></LoginInput>
+        <LoginInput type="submit" value={LOGIN_BUTTON}></LoginInput>
       </LoginForm>
 
       <SnSLoginBox>
-        <div>SNS 계정 로그인</div>
+        <div>{SNS_NOTIFICATION}</div>
         <div>
           <NaverLogin href="">
             <SiNaver />
@@ -84,7 +82,7 @@ const Login = () => {
         </div>
       </SnSLoginBox>
 
-      <JoinBox onClick={toLoginHandle}>회원가입하기</JoinBox>
+      <JoinBox onClick={toLoginHandle}>{JOIN_BUTTON}</JoinBox>
     </LoginBox>
   );
 };
