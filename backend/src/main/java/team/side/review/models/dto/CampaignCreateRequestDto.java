@@ -24,8 +24,10 @@ public class CampaignCreateRequestDto {
 
     @NotNull(message = "체험유형은 필수 입력입니다.")
     private CampaignType campaignType;
+
     @NotBlank(message = "카테고리는 필수 입력입니다.")
     private String category;
+
     @NotBlank(message = "제목은 필수 입력입니다.")
     private String name;
 
@@ -43,11 +45,14 @@ public class CampaignCreateRequestDto {
     @NotNull
     @Future(message = "체험기간은 현재일시 이후로 등록 가능합니다.")
     private LocalDateTime expStartDateTime;
+
     @NotNull
     @Future(message = "체험기간은 현재일시 이후로 등록 가능합니다.")
     private LocalDateTime expEndDateTime;
+
     @NotBlank(message = "내용은 필수 입력입니다.")
     private String content;
+
     @Min(value = 1, message = "모집인원은 1명이상 등록 가능합니다.")
     private int recruitNumber;
 
