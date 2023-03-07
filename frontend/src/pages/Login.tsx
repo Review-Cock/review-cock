@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
 import { SiNaver, SiKakaotalk } from 'react-icons/si';
 import { useMutation } from 'react-query';
-import { KAKAO_AUTH_URI } from '../api';
+import { KAKAO_AUTH_URI, NAVER_AUTH_URI } from '../api';
 import { IUser } from '../types/login';
 import {
   EMAIL_REQUEST,
@@ -72,8 +72,9 @@ const Login = () => {
 
       <SnSLoginBox>
         <div>{SNS_NOTIFICATION}</div>
+
         <div>
-          <NaverLogin href="">
+          <NaverLogin href={NAVER_AUTH_URI}>
             <SiNaver />
           </NaverLogin>
           <KaKaoLogin href={KAKAO_AUTH_URI}>
