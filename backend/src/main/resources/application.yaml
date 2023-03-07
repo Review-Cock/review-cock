@@ -1,0 +1,27 @@
+spring:
+  profiles:
+    active: dev
+
+server:
+  port: 8080
+
+
+
+### dev
+---
+  spring:
+    profiles: dev
+    datasource:
+      url: jdbc:mariadb://localhost:13306/review
+      username: root
+      password: 1234
+
+### prod
+---
+### TODO::
+  spring:
+    profiles: prod
+    datasource:
+      url: jdbc:mariadb://localhost:13306/review
+      username: root
+      password: 1234
