@@ -1,72 +1,20 @@
-import axios from 'axios';
-import React, { useCallback, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
 import { SiNaver, SiKakaotalk } from 'react-icons/si';
-import { useMutation } from 'react-query';
 import { KAKAO_AUTH_URI, NAVER_AUTH_URI } from '../api';
-import { IUser } from '../types/login';
-import {
-  EMAIL_REQUEST,
-  JOIN_BUTTON,
-  LOGIN_BUTTON,
-  PASSWORD_REQUEST,
-  SITE_NAME,
-  SNS_NOTIFICATION,
-} from '../utils/LoginConstants';
+import LoginForm from '../components/LoginForm';
+import { JOIN_BUTTON, SITE_NAME, SNS_NOTIFICATION } from '../utils/LoginConstants';
 
 const Login = () => {
   const navigate = useNavigate();
   const toLoginHandle = () => navigate('/join');
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  const loginMutation = useMutation(({ email, password }: IUser) => axios.post('', { email, password }), {
-    onSuccess: (response) => {
-      console.log(response);
-      navigate('/');
-    },
-    onError: (error) => {
-      console.log(error);
-    },
-  });
-
-  const handleEmail = useCallback(
-    (e: React.FormEvent<HTMLInputElement>) => {
-      setEmail(e.currentTarget.value);
-    },
-    [email],
-  );
-
-  const handlePassword = useCallback(
-    (e: React.FormEvent<HTMLInputElement>) => {
-      setPassword(e.currentTarget.value);
-    },
-    [password],
-  );
-
-  const handleLoginSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    loginMutation.mutate({ email, password });
-  };
-
   return (
     <LoginBox>
       <SiteName to="/">{SITE_NAME}</SiteName>
 
-      <LoginForm onSubmit={handleLoginSubmit}>
-        <LoginInput name="email" type="email" placeholder={EMAIL_REQUEST} required onChange={handleEmail}></LoginInput>
-
-        <LoginInput
-          name="password"
-          type="password"
-          placeholder={PASSWORD_REQUEST}
-          required
-          onChange={handlePassword}
-        ></LoginInput>
-        <LoginInput type="submit" value={LOGIN_BUTTON}></LoginInput>
-      </LoginForm>
+      <LoginForm />
 
       <SnSLoginBox>
         <div>{SNS_NOTIFICATION}</div>
@@ -101,18 +49,6 @@ const SiteName = styled(Link)`
   margin-bottom: 3rem;
   color: black;
   text-decoration: none;
-`;
-
-const LoginForm = styled.form`
-  width: 35%;
-  display: flex;
-  flex-direction: column;
-`;
-
-const LoginInput = styled.input`
-  padding: 1rem;
-  border-radius: 0.5rem;
-  border: 1px solid rgba(0, 0, 0, 0.1);
 `;
 
 const SnSLoginBox = styled.div`
