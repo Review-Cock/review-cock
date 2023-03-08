@@ -3,7 +3,7 @@ export const SITE_NAME = '리뷰콕';
 // 01 === 계속 사업자 , 02 === 휴업자 , 03 === 폐업자
 export const SUCCESS_AUTHENTICATION_BUSINESSNUMBER = '01';
 export const SHUTDOWN_BUSINESSNUMBER = '02';
-export const INVALID_BUSINESSNUMBER = '03';
+export const CLOSURE_BUSINESSNUMBER = '03';
 
 export const NOT_CORRECT_PASSWORD_MESSAGE = '비밀번호가 일치하지 않습니다.';
 export const SUCCESS_AUTHENTICATION_BUSINESSNUMBER_MESSAGE = '인증되었습니다.';

@@ -9,7 +9,7 @@ import { IForm } from '../types/join';
 import {
   SUCCESS_AUTHENTICATION_BUSINESSNUMBER,
   SHUTDOWN_BUSINESSNUMBER,
-  INVALID_BUSINESSNUMBER,
+  CLOSURE_BUSINESSNUMBER,
   NOT_CORRECT_PASSWORD_MESSAGE,
   SUCCESS_AUTHENTICATION_BUSINESSNUMBER_MESSAGE,
   SHUTDOWN_BUSINESSNUMBER_MESSAGE,
@@ -108,7 +108,7 @@ const JoinForm = () => {
         if (statusNumber === SUCCESS_AUTHENTICATION_BUSINESSNUMBER) {
           alert(SUCCESS_AUTHENTICATION_BUSINESSNUMBER_MESSAGE);
           setConfirmBusinessNumber(true);
-        } else if (statusNumber === SHUTDOWN_BUSINESSNUMBER || statusNumber === INVALID_BUSINESSNUMBER) {
+        } else if (statusNumber === SHUTDOWN_BUSINESSNUMBER || statusNumber === CLOSURE_BUSINESSNUMBER) {
           alert(SHUTDOWN_BUSINESSNUMBER_MESSAGE);
           setBusinessNumber('');
         } else {
