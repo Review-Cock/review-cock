@@ -18,7 +18,7 @@ const KakakoOauth = () => {
         })
         .catch((error) => {
           console.log(error);
-          navigate('/');
+          navigate('/login');
         });
     })();
   }, []);
