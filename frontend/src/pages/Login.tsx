@@ -53,9 +53,7 @@ const Login = () => {
 
   return (
     <LoginBox>
-      <SiteName>
-        <Link to="/">{SITE_NAME}</Link>
-      </SiteName>
+      <SiteName to="/">{SITE_NAME}</SiteName>
 
       <LoginForm onSubmit={handleLoginSubmit}>
         <LoginInput name="email" type="email" placeholder={EMAIL_REQUEST} required onChange={handleEmail}></LoginInput>
@@ -99,12 +97,10 @@ const LoginBox = styled.div`
   align-items: center;
 `;
 
-const SiteName = styled.div`
+const SiteName = styled(Link)`
   margin-bottom: 3rem;
-  a {
-    color: black;
-    text-decoration: none;
-  }
+  color: black;
+  text-decoration: none;
 `;
 
 const LoginForm = styled.form`
