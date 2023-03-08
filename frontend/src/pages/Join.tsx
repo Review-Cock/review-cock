@@ -1,0 +1,263 @@
+import React, { useCallback, useState } from 'react';
+import axios from 'axios';
+import styled from 'styled-components';
+import { useForm } from 'react-hook-form';
+import { Link, useNavigate } from 'react-router-dom';
+import { useMutation } from 'react-query';
+import { NATIONAL_TAX_SERVICE_BASE_URL } from '../api';
+
+export interface IForm {
+  email: string;
+  nickname: string;
+  password: string;
+  passwordConfirm: string;
+  phoneNumber: number;
+  businessNumber: string;
+}
+
+// 01 === 계속 사업자 , 02 === 휴업자 , 03 === 폐업자
+const SUCCESS_AUTHENTICATION_BUSINESSNUMBER = '01';
+const SHUTDOWN_BUSINESSNUMBER = '02';
+const INVALID_BUSINESSNUMBER = '03';
+
+const NOT_CORRECT_PASSWORD_MESSAGE = '비밀번호가 일치하지 않습니다.';
+const SUCCESS_AUTHENTICATION_BUSINESSNUMBER_MESSAGE = '인증되었습니다.';
+const SHUTDOWN_BUSINESSNUMBER_MESSAGE = '휴/폐업자 입니다. 다른 사업자번호를 입력해주세요';
+const INVALID_BUSINESSNUMBER_MESSAGE = '국세청에 등록되지 않은 사업자등록번호입니다. 다시 입력해주세요';
+
+const SITE_NAME = '리뷰콕';
+const EMAIL_REQUEST_MESSAGE = '이메일 형식으로 입력해주세요';
+const NICKNAME_REQUEST_MESSAGE = 'nickname을 입력해주세요';
+const PASSWORD_REQUEST_MESSAGE = 'password를 입력해주세요';
+const PASSWORD_RE_REQUEST_MESSAGE = '다시한번 password를 입력해주세요';
+const PHONENUMBER_REQUEST_MESSAGE = "' - ' 없이 핸드폰 번호 11자리를 입력해주세요 Ex) 01012345678";
+const BUSINESSNUMBER_REQUEST_MESSAGE = " ' - ' 없이 사업자번호 10자리를 입력해주세요";
+
+const Join = () => {
+  const navigate = useNavigate();
+
+  const [isChecked, setIsChecked] = useState(false);
+  const [confirmBusinessNumber, setConfirmBusinessNumber] = useState(false);
+  const [businessNumber, setBusinessNumber] = useState('');
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setError,
+    setValue,
+  } = useForm<IForm>();
+
+  const JoinMutation = useMutation(
+    ({ email, nickname, password, passwordConfirm, phoneNumber, businessNumber }: IForm) =>
+      axios.post('', {
+        email,
+        nickname,
+        password,
+        passwordConfirm,
+        phoneNumber,
+        businessNumber,
+      }),
+    {
+      onSuccess: (response) => {
+        console.log(response);
+        // navigate('/');
+      },
+      onError: (error) => {
+        console.log(error);
+      },
+    },
+  );
+
+  const onValid = (data: IForm) => {
+    const { email, nickname, password, passwordConfirm, phoneNumber } = data;
+
+    if (password !== passwordConfirm) {
+      setError('passwordConfirm', { message: NOT_CORRECT_PASSWORD_MESSAGE }, { shouldFocus: true });
+      setValue('password', '');
+      setValue('passwordConfirm', '');
+    }
+
+    JoinMutation.mutate({
+      email,
+      nickname,
+      password,
+      passwordConfirm,
+      phoneNumber,
+      businessNumber,
+    });
+  };
+
+  const onChangeBusinessCheckBox = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setIsChecked(e.currentTarget.checked);
+      if (!e.currentTarget.checked) {
+        setBusinessNumber('');
+      }
+    },
+    [isChecked],
+  );
+
+  const onChangeBusinessNumber = useCallback(
+    (e: React.FormEvent<HTMLInputElement>) => {
+      e.preventDefault();
+      setBusinessNumber(e.currentTarget.value);
+    },
+    [businessNumber],
+  );
+
+  const onClickBusinessBtn = (event: React.MouseEvent<HTMLElement>) => {
+    event.preventDefault();
+
+    axios
+      .post(`${NATIONAL_TAX_SERVICE_BASE_URL}/status?serviceKey=${process.env.REACT_APP_NATIONAL_TAX_SERVICE_KEY}`, {
+        b_no: [businessNumber],
+      })
+      .then((response) => {
+        const statusNumber = response.data.data[0].b_stt_cd;
+
+        if (statusNumber === SUCCESS_AUTHENTICATION_BUSINESSNUMBER) {
+          alert(SUCCESS_AUTHENTICATION_BUSINESSNUMBER_MESSAGE);
+          setConfirmBusinessNumber(true);
+        } else if (statusNumber === SHUTDOWN_BUSINESSNUMBER || statusNumber === INVALID_BUSINESSNUMBER) {
+          alert(SHUTDOWN_BUSINESSNUMBER_MESSAGE);
+          setBusinessNumber('');
+        } else {
+          alert(INVALID_BUSINESSNUMBER_MESSAGE);
+          setBusinessNumber('');
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  return (
+    <JoinBox>
+      <SiteName to="/">{SITE_NAME}</SiteName>
+      <JoinForm onSubmit={handleSubmit(onValid)}>
+        <JoinInput
+          {...register('email', {
+            required: EMAIL_REQUEST_MESSAGE,
+            pattern: {
+              value: /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/,
+              message: EMAIL_REQUEST_MESSAGE,
+            },
+          })}
+          placeholder="Email"
+          type="email"
+        />
+        <ErrorBox>{errors.email?.message}</ErrorBox>
+        <JoinInput {...register('nickname', { required: NICKNAME_REQUEST_MESSAGE })} placeholder="Nickname" />
+        <JoinInput
+          {...register('password', { required: PASSWORD_REQUEST_MESSAGE })}
+          placeholder="Password"
+          type="password"
+        />
+        <JoinInput
+          {...register('passwordConfirm', { required: PASSWORD_RE_REQUEST_MESSAGE })}
+          placeholder="PasswordConfirm"
+          type="password"
+        />
+        <ErrorBox>{errors?.passwordConfirm?.message}</ErrorBox>
+
+        <JoinInput
+          {...register('phoneNumber', {
+            required: PHONENUMBER_REQUEST_MESSAGE,
+            pattern: {
+              value: /\d{3}\d{4}\d{4}$/,
+              message: PHONENUMBER_REQUEST_MESSAGE,
+            },
+            maxLength: { value: 11, message: PHONENUMBER_REQUEST_MESSAGE },
+          })}
+          placeholder={PHONENUMBER_REQUEST_MESSAGE}
+        />
+        <ErrorBox>{errors?.phoneNumber?.message}</ErrorBox>
+
+        {!confirmBusinessNumber && (
+          <label>
+            <CheckBox type="checkbox" checked={isChecked} onChange={onChangeBusinessCheckBox} />
+            <span>사장님이신가요?</span>
+          </label>
+        )}
+
+        {isChecked && (
+          <>
+            <JoinInput
+              {...register('businessNumber', {
+                required: BUSINESSNUMBER_REQUEST_MESSAGE,
+                pattern: {
+                  value: /\d{3}\d{2}\d{5}/,
+                  message: BUSINESSNUMBER_REQUEST_MESSAGE,
+                },
+                maxLength: { value: 10, message: BUSINESSNUMBER_REQUEST_MESSAGE },
+              })}
+              placeholder={BUSINESSNUMBER_REQUEST_MESSAGE}
+              value={businessNumber}
+              onChange={onChangeBusinessNumber}
+              disabled={confirmBusinessNumber}
+            />
+            <ErrorBox>{errors?.businessNumber?.message}</ErrorBox>
+            {!confirmBusinessNumber && <BusinessButton onClick={onClickBusinessBtn}>인증</BusinessButton>}
+          </>
+        )}
+        <JoinInput value="회원가입" type="submit" />
+      </JoinForm>
+    </JoinBox>
+  );
+};
+
+export default Join;
+
+const JoinBox = styled.div`
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const SiteName = styled(Link)`
+  margin-bottom: 3rem;
+  color: black;
+  text-decoration: none;
+`;
+
+const JoinForm = styled.form`
+  width: 35%;
+  display: flex;
+  flex-direction: column;
+`;
+
+const JoinInput = styled.input`
+  padding: 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  margin: 0.25rem;
+
+  &:last-child {
+    cursor: pointer;
+  }
+`;
+
+const CheckBox = styled.input`
+  padding: 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  margin: 1rem 1rem;
+`;
+
+const BusinessButton = styled.button`
+  padding: 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  margin: 0.25rem;
+`;
+
+const ErrorBox = styled.div`
+  color: red;
+  font-size: 0.5rem;
+  margin: 0.25rem;
+  padding-left: 0.25rem;
+`;
