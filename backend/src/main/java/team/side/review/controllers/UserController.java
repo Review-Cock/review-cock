@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @RequestMapping("/login")
-public class LoginController {
+public class UserController {
 
 
 }
