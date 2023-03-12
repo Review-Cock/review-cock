@@ -10,15 +10,14 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@ApiModel(value = "로그인 응답")
-public class LoginResponseDto {
+@ApiModel(value = "신청 인원 리스트")
+public class RegDto {
 
-    @ApiModelProperty(value = "성공한 이메일")
-    private String email;
+    @ApiModelProperty("신청 인원 닉네임")
+    private String nickname;
 
     @Builder
-    public LoginResponseDto(String email, String message) {
-        this.email = email;
+    public RegDto(String nickname) {
+        this.nickname = nickname;
     }
-
 }
