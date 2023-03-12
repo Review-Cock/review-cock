@@ -1,2 +1,22 @@
-package team.side.review.models.dto;public class LoginRequestDto {
+package team.side.review.models.dto;
+
+
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class LoginRequestDto {
+
+    private String email;
+    private String password;
+
+    @Builder
+    public LoginRequestDto(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
+
 }

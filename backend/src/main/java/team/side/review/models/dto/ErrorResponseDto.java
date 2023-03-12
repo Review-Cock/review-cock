@@ -27,5 +27,6 @@ public class ErrorResponseDto {
         this.code = code;
         this.message = message;
         this.errors = errors;
+
     }
 }

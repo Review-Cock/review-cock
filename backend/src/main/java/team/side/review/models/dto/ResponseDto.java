@@ -30,5 +30,6 @@ public class ResponseDto<T> {
         this.statusCode = statusCode;
         this.message = message;
         this.data = data;
+
     }
 }
