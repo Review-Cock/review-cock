@@ -18,13 +18,12 @@ public class UserController {
 
     @PostMapping("/login")
     @ApiOperation(value = "로그인 API")
-    public String login(@RequestBody LoginRequestDto loginRequestDto, HttpSession httpSession){
+    public ResponseEntity<ResponseDto<LoginResponseDto>> login(@RequestBody LoginRequestDto loginRequestDto){
         // TODO : LoginService 구현
 
         LoginResponseDto loginResponseDto = new LoginResponseDto("example@gmail.com", "success");
 
-
-        return "redirect:../main";
+        return ResponseEntity.ok(ResponseDto.success(loginResponseDto));
     }
 
     @PostMapping("/join")
