@@ -13,6 +13,7 @@ import {
   PASSWORD_RE_REQUEST_MESSAGE,
   PHONENUMBER_REQUEST_MESSAGE,
 } from '../utils/JoinConstants';
+import CheckBoxForAgreement from './CheckBoxForAgreement';
 
 const JoinForm = () => {
   const navigate = useNavigate();
@@ -119,6 +120,7 @@ const JoinForm = () => {
       />
       <ErrorBox>{errors?.phoneNumber?.message}</ErrorBox>
 
+      <CheckBoxForAgreement />
       <JoinInput value="가입하기" type="submit" />
     </JoinFormBox>
   );
