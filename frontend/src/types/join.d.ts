@@ -4,5 +4,4 @@ export interface IForm {
   password: string;
   passwordConfirm: string;
   phoneNumber: number;
-  businessNumber: string;
 }
