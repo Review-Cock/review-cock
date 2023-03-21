@@ -51,11 +51,13 @@ const Title = styled.div`
 `;
 
 const SnSLoginBox = styled.div`
-  margin: 50px 0px;
+  padding: 10px 0px 30px 0px;
+  margin: 60px 0px;
   display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
   width: 35%;
-  padding: 1rem 0px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 
   div {
@@ -64,8 +66,10 @@ const SnSLoginBox = styled.div`
     align-items: center;
 
     &:first-child {
+      margin: 20px 0px;
       width: 50%;
-      font-size: 13px;
+      font-size: 18px;
+      color: #555555;
     }
 
     &:last-child {
@@ -81,15 +85,19 @@ const SnSLoginBox = styled.div`
 
 const NaverLogin = styled.a`
   svg {
+    width: 36px;
+    height: 36px;
     color: #07b753;
     border-radius: 50%;
   }
 `;
 
 const KaKaoLogin = styled.a`
-  font-size: 25px;
   margin: 0px 10px;
+
   svg {
+    width: 36px;
+    height: 36px;
     background-color: #391d1d;
     color: #f3dc03;
     border-radius: 50%;
