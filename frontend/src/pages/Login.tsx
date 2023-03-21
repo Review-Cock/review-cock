@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { SiNaver, SiKakaotalk } from 'react-icons/si';
 import { KAKAO_AUTH_URI, NAVER_AUTH_URI } from '../api';
 import LoginForm from '../components/LoginForm';
-import { JOIN_BUTTON, SITE_NAME, SNS_NOTIFICATION } from '../utils/LoginConstants';
+import { JOIN_BUTTON, LOGIN_TITLE, SNS_NOTIFICATION } from '../utils/LoginConstants';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -12,7 +12,7 @@ const Login = () => {
 
   return (
     <LoginBox>
-      <SiteName to="/">{SITE_NAME}</SiteName>
+      <Title>{LOGIN_TITLE}</Title>
 
       <LoginForm />
 
@@ -45,20 +45,18 @@ const LoginBox = styled.div`
   align-items: center;
 `;
 
-const SiteName = styled(Link)`
-  margin-bottom: 3rem;
-  color: black;
-  text-decoration: none;
+const Title = styled.div`
+  text-align: center;
+  font-size: 36px;
 `;
 
 const SnSLoginBox = styled.div`
-  margin: 1rem 0px;
+  margin: 50px 0px;
   display: flex;
   justify-content: center;
   width: 35%;
   padding: 1rem 0px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  border-radius: 0.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 
   div {
     display: flex;
@@ -108,4 +106,7 @@ const JoinBox = styled.button`
   width: 35%;
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 5px;
+  color: white;
+  background-color: #888888;
+  cursor: pointer;
 `;
