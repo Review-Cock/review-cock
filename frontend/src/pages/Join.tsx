@@ -25,12 +25,6 @@ const JoinBox = styled.div`
   justify-content: center;
   align-items: center;
   margin-top: 50px;
-
-  @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
-
-  * {
-    font-family: Pretendard;
-  }
 `;
 
 const Title = styled.div`
