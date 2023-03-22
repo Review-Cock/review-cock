@@ -1,12 +1,28 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
 
+import DropDownMenu from './DropDownMenu';
+
 const NavigationBar = () => {
+  const [showDelivery, setShowDelivery] = useState(false);
+  const [showRegion, setShowRegion] = useState(false);
+
+  const handleDropBox = useCallback((target: string, type: boolean) => {
+    if (target === 'delivery') {
+      setShowDelivery(type);
+    }
+    if (target === 'region') {
+      setShowRegion(type);
+    }
+  }, []);
+
   return (
     <Container>
       <MenuWrapper>
-        <LogoBox>로고</LogoBox>
+        <LogoBox>
+          <Link to="/">로고</Link>
+        </LogoBox>
         <KeywordInputBox>
           <KeywordInput type="text" placeholder="검색어를 입력해 주세요." />
         </KeywordInputBox>
@@ -17,8 +33,28 @@ const NavigationBar = () => {
         </LoginMenu>
       </MenuWrapper>
       <CategoryWrapper>
-        <DropBoxItem>배송전체</DropBoxItem>
-        <DropBoxItem>지역전체</DropBoxItem>
+        <DropBoxItem
+          onMouseOver={() => {
+            handleDropBox('delivery', true);
+          }}
+          onMouseLeave={() => {
+            handleDropBox('delivery', false);
+          }}
+        >
+          배송전체
+          <DropDownMenu type="delivery" show={showDelivery} />
+        </DropBoxItem>
+        <DropBoxItem
+          onMouseOver={() => {
+            handleDropBox('region', true);
+          }}
+          onMouseLeave={() => {
+            handleDropBox('region', false);
+          }}
+        >
+          지역전체
+          <DropDownMenu type="region" show={showRegion} />
+        </DropBoxItem>
         <CategoryLinkItem to="/category/배송">배송</CategoryLinkItem>
         <CategoryLinkItem to="/category/지역">지역</CategoryLinkItem>
       </CategoryWrapper>
@@ -128,6 +164,7 @@ const CategoryWrapper = styled.div`
 `;
 
 const DropBoxItem = styled.div`
+  position: relative;
   ${CategoryTextCss}
   ${CategoryItemCss}
 `;
