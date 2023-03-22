@@ -7,137 +7,140 @@ import MainPage from '../Layouts/MainPage';
 
 const Register = () => {
   return (
-    <Container>
-      <TitleBox>
-        <h1>캠페인 등록하기</h1>
-        <p>사업자등록번호 인증 후 양식을 작성해 주세요.</p>
-      </TitleBox>
+    <MainPage>
+      <Container>
+        <TitleBox>
+          <h1>캠페인 등록하기</h1>
+          <p>사업자등록번호 인증 후 양식을 작성해 주세요.</p>
+        </TitleBox>
 
-      <CampainInfoBox>
-        <InputBox>
-          <InputLabel htmlFor="businessNumber">사업자등록번호 인증하기</InputLabel>
-          <RedStar>*</RedStar>
+        <CampainInfoBox>
+          <InputBox>
+            <InputLabel htmlFor="businessNumber">사업자등록번호 인증하기</InputLabel>
+            <RedStar>*</RedStar>
 
-          <BusinessNumberInput
-            type="text"
-            name="businessNumber"
-            id="businessNumber"
-            placeholder="1234-5678 을 입력해주세요."
-          />
-          <Button>인증하기</Button>
-        </InputBox>
-      </CampainInfoBox>
+            <BusinessNumberInput
+              type="text"
+              name="businessNumber"
+              id="businessNumber"
+              placeholder="1234-5678 을 입력해주세요."
+            />
+            <Button>인증하기</Button>
+          </InputBox>
+        </CampainInfoBox>
 
-      <CampainInfoBox>
-        <InputBox>
-          <InputLabel htmlFor="title">제목</InputLabel>
-          <RedStar>*</RedStar>
-          <TextInput type="text" name="title" id="title" placeholder="제목을 입력해 주세요." />
-        </InputBox>
-        <InputBox>
-          <InputLabel htmlFor="detail">소개</InputLabel>
-          <RedStar></RedStar>
-          <TextInput type="text" name="detail" id="detail" placeholder="1234-5678 을 입력해주세요." />
-        </InputBox>
-        <InputBox>
-          <InputLabel htmlFor="headCount">총 모집 인원</InputLabel>
-          <RedStar>*</RedStar>
-          <TextInput type="number" id="headCount" name="headCount" placeholder="N명" />
-        </InputBox>
-        <InputBox>
-          <InputLabel htmlFor="snsLink">SNS링크</InputLabel>
-          <RedStar>*</RedStar>
-          <TextInput type="text" id="snsLink" name="snsLink" placeholder="https://" />
-        </InputBox>
-        <InputBox>
-          <InputLabel htmlFor="">유형선택</InputLabel>
-          <RedStar>*</RedStar>
-          <CheckBoxWrapper>
-            <CheckBoxLabel htmlFor="">
-              <CheckBox type="checkbox" />
-              참가형
-            </CheckBoxLabel>
-            <CheckBoxLabel htmlFor="">
-              <CheckBox type="checkbox" />
-              배송형
-            </CheckBoxLabel>
-          </CheckBoxWrapper>
-        </InputBox>
-      </CampainInfoBox>
+        <CampainInfoBox>
+          <InputBox>
+            <InputLabel htmlFor="title">제목</InputLabel>
+            <RedStar>*</RedStar>
+            <TextInput type="text" name="title" id="title" placeholder="제목을 입력해 주세요." />
+          </InputBox>
+          <InputBox>
+            <InputLabel htmlFor="detail">소개</InputLabel>
+            <RedStar></RedStar>
+            <TextInput type="text" name="detail" id="detail" placeholder="1234-5678 을 입력해주세요." />
+          </InputBox>
+          <InputBox>
+            <InputLabel htmlFor="headCount">총 모집 인원</InputLabel>
+            <RedStar>*</RedStar>
+            <TextInput type="number" id="headCount" name="headCount" placeholder="N명" />
+          </InputBox>
+          <InputBox>
+            <InputLabel htmlFor="snsLink">SNS링크</InputLabel>
+            <RedStar>*</RedStar>
+            <TextInput type="text" id="snsLink" name="snsLink" placeholder="https://" />
+          </InputBox>
+          <InputBox>
+            <InputLabel htmlFor="">유형선택</InputLabel>
+            <RedStar>*</RedStar>
+            <CheckBoxWrapper>
+              <CheckBoxLabel htmlFor="">
+                <CheckBox type="checkbox" />
+                참가형
+              </CheckBoxLabel>
+              <CheckBoxLabel htmlFor="">
+                <CheckBox type="checkbox" />
+                배송형
+              </CheckBoxLabel>
+            </CheckBoxWrapper>
+          </InputBox>
+        </CampainInfoBox>
 
-      <CampainInfoBox>
-        <InputBox>
-          <InputLabel htmlFor="apply">신청기간</InputLabel>
-          <RedStar>*</RedStar>
-          <DateInput type="date" name="apply" id="apply" />
-          <Tilde>~</Tilde>
-          <DateInput type="date" />
-        </InputBox>
-        <InputBox>
-          <InputLabel htmlFor="experience">체험기간</InputLabel>
-          <RedStar>*</RedStar>
-          <DateInput type="date" name="experience" id="experience" />
-          <Tilde>~</Tilde>
-          <DateInput type="date" />
-        </InputBox>
-        <InputBox>
-          <InputLabel htmlFor="announce">발표일</InputLabel>
-          <RedStar>*</RedStar>
-          <DateInput type="date" name="announce" id="announce" />
-        </InputBox>
-      </CampainInfoBox>
+        <CampainInfoBox>
+          <InputBox>
+            <InputLabel htmlFor="apply">신청기간</InputLabel>
+            <RedStar>*</RedStar>
+            <DateInput type="date" name="apply" id="apply" />
+            <Tilde>~</Tilde>
+            <DateInput type="date" />
+          </InputBox>
+          <InputBox>
+            <InputLabel htmlFor="experience">체험기간</InputLabel>
+            <RedStar>*</RedStar>
+            <DateInput type="date" name="experience" id="experience" />
+            <Tilde>~</Tilde>
+            <DateInput type="date" />
+          </InputBox>
+          <InputBox>
+            <InputLabel htmlFor="announce">발표일</InputLabel>
+            <RedStar>*</RedStar>
+            <DateInput type="date" name="announce" id="announce" />
+          </InputBox>
+        </CampainInfoBox>
 
-      <CampainInfoBox>
-        <InputBox>
-          <InputLabel htmlFor="adress">주소</InputLabel>
-          <RedStar>*</RedStar>
-          <AdressBox>
-            <div>
-              <BusinessNumberInput type="text" placeholder="우편번호" disabled />
-              <Button name="adress" id="adress">
-                우편번호 찾기
-              </Button>
-            </div>
-            <BusinessNumberInput type="text" placeholder="주소" disabled />
-            <BusinessNumberInput type="text" placeholder="상세주소" />
-          </AdressBox>
-        </InputBox>
+        <CampainInfoBox>
+          <InputBox>
+            <InputLabel htmlFor="adress">주소</InputLabel>
+            <RedStar>*</RedStar>
+            <AdressBox>
+              <div>
+                <BusinessNumberInput type="text" placeholder="우편번호" disabled />
+                <Button name="adress" id="adress">
+                  우편번호 찾기
+                </Button>
+              </div>
+              <BusinessNumberInput type="text" placeholder="주소" disabled />
+              <BusinessNumberInput type="text" placeholder="상세주소" />
+            </AdressBox>
+          </InputBox>
 
-        <InputBox>
-          <InputLabel htmlFor="">대표이미지</InputLabel>
-          <RedStar>*</RedStar>
-          <FileInput type="file" name="" id="" />
-          <ImageBox>
-            <p>다운이미지</p>
-            <p>등록할 이미지를 끌어오거나,</p>
-            <p>
-              <span>여기</span>를 클릭하여 등록하세요.
-            </p>
-          </ImageBox>
-        </InputBox>
-        <InputBox>
-          <InputLabel htmlFor="">상세이미지</InputLabel>
-          <RedStar>*</RedStar>
-          <FileInput type="file" name="" id="" />
-          <ImageBox>
-            <p>다운이미지</p>
-            <p>등록할 이미지를 끌어오거나,</p>
-            <p>
-              <span>여기</span>를 클릭하여 등록하세요.
-            </p>
-          </ImageBox>
-        </InputBox>
-      </CampainInfoBox>
-      <ButtonBox>
-        <SubmitButton>등록하기</SubmitButton>
-        <SubmitButton>작성취소</SubmitButton>
-      </ButtonBox>
-    </Container>
+          <InputBox>
+            <InputLabel htmlFor="">대표이미지</InputLabel>
+            <RedStar>*</RedStar>
+            <FileInput type="file" name="" id="" />
+            <ImageBox>
+              <p>다운이미지</p>
+              <p>등록할 이미지를 끌어오거나,</p>
+              <p>
+                <span>여기</span>를 클릭하여 등록하세요.
+              </p>
+            </ImageBox>
+          </InputBox>
+          <InputBox>
+            <InputLabel htmlFor="">상세이미지</InputLabel>
+            <RedStar>*</RedStar>
+            <FileInput type="file" name="" id="" />
+            <ImageBox>
+              <p>다운이미지</p>
+              <p>등록할 이미지를 끌어오거나,</p>
+              <p>
+                <span>여기</span>를 클릭하여 등록하세요.
+              </p>
+            </ImageBox>
+          </InputBox>
+        </CampainInfoBox>
+        <ButtonBox>
+          <SubmitButton>등록하기</SubmitButton>
+          <SubmitButton>작성취소</SubmitButton>
+        </ButtonBox>
+      </Container>
+    </MainPage>
   );
 };
 
 const Container = styled.div`
   height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
 `;
@@ -192,6 +195,7 @@ const AdressBox = styled.div`
 `;
 
 const ButtonBox = styled.div`
+  min-width: 950px;
   display: flex;
   justify-content: center;
   align-items: center;
