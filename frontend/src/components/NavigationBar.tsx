@@ -1,12 +1,15 @@
 import React, { useCallback, useState } from 'react';
 import styled, { css } from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import searchIcon from '../assets/searchIcon.png';
 
 import DropDownMenu from './DropDownMenu';
 
 const NavigationBar = () => {
+  const navigate = useNavigate();
   const [showDelivery, setShowDelivery] = useState(false);
   const [showRegion, setShowRegion] = useState(false);
+  const [keyword, setKeyword] = useState('');
 
   const handleDropBox = useCallback((target: string, type: boolean) => {
     if (target === 'delivery') {
@@ -17,6 +20,16 @@ const NavigationBar = () => {
     }
   }, []);
 
+  const handleKeyword = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setKeyword(e.target.value);
+  };
+
+  const handleKeywordEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      navigate(`/search/${keyword}`);
+    }
+  };
+
   return (
     <Container>
       <MenuWrapper>
@@ -24,7 +37,13 @@ const NavigationBar = () => {
           <Link to="/">로고</Link>
         </LogoBox>
         <KeywordInputBox>
-          <KeywordInput type="text" placeholder="검색어를 입력해 주세요." />
+          <KeywordInput
+            type="text"
+            placeholder="검색어를 입력해 주세요."
+            value={keyword}
+            onChange={handleKeyword}
+            onKeyDown={handleKeywordEnter}
+          />
         </KeywordInputBox>
         <LoginMenu>
           <LoginLinkItem to="/login">로그인</LoginLinkItem>
@@ -92,15 +111,25 @@ const LogoBox = styled.div`
   align-items: center;
 `;
 
-const KeywordInputBox = styled.div``;
+const KeywordInputBox = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 const KeywordInput = styled.input`
   width: 345px;
-  margin-top: 25px;
+  margin-top: 10px;
   border: none;
   border-bottom: 1px solid #707070;
   padding: 0 0 10px 10px;
   outline: none;
+  background-size: 7%;
+  background-image: url(${searchIcon});
+  background-repeat: no-repeat;
+  background-position: 100% center;
+  box-sizing: border-box;
+
   ::placeholder {
     text-align: left;
     font: normal normal normal 14px/16px Pretendard;
@@ -119,6 +148,9 @@ const LoginMenu = styled.div`
   display: flex;
   justify-content: space-evenly;
   align-items: center;
+  & > span {
+    color: #aaaaaa;
+  }
 `;
 
 const LoginLinkItem = styled(Link)`
