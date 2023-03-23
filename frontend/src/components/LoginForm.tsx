@@ -1,20 +1,30 @@
 import axios from 'axios';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useMutation } from 'react-query';
 import { Link, useNavigate } from 'react-router-dom';
 import { IUser } from '../types/login';
 import { EMAIL_REQUEST, LOGIN_BUTTON, PASSWORD_REQUEST } from '../utils/LoginConstants';
+import checkIcon from '../assets/checkIcon.png';
+import checkedIcon from '../assets/checkedIcon.png';
+import { useCookies } from 'react-cookie';
 
 const LoginForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const navigate = useNavigate();
+  const [userid, setUserid] = useState('');
+  const [cookies, setCookie, removeCookie] = useCookies(['rememberUserId']);
+  const [isRemember, setIsRemember] = useState(false);
 
   const loginMutation = useMutation(({ email, password }: IUser) => axios.post('', { email, password }), {
     onSuccess: (response) => {
       console.log(response);
+
+      // 성공시 쿠키 저장
+      setCookie('rememberUserId', 'hi');
+
       navigate('/');
     },
     onError: (error) => {
@@ -25,6 +35,7 @@ const LoginForm = () => {
   const handleEmail = useCallback(
     (e: React.FormEvent<HTMLInputElement>) => {
       setEmail(e.currentTarget.value);
+      setUserid(e.currentTarget.value);
     },
     [email],
   );
@@ -41,13 +52,40 @@ const LoginForm = () => {
     loginMutation.mutate({ email, password });
   };
 
+  const handleOnChange = (e: React.FormEvent<HTMLInputElement>) => {
+    setIsRemember(e.currentTarget.checked);
+    if (!e.currentTarget.checked) {
+      removeCookie('rememberUserId');
+    }
+  };
+
+  useEffect(() => {
+    if (cookies.rememberUserId !== undefined) {
+      setUserid(cookies.rememberUserId);
+      setIsRemember(true);
+    }
+  }, []);
+
   return (
     <LoginFormBox onSubmit={handleLoginSubmit}>
-      <LoginInput name="email" type="email" placeholder={EMAIL_REQUEST} onChange={handleEmail} required />
+      <LoginInput
+        name="email"
+        type="email"
+        placeholder={EMAIL_REQUEST}
+        onChange={handleEmail}
+        required
+        id="userid"
+        defaultValue={userid}
+      />
       <LoginInput name="password" type="password" placeholder={PASSWORD_REQUEST} onChange={handlePassword} required />
 
       <IDManagementBox>
-        <div>아이디 저장</div>
+        <div>
+          <CheckBoxLabel htmlFor="checkId">
+            <CheckBox type="checkbox" id="checkId" onChange={handleOnChange} checked={isRemember} />
+            아이디 저장
+          </CheckBoxLabel>
+        </div>
         <FindIdBox>
           <Link to={''}>아이디 찾기</Link>
           <div> | </div>
@@ -97,6 +135,33 @@ const LoginInput = styled.input`
     color: #ffffff;
     border-radius: 5px;
     cursor: pointer;
+  }
+`;
+
+const CheckBoxLabel = styled.label`
+  display: flex;
+  align-items: center;
+  user-select: none;
+  color: #888888;
+  cursor: pointer;
+
+  div {
+    margin-left: 5px;
+  }
+`;
+
+const CheckBox = styled.input`
+  appearance: none;
+  padding: 8px;
+  background-size: 100% 100%;
+  background-image: url(${checkIcon});
+  cursor: pointer;
+
+  &:checked {
+    border: transparent;
+    background-image: url(${checkedIcon});
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
   }
 `;
 

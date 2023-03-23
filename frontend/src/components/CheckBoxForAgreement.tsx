@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import checkIcon from '../assets/checkIcon.png';
+import checkedIcon from '../assets/checkedIcon.png';
 
 const AGGREMENT_BOX = [
   { title: '목적', contents: '이용자 식별및 본인 여부 확인 닉네임' },
@@ -35,14 +37,14 @@ const CheckBoxForAgreement = () => {
     <Wrapper>
       {AGGREMENT_CHECKBOX.map((item, i) => {
         return (
-          <CheckBox key={i}>
-            <input type="checkbox" id={`check_btn${i}`} />
-            <label htmlFor={`check_btn${i}`}>
+          <CheckBoxWrapper key={i}>
+            <CheckBoxLabel htmlFor={`check_btn${i}`}>
+              <CheckBox type="checkbox" id={`check_btn${i}`} />
               <div>
                 {item.contents} <Mark>{item.mark}</Mark>
               </div>
-            </label>
-          </CheckBox>
+            </CheckBoxLabel>
+          </CheckBoxWrapper>
         );
       })}
 
@@ -66,23 +68,37 @@ const Wrapper = styled.div`
   margin: 20px 0px;
 `;
 
-const CheckBox = styled.div`
-  display: flex;
-  align-items: flex-start;
+const CheckBoxWrapper = styled.div`
   margin: 10px 0px;
   color: #888888;
   font-size: 13px;
   cursor: pointer;
+`;
 
-  label,
-  input {
-    cursor: pointer;
+const CheckBoxLabel = styled.label`
+  display: flex;
+  align-items: center;
+  user-select: none;
+  color: #888888;
+  cursor: pointer;
+
+  div {
+    margin-left: 5px;
   }
+`;
 
-  input {
-    accent-color: red;
-    margin-top: 0px;
-    margin-right: 10px;
+const CheckBox = styled.input`
+  appearance: none;
+  padding: 8px;
+  background-size: 100% 100%;
+  background-image: url(${checkIcon});
+  cursor: pointer;
+
+  &:checked {
+    border: transparent;
+    background-image: url(${checkedIcon});
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
   }
 `;
 
