@@ -1,25 +1,30 @@
-import React, { useRef, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import styled, { css } from 'styled-components';
-import { AiOutlineSearch, AiOutlineMenu } from 'react-icons/ai';
 import { Link, useNavigate } from 'react-router-dom';
+import searchIcon from '../assets/searchIcon.png';
 
 import DropDownMenu from './DropDownMenu';
 
 const NavigationBar = () => {
   const navigate = useNavigate();
-  const [showMenu, setShowMenu] = useState(false);
-  const [isLogin, setIsLogin] = useState(false);
+  const [showDelivery, setShowDelivery] = useState(false);
+  const [showRegion, setShowRegion] = useState(false);
   const [keyword, setKeyword] = useState('');
-  const keywordRef = useRef(null);
 
-  const onClickSearchForm = () => {
-    keywordRef.current.focus();
-  };
+  const handleDropBox = useCallback((target: string, type: boolean) => {
+    if (target === 'delivery') {
+      setShowDelivery(type);
+    }
+    if (target === 'region') {
+      setShowRegion(type);
+    }
+  }, []);
 
-  const onChangeKeyword = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleKeyword = (e: React.ChangeEvent<HTMLInputElement>) => {
     setKeyword(e.target.value);
   };
-  const onKeyPressSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
+
+  const handleKeywordEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       navigate(`/search/${keyword}`);
     }
@@ -27,109 +32,178 @@ const NavigationBar = () => {
 
   return (
     <Container>
-      <ItemWrapper>
-        <LinkItem to={'/'}>
-          <img alt="로고이미지" />
-        </LinkItem>
-        <DropDownWrapper
+      <MenuWrapper>
+        <LogoBox>
+          <Link to="/">로고</Link>
+        </LogoBox>
+        <KeywordInputBox>
+          <KeywordInput
+            type="text"
+            placeholder="검색어를 입력해 주세요."
+            value={keyword}
+            onChange={handleKeyword}
+            onKeyDown={handleKeywordEnter}
+          />
+        </KeywordInputBox>
+        <LoginMenu>
+          <LoginLinkItem to="/login">로그인</LoginLinkItem>
+          <span>|</span>
+          <LoginLinkItem to="/join">회원가입</LoginLinkItem>
+        </LoginMenu>
+      </MenuWrapper>
+      <CategoryWrapper>
+        <DropBoxItem
           onMouseOver={() => {
-            setShowMenu(true);
+            handleDropBox('delivery', true);
           }}
-          onMouseOut={() => {
-            setShowMenu(false);
+          onMouseLeave={() => {
+            handleDropBox('delivery', false);
           }}
         >
-          <Item>
-            <AiOutlineMenu size={'1rem'} />
-            <span>전체 카테고리</span>
-          </Item>
-          {showMenu && <DropDownMenu />}
-        </DropDownWrapper>
-
-        <LinkItem to={'/category/배송'}>배송</LinkItem>
-        <LinkItem to={'/category/지역'}>지역</LinkItem>
-        <LinkItem to={'/community'}>커뮤니티</LinkItem>
-        <LinkItem to={'/register'}>등록하기</LinkItem>
-      </ItemWrapper>
-      <ItemWrapper>
-        <Item onClick={onClickSearchForm}>
-          <AiOutlineSearch size={'1.2rem'} />
-          <SearchInput
-            ref={keywordRef}
-            value={keyword}
-            onChange={onChangeKeyword}
-            type="text"
-            placeholder="체험단 검색"
-            onKeyDown={onKeyPressSearch}
-          />
-        </Item>
-        <LinkItem to={isLogin ? '/profile' : '/login'}>
-          <ProfileIcon />
-        </LinkItem>
-      </ItemWrapper>
+          배송전체
+          <DropDownMenu type="delivery" show={showDelivery} />
+        </DropBoxItem>
+        <DropBoxItem
+          onMouseOver={() => {
+            handleDropBox('region', true);
+          }}
+          onMouseLeave={() => {
+            handleDropBox('region', false);
+          }}
+        >
+          지역전체
+          <DropDownMenu type="region" show={showRegion} />
+        </DropBoxItem>
+        <CategoryLinkItem to="/category/배송">배송</CategoryLinkItem>
+        <CategoryLinkItem to="/category/지역">지역</CategoryLinkItem>
+      </CategoryWrapper>
     </Container>
   );
 };
 
-const SelectedItem = css`
-  &:focus {
-    font-weight: 700;
-  }
-  &:hover {
-    font-weight: 700;
-  }
-`;
+// 네비게이션바 상단
 
 const Container = styled.div`
-  background-color: white;
+  display: flex;
+  flex-direction: column;
+  height: 150px;
+  background: #ffffff 0% 0% no-repeat padding-box;
+  opacity: 1;
+`;
+
+const MenuWrapper = styled.div`
   display: flex;
   justify-content: space-between;
-  border-bottom: 0.05rem solid gray;
-  width: 100%;
-  height: 4rem;
-  font-size: 0.8rem;
-  min-width: 53.75rem;
-`;
-
-const ItemWrapper = styled.div`
-  display: flex;
   align-items: center;
-  & > * {
-    margin: 1.5rem;
-  }
+  height: 75px;
+  padding: 25px;
+  border-bottom: 1px solid #eaeaea;
+  opacity: 1;
 `;
 
-const DropDownWrapper = styled.div`
-  height: 100%;
-`;
-
-const Item = styled.div`
-  cursor: pointer;
+const LogoBox = styled.div`
+  width: 200px;
+  height: 50px;
+  background: #f1f1f1 0% 0% no-repeat padding-box;
+  opacity: 1;
   display: flex;
-  align-items: center;
   justify-content: center;
-  height: 100%;
-  ${SelectedItem}
-  & > span {
-    margin-left: 0.4rem;
+  align-items: center;
+`;
+
+const KeywordInputBox = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const KeywordInput = styled.input`
+  width: 345px;
+  margin-top: 10px;
+  border: none;
+  border-bottom: 1px solid #707070;
+  padding: 0 0 10px 10px;
+  outline: none;
+  background-size: 7%;
+  background-image: url(${searchIcon});
+  background-repeat: no-repeat;
+  background-position: 100% center;
+  box-sizing: border-box;
+
+  ::placeholder {
+    text-align: left;
+    font: normal normal normal 14px/16px Pretendard;
+    letter-spacing: 0px;
+    color: #cccccc;
+    opacity: 1;
   }
 `;
 
-const LinkItem = styled(Link)`
+const LoginMenu = styled.div`
+  width: 130px;
+  height: 32px;
+  background: #f1f1f1 0% 0% no-repeat padding-box;
+  border-radius: 500px;
+  opacity: 1;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  & > span {
+    color: #aaaaaa;
+  }
+`;
+
+const LoginLinkItem = styled(Link)`
   text-decoration: none;
-  color: black;
-  ${SelectedItem}
+  cursor: pointer;
+  text-align: left;
+  font: normal normal normal 14px/16px Pretendard;
+  letter-spacing: 0px;
+  color: #aaaaaa;
+  opacity: 1;
+  :hover {
+    color: #222222;
+  }
 `;
 
-const SearchInput = styled.input`
-  font-size: 0.7rem;
+// 내비게이션 바 하단
+const CategoryTextCss = css`
+  text-decoration: none;
+  text-align: center;
+  font: normal normal medium 18px/21px Pretendard;
+  letter-spacing: 0px;
+  color: #222222;
+  opacity: 1;
+  :hover {
+    background: #ffe4e4 0% 0% no-repeat padding-box;
+  }
+`;
+const CategoryItemCss = css`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 120px;
+  height: 50px;
+  border: 1px solid #eaeaea;
 `;
 
-const ProfileIcon = styled.div`
-  width: 2rem;
-  height: 2rem;
-  background-color: purple;
-  border-radius: 1rem;
+const CategoryWrapper = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  height: 50px;
+  border-bottom: 1px solid #eaeaea;
+  opacity: 1;
+`;
+
+const DropBoxItem = styled.div`
+  position: relative;
+  ${CategoryTextCss}
+  ${CategoryItemCss}
+`;
+
+const CategoryLinkItem = styled(Link)`
+  ${CategoryTextCss}
+  ${CategoryItemCss}
 `;
 
 export default NavigationBar;
