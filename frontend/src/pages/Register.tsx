@@ -70,21 +70,42 @@ const Register = () => {
           <InputBox>
             <InputLabel htmlFor="apply">신청기간</InputLabel>
             <RedStar>*</RedStar>
-            <DateInput type="date" name="apply" id="apply" />
+            <DateInput
+              type="date"
+              name="apply"
+              id="apply"
+              data-placeholder="YYYY-MM-DD"
+              required
+              aria-required="true"
+            />
             <Tilde>~</Tilde>
-            <DateInput type="date" />
+            <DateInput type="date" data-placeholder="YYYY-MM-DD" required aria-required="true" />
           </InputBox>
           <InputBox>
             <InputLabel htmlFor="experience">체험기간</InputLabel>
             <RedStar>*</RedStar>
-            <DateInput type="date" name="experience" id="experience" />
+            <DateInput
+              type="date"
+              name="experience"
+              id="experience"
+              data-placeholder="YYYY-MM-DD"
+              required
+              aria-required="true"
+            />
             <Tilde>~</Tilde>
-            <DateInput type="date" />
+            <DateInput type="date" data-placeholder="YYYY-MM-DD" required aria-required="true" />
           </InputBox>
           <InputBox>
             <InputLabel htmlFor="announce">발표일</InputLabel>
             <RedStar>*</RedStar>
-            <DateInput type="date" name="announce" id="announce" />
+            <DateInput
+              type="date"
+              name="announce"
+              id="announce"
+              data-placeholder="YYYY-MM-DD"
+              required
+              aria-required="true"
+            />
           </InputBox>
         </CampainInfoBox>
 
@@ -257,6 +278,11 @@ const TextInput = styled.input`
     color: #cccccc;
   }
   opacity: 1;
+  ::-webkit-outer-spin-button,
+  ::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 `;
 
 const DateInput = styled.input`
@@ -270,6 +296,16 @@ const DateInput = styled.input`
   width: 215px;
   height: 48px;
   margin-right: 20px;
+
+  ::before {
+    content: attr(data-placeholder);
+    color: #cccccc;
+    width: 100%;
+  }
+  :focus::before,
+  :valid::before {
+    display: none;
+  }
 `;
 
 const FileInput = styled.input`
