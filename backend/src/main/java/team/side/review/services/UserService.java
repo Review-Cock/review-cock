@@ -5,7 +5,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import team.side.review.models.dto.LoginResponseDto;
+import team.side.review.models.entity.User;
 import team.side.review.repositories.UserRepository;
+
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -16,6 +19,10 @@ public class UserService {
 
     public LoginResponseDto login(){
         //TODO : login 구현
+        User user = userRepository.findById(1L);
+        
     }
+
+
 
 }

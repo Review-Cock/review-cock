@@ -5,18 +5,15 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Slf4j
 @Entity
-public class CommunityEntity {
+public class Opinion {
 
-    @Id
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String title;
-
-    private String Content;
+    private String comment;
 
     private int likeNumber;
 
@@ -25,10 +22,11 @@ public class CommunityEntity {
     private LocalDateTime modifiedDate;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private UserEntity author;
+    @JoinColumn(name = "community_id")
+    private Community community;
 
-    @OneToMany(mappedBy = "community")
-    private List<OpinionEntity> opinionList;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
 }
