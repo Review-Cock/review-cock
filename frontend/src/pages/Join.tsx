@@ -2,17 +2,16 @@ import React from 'react';
 import styled from 'styled-components';
 import { JOIN_TITLE } from '../utils/JoinConstants';
 import JoinForm from '../components/JoinForm';
-import NavigationBar from '../components/NavigationBar';
+import MainPage from '../Layouts/MainPage';
 
 const Join = () => {
   return (
-    <>
-      <NavigationBar />
+    <MainPage>
       <JoinBox>
         <Title>{JOIN_TITLE}</Title>
         <JoinForm />
       </JoinBox>
-    </>
+    </MainPage>
   );
 };
 
