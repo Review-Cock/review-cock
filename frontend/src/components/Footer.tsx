@@ -75,6 +75,7 @@ const Container = styled.div`
   width: 100%;
   background: #333333 0% 0% no-repeat padding-box;
   opacity: 1;
+  min-width: 1130px;
 `;
 
 const TopInfoContainer = styled.div`
