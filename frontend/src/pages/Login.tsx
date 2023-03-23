@@ -5,32 +5,35 @@ import { SiNaver, SiKakaotalk } from 'react-icons/si';
 import { KAKAO_AUTH_URI, NAVER_AUTH_URI } from '../api';
 import LoginForm from '../components/LoginForm';
 import { JOIN_BUTTON, LOGIN_TITLE, SNS_NOTIFICATION } from '../utils/LoginConstants';
+import MainPage from '../Layouts/MainPage';
 
 const Login = () => {
   const navigate = useNavigate();
   const toLoginHandle = () => navigate('/join');
 
   return (
-    <LoginBox>
-      <Title>{LOGIN_TITLE}</Title>
+    <MainPage>
+      <LoginBox>
+        <Title>{LOGIN_TITLE}</Title>
 
-      <LoginForm />
+        <LoginForm />
 
-      <SnSLoginBox>
-        <div>{SNS_NOTIFICATION}</div>
+        <SnSLoginBox>
+          <div>{SNS_NOTIFICATION}</div>
 
-        <div>
-          <NaverLogin href={NAVER_AUTH_URI}>
-            <SiNaver />
-          </NaverLogin>
-          <KaKaoLogin href={KAKAO_AUTH_URI}>
-            <SiKakaotalk />
-          </KaKaoLogin>
-        </div>
-      </SnSLoginBox>
+          <div>
+            <NaverLogin href={NAVER_AUTH_URI}>
+              <SiNaver />
+            </NaverLogin>
+            <KaKaoLogin href={KAKAO_AUTH_URI}>
+              <SiKakaotalk />
+            </KaKaoLogin>
+          </div>
+        </SnSLoginBox>
 
-      <JoinBox onClick={toLoginHandle}>{JOIN_BUTTON}</JoinBox>
-    </LoginBox>
+        <JoinBox onClick={toLoginHandle}>{JOIN_BUTTON}</JoinBox>
+      </LoginBox>
+    </MainPage>
   );
 };
 
