@@ -3,17 +3,14 @@ package team.side.review.models.entity;
 
 import lombok.extern.slf4j.Slf4j;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 
 @Slf4j
 @Entity
-public class ImageEntity {
+public class Image {
 
-    @Id
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String filename;
@@ -22,6 +19,6 @@ public class ImageEntity {
 
     @ManyToOne
     @JoinColumn(name = "detail_id")
-    private DetailEntity detail;
+    private Detail detail;
 
 }

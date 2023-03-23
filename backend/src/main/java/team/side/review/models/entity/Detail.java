@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import team.side.review.models.enums.CampaignType;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,11 +12,12 @@ import java.util.List;
 
 @Slf4j
 @Entity
-public class DetailEntity {
+public class Detail {
 
-    @Id
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Enumerated(EnumType.STRING)
     private CampaignType type;
 
     private String category;
@@ -34,6 +34,7 @@ public class DetailEntity {
 
     private LocalDateTime expEndDate;
 
+    @Lob
     private String content;
 
     private int recruitNumber;
@@ -50,12 +51,12 @@ public class DetailEntity {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private UserEntity user;
+    private User user;
 
     @OneToMany(mappedBy = "detail", orphanRemoval = true, cascade = CascadeType.ALL)
-    private List<ImageEntity> imageList = new ArrayList<>();
+    private List<Image> imageList = new ArrayList<>();
 
     @OneToMany(mappedBy = "detail", orphanRemoval = true, cascade = CascadeType.ALL)
-    private List<TagEntity> tagList = new ArrayList<>();
+    private List<Tag> tagList = new ArrayList<>();
 
 }

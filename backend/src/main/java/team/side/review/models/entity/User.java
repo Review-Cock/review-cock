@@ -3,18 +3,16 @@ package team.side.review.models.entity;
 
 import lombok.extern.slf4j.Slf4j;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 
 @Slf4j
 @Entity
-public class UserEntity {
+public class User {
 
-    @Id
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String email;
@@ -28,12 +26,12 @@ public class UserEntity {
     private String businessRegNumber;
 
     @OneToMany(mappedBy = "author")
-    private List<CommunityEntity> communityList = new ArrayList<>();
+    private List<Community> communityList = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
-    private List<OpinionEntity> opinionList = new ArrayList<>();
+    private List<Opinion> opinionList = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
-    private List<DetailEntity> detailList = new ArrayList<>();
+    private List<Detail> detailList = new ArrayList<>();
 
 }
