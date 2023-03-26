@@ -6,6 +6,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import team.side.review.models.entity.User;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -38,6 +39,16 @@ public class JoinRequestDto {
         this.passwordCheck = passwordCheck;
         this.phoneNumber = phoneNumber;
         this.businessRegNumber = businessRegNumber;
+    }
+
+    public User toEntity(){
+        return User.builder()
+                .email(email)
+                .nickname(nickname)
+                .password(password)
+                .phoneNumber(phoneNumber)
+                .businessRegNumber(businessRegNumber)
+                .build();
     }
 
 }

@@ -24,5 +24,9 @@ public class UserCampaignDto {
     @ApiModelProperty(value = "발표일")
     private LocalDateTime noticeDateTime;
 
-
+    public UserCampaignDto(String name, String imageUrl, LocalDateTime noticeDateTime) {
+        this.name = name;
+        this.imageUrl = imageUrl;
+        this.noticeDateTime = noticeDateTime;
+    }
 }

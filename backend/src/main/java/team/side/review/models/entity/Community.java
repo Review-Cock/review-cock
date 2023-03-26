@@ -1,6 +1,9 @@
 package team.side.review.models.entity;
 
 
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
@@ -9,6 +12,8 @@ import java.util.List;
 
 @Slf4j
 @Entity
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Community {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
