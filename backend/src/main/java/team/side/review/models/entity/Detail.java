@@ -1,6 +1,9 @@
 package team.side.review.models.entity;
 
 
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import team.side.review.models.enums.CampaignType;
 
@@ -12,6 +15,8 @@ import java.util.List;
 
 @Slf4j
 @Entity
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Detail {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

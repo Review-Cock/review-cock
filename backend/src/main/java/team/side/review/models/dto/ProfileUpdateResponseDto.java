@@ -18,4 +18,6 @@ public class ProfileUpdateResponseDto {
     public ProfileUpdateResponseDto(String email) {
         this.email = email;
     }
+
+
 }
