@@ -3,6 +3,7 @@ import styled, { css } from 'styled-components';
 import DefaultImage from '../assets/defaultImage.png';
 
 import MainPage from '../Layouts/MainPage';
+import KakaoMap from '../components/Detail/KakaoMap';
 
 const Detail = () => {
   return (
@@ -138,7 +139,7 @@ const Detail = () => {
             <SnsLinkText htmlFor="snsLink">나의 SNS 링크</SnsLinkText>
             <input type="text" id="snsLink" />
             <button>배송체험 신청하기</button>
-            <div>지도</div>
+            <KakaoMap />
           </SubmitBox>
         </RightCotainer>
       </Container>
@@ -405,9 +406,11 @@ const SubmitBox = styled.div`
   ${FontCss}
   display: flex;
   flex-direction: column;
+  & > * {
+    margin-bottom: 40px;
+  }
   & > input {
     height: 41px;
-    margin-bottom: 40px;
     border: 3px solid #f58e8e;
     border-radius: 5px;
     outline: none;
