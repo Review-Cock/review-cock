@@ -1,9 +1,7 @@
 export type CampaignItemProps = {
-  imgUrl: string;
-  deadLine: string;
   region: string;
   storeName: string;
-  serviceName: string;
+  priceName: string;
   application: number;
   total: number;
 };
