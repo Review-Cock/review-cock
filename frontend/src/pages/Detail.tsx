@@ -4,6 +4,7 @@ import DefaultImage from '../assets/defaultImage.png';
 
 import MainPage from '../Layouts/MainPage';
 import KakaoMap from '../components/Detail/KakaoMap';
+import Calendar from '../components/Detail/Calendar';
 
 const Detail = () => {
   return (
@@ -134,7 +135,7 @@ const Detail = () => {
               <p> 2023.12.31 ~ 2023. 12. 31</p>
             </div>
           </TimeInfoWrapper>
-          <div>달력</div>
+          <Calendar />
           <SubmitBox>
             <SnsLinkText htmlFor="snsLink">나의 SNS 링크</SnsLinkText>
             <input type="text" id="snsLink" />
