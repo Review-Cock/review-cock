@@ -1,6 +1,6 @@
 import React, { Children, useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { CarouselItemsWrapper, ICarousel } from '../types/carousel';
+import { ICarouselItemsWrapper, ICarousel } from '../types/carousel';
 
 function Carousel({ children, containerWidth, itemWidth, ...others }: ICarousel) {
   const [translateXAmount, setTranslateXAmount] = useState(0);
@@ -82,7 +82,7 @@ const Box = styled.div`
 
 const NavigationWrapper = styled.div<{ navigationWidth: number }>``;
 
-const CarouselItemsWrapper = styled.div<CarouselItemsWrapper>`
+const CarouselItemsWrapper = styled.div<ICarouselItemsWrapper>`
   width: ${({ translateXAmountLimit }) => `${translateXAmountLimit}px`};
   height: 100%;
   display: flex;

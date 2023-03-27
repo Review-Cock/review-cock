@@ -1,4 +1,4 @@
-export interface CarouselItemsWrapper {
+export interface ICarouselItemsWrapper {
   translateXAmountLimit: number;
   translateXAmount: number;
 }
