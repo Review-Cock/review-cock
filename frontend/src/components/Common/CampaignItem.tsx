@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { CampaignItemProps } from '../types/campaignItem';
+import { CampaignItemProps } from '../../types/campaignItem';
 
 const CampaignItem = (props: CampaignItemProps) => {
   const { region, storeName, priceName, application, total } = props;

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { SiNaver, SiKakaotalk } from 'react-icons/si';
 import { KAKAO_AUTH_URI, NAVER_AUTH_URI } from '../api';
-import LoginForm from '../components/LoginForm';
+import LoginForm from '../components/Login/LoginForm';
 import { JOIN_BUTTON, LOGIN_TITLE, SNS_NOTIFICATION } from '../utils/LoginConstants';
 import MainPage from '../Layouts/MainPage';
 

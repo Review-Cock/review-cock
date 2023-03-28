@@ -41,6 +41,7 @@ const SelectedItem = css`
 
 const Container = styled.div`
   position: absolute;
+  z-index: 10;
   top: 50px;
   left: 0;
   width: 200px;

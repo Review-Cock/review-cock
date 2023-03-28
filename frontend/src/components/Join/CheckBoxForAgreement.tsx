@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import checkIcon from '../assets/checkIcon.png';
-import checkedIcon from '../assets/checkedIcon.png';
+import checkIcon from '../../assets/checkIcon.png';
+import checkedIcon from '../../assets/checkedIcon.png';
 
 const AGGREMENT_BOX = [
   { title: '목적', contents: '이용자 식별및 본인 여부 확인 닉네임' },

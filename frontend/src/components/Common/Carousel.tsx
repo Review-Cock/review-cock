@@ -1,6 +1,6 @@
 import React, { Children, useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { ICarouselItemsWrapper, ICarousel } from '../types/carousel';
+import { ICarouselItemsWrapper, ICarousel } from '../../types/carousel';
 
 function Carousel({ children, containerWidth, itemWidth, ...others }: ICarousel) {
   const [translateXAmount, setTranslateXAmount] = useState(0);

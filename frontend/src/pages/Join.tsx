@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { JOIN_TITLE } from '../utils/JoinConstants';
-import JoinForm from '../components/JoinForm';
+import JoinForm from '../components/Join/JoinForm';
 import MainPage from '../Layouts/MainPage';
 
 const Join = () => {

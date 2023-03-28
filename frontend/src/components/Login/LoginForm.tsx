@@ -3,10 +3,10 @@ import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useMutation } from 'react-query';
 import { Link, useNavigate } from 'react-router-dom';
-import { IUser } from '../types/login';
-import { EMAIL_REQUEST, LOGIN_BUTTON, PASSWORD_REQUEST } from '../utils/LoginConstants';
-import checkIcon from '../assets/checkIcon.png';
-import checkedIcon from '../assets/checkedIcon.png';
+import { IUser } from '../../types/login';
+import { EMAIL_REQUEST, LOGIN_BUTTON, PASSWORD_REQUEST } from '../../utils/LoginConstants';
+import checkIcon from '../../assets/checkIcon.png';
+import checkedIcon from '../../assets/checkedIcon.png';
 import { useCookies } from 'react-cookie';
 
 const LoginForm = () => {
