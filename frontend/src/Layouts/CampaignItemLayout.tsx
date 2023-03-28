@@ -5,19 +5,8 @@ import CampaignItem from '../components/CampaignItem';
 import { CampaignItemLayoutProps } from '../types/campaignItemLayout';
 
 const CampaignItemLayout = (props: CampaignItemLayoutProps) => {
-  const {
-    containerWidth,
-    itemWidth,
-    imgUrl,
-    region,
-    storeName,
-    priceName,
-    application,
-    total,
-    direction,
-    mark,
-    link,
-  } = props;
+  const { containerWidth, itemWidth, imgUrl, region, storeName, priceName, application, total, direction, mark, link } =
+    props;
   return (
     <Container containerWidth={containerWidth}>
       <LinkBox to={link}>
@@ -53,7 +42,7 @@ const CampaignItemLayout = (props: CampaignItemLayoutProps) => {
           <InSideWrapper>
             <img src={imgUrl} alt="가게이미지" />
             <LastMinuteMark>마감임박</LastMinuteMark>
-            <Test>
+            <ParticipationBox>
               <CampaignItem
                 region={region}
                 storeName={storeName}
@@ -61,7 +50,7 @@ const CampaignItemLayout = (props: CampaignItemLayoutProps) => {
                 application={application}
                 total={total}
               />
-            </Test>
+            </ParticipationBox>
           </InSideWrapper>
         )}
       </LinkBox>
@@ -124,7 +113,7 @@ const InSideWrapper = styled.div`
   }
 `;
 
-const Test = styled.div`
+const ParticipationBox = styled.div`
   height: 25%;
   width: 100%;
   bottom: 0px;
