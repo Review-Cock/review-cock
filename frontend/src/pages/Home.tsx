@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import Carousel from '../components/Carousel';
+import Carousel from '../components/Common/Carousel';
 import CampaignItemLayout from '../Layouts/CampaignItemLayout';
 import MainPage from '../Layouts/MainPage';
 import slippersImg from '../assets/슬리퍼.jpg';

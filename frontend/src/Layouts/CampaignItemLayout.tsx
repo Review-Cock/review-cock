@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import CampaignItem from '../components/CampaignItem';
+import CampaignItem from '../components/Common/CampaignItem';
 import { CampaignItemLayoutProps } from '../types/campaignItemLayout';
 
 const CampaignItemLayout = (props: CampaignItemLayoutProps) => {

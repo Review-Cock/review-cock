@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import KakakoOauth from './components/KakakoOauth';
-import NaverOauth from './components/NaverOauth';
+import KakakoOauth from './components/Login/KakakoOauth';
+import NaverOauth from './components/Login/NaverOauth';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Join from './pages/Join';

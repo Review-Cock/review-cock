@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
 
-import NavigationBar from '../components/NavigationBar';
-import Footer from '../components/Footer';
+import NavigationBar from '../components/Common/NavigationBar';
+import Footer from '../components/Common/Footer';
 
 type MainPageProps = {
   children?: React.ReactNode;

@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
-import { IForm } from '../types/join';
+import { IForm } from '../../types/join';
 import {
   NOT_CORRECT_PASSWORD_MESSAGE,
   EMAIL_REQUEST_MESSAGE,
@@ -12,7 +12,7 @@ import {
   PASSWORD_REQUEST_MESSAGE,
   PASSWORD_RE_REQUEST_MESSAGE,
   PHONENUMBER_REQUEST_MESSAGE,
-} from '../utils/JoinConstants';
+} from '../../utils/JoinConstants';
 import CheckBoxForAgreement from './CheckBoxForAgreement';
 
 const JoinForm = () => {
