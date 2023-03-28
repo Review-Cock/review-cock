@@ -347,7 +347,6 @@ const TagItem = styled.div`
 `;
 
 const TagDescriptionBox = styled.div`
-  width: 600px;
   background: #f5f5f5 0% 0% no-repeat padding-box;
   padding: 20px;
   border: 1px solid #eaeaea;
@@ -407,14 +406,12 @@ const SubmitBox = styled.div`
   ${FontCss}
   display: flex;
   flex-direction: column;
-  & > * {
-    margin-bottom: 40px;
-  }
   & > input {
     height: 41px;
     border: 3px solid #f58e8e;
     border-radius: 5px;
     outline: none;
+    margin-bottom: 30px;
   }
   & > button {
     height: 64px;
@@ -428,6 +425,7 @@ const SubmitBox = styled.div`
     letter-spacing: 0px;
     color: #ffffff;
     opacity: 1;
+    margin-bottom: 30px;
   }
 `;
 
