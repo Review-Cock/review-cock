@@ -4,7 +4,7 @@ import { useMutation } from 'react-query';
 import { Link, useNavigate } from 'react-router-dom';
 import { EMAIL_REQUEST, LOGIN_BUTTON, PASSWORD_REQUEST } from '../../../utils/LoginConstants';
 import { useCookies } from 'react-cookie';
-import { LoginFormBox, LoginInput, CheckBoxLabel, CheckBox, IDManagementBox, FindIdBox } from './LoginForm.styles';
+import { LoginFormBox, LoginInput, CheckBoxLabel, CheckBox, IDManagementBox, FindIdBox } from './index.styles';
 
 export interface IUser {
   email: string;

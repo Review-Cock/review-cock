@@ -2,10 +2,10 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SiNaver, SiKakaotalk } from 'react-icons/si';
 import { KAKAO_AUTH_URI, NAVER_AUTH_URI } from '../../api';
-import LoginForm from '../../components/Login/LoginForm/LoginForm';
+import LoginForm from '../../components/Login/LoginForm';
 import { JOIN_BUTTON, LOGIN_TITLE, SNS_NOTIFICATION } from '../../utils/LoginConstants';
 import MainPage from '../../Layouts/MainPage';
-import { LoginBox, Title, SnSLoginBox, NaverLogin, KaKaoLogin, JoinBox } from './Login.styles';
+import { LoginBox, Title, SnSLoginBox, NaverLogin, KaKaoLogin, JoinBox } from './index.styles';
 
 const Login = () => {
   const navigate = useNavigate();

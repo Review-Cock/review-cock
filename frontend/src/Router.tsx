@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Home from './pages/Home/Home';
-import Login from './pages/Login/Login';
-import Join from './pages/Join/Join';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Join from './pages/Join';
 import Register from './pages/Register';
 import Detail from './pages/Detail';
 import Oauth from './components/Login/Oauth/Oauth';

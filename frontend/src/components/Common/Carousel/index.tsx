@@ -8,7 +8,7 @@ import {
   Button,
   Notification,
   Circle,
-} from './Carousel.styles';
+} from './index.styles';
 
 interface ICarousel {
   children?: React.ReactNode;

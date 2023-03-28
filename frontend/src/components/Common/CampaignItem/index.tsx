@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, TitleText, PriceNameText, ApplicationText, ReionText } from './CampaignItem.styles';
+import { Container, TitleText, PriceNameText, ApplicationText, ReionText } from './index.styles';
 
 interface CampaignItemProps {
   region: string;
