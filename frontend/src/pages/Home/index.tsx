@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Carousel from '../../components/Common/Carousel/Carousel';
-import CampaignItemLayout from '../../Layouts/CampaignItemLayout/CampaignItemLayout';
+import Carousel from '../../components/Common/Carousel';
+import CampaignItemLayout from '../../Layouts/CampaignItemLayout';
 import MainPage from '../../Layouts/MainPage';
 import slippersImg from '../../assets/슬리퍼.jpg';
 import coffeeImg from '../../assets/커피.jpg';
@@ -23,7 +23,7 @@ import {
   LastMinuteBottomRight,
   LastMinuteBottomRightItem,
   FixedIconBox,
-} from './Home.styles';
+} from './index.styles';
 
 const CarouselTopImgs = [{ img: slippersImg }, { img: slippersImg }, { img: slippersImg }, { img: slippersImg }];
 

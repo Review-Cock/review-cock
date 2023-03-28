@@ -11,8 +11,8 @@ import {
   PASSWORD_RE_REQUEST_MESSAGE,
   PHONENUMBER_REQUEST_MESSAGE,
 } from '../../../utils/JoinConstants';
-import CheckBoxForAgreement from '../CheckBoxForAgreement/CheckBoxForAgreement';
-import { JoinFormBox, Label, JoinInput, ErrorBox } from './JoinForm.styles';
+import CheckBoxForAgreement from '../CheckBoxForAgreement';
+import { JoinFormBox, Label, JoinInput, ErrorBox } from './index.styles';
 
 interface IForm {
   email: string;

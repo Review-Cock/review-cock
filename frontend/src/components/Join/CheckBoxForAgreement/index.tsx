@@ -1,5 +1,5 @@
 import React from 'react';
-import { Wrapper, CheckBoxWrapper, CheckBoxLabel, CheckBox, Mark, Table, Box } from './CheckBoxForAgreement.styles';
+import { Wrapper, CheckBoxWrapper, CheckBoxLabel, CheckBox, Mark, Table, Box } from './index.styles';
 
 const AGGREMENT_BOX = [
   { title: '목적', contents: '이용자 식별및 본인 여부 확인 닉네임' },

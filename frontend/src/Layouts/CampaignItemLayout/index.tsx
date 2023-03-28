@@ -1,5 +1,5 @@
 import React from 'react';
-import CampaignItem from '../../components/Common/CampaignItem/CampaignItem';
+import CampaignItem from '../../components/Common/CampaignItem';
 import {
   Container,
   LinkBox,
@@ -8,7 +8,7 @@ import {
   InSideWrapper,
   ParticipationBox,
   LastMinuteMark,
-} from './CampaignItemLayout.styles';
+} from './index.styles';
 
 interface CampaignItemLayoutProps {
   containerWidth: number;
