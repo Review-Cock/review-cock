@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "paths": {
+      "@assets": ["./assets/index.ts"],
+      "@assets/*": ["./assets/*"],
+
+      "@components": ["./components/index.ts"],
+      "@components/*": ["./components/*"],
+
+      "@layouts": ["./Layouts/index.ts"],
+      "@layouts/*": ["./Layouts/*"],
+
+      "@pages": ["./pages/index.ts"],
+      "@pages/*": ["./pages/*"],
+
+      "@recoil": ["./recoil/index.ts"],
+      "@recoil/*": ["./recoil/*"],
+
+      "@utils": ["./utils/index.ts"],
+      "@utils/*": ["./utils/*"]
+    }
+  }
+}
