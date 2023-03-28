@@ -1,6 +1,20 @@
 import React, { Children, useCallback, useEffect, useState } from 'react';
-import styled from 'styled-components';
-import { ICarouselItemsWrapper, ICarousel } from '../../types/carousel';
+
+import {
+  CarouselContainer,
+  Box,
+  NavigationWrapper,
+  CarouselItemsWrapper,
+  Button,
+  Notification,
+  Circle,
+} from './Carousel.styles';
+
+interface ICarousel {
+  children?: React.ReactNode;
+  containerWidth: number;
+  itemWidth: number;
+}
 
 function Carousel({ children, containerWidth, itemWidth, ...others }: ICarousel) {
   const [translateXAmount, setTranslateXAmount] = useState(0);
@@ -13,6 +27,7 @@ function Carousel({ children, containerWidth, itemWidth, ...others }: ICarousel)
       setToggle(() => 0);
     }
   }, [translateXAmount]);
+
   const onClickLeft = useCallback(() => {
     const newTranslateXAmount = (translateXAmount + itemWidth) % translateXAmountLimit;
     setTranslateXAmount(newTranslateXAmount > 0 ? -containerWidth : newTranslateXAmount);
@@ -65,81 +80,3 @@ function Carousel({ children, containerWidth, itemWidth, ...others }: ICarousel)
 }
 
 export default Carousel;
-
-const CarouselContainer = styled.div<{ containerWidth: number }>`
-  width: ${({ containerWidth }) => `${containerWidth}px`};
-  position: relative;
-  background-position: center;
-  background-size: cover;
-  border-radius: 10px;
-  display: flex;
-`;
-
-const Box = styled.div`
-  width: 100%;
-  overflow: hidden;
-`;
-
-const NavigationWrapper = styled.div<{ navigationWidth: number }>``;
-
-const CarouselItemsWrapper = styled.div<ICarouselItemsWrapper>`
-  width: ${({ translateXAmountLimit }) => `${translateXAmountLimit}px`};
-  height: 100%;
-  display: flex;
-  transform: translateX(${({ translateXAmount }) => `${translateXAmount}px`});
-  transition: transform 0.7s ease-in-out;
-  gap: 10px;
-`;
-
-const Button = styled.button`
-  background-color: transparent;
-  border: none;
-  color: ${(props) => props.theme.textColor};
-  display: flex;
-  align-items: center;
-  height: 100%;
-  z-index: 5;
-  cursor: pointer;
-
-  svg {
-    width: 30px;
-    height: 30px;
-    border-radius: 5px;
-    background-color: #f1f1f1;
-    fill: white;
-    font-size: 20px;
-    opacity: 1;
-    padding: 5px;
-
-    &:hover {
-      box-shadow: 3px 3px 6px #540a0a26;
-      background-color: #e76969;
-    }
-  }
-
-  &:first-child {
-    position: absolute;
-    left: -50px;
-  }
-
-  &:last-child {
-    position: absolute;
-    right: -50px;
-  }
-`;
-
-const Notification = styled.div<{ containerWidth: number }>`
-  width: ${({ containerWidth }) => `${containerWidth}px`};
-  height: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const Circle = styled.div<{ checked: boolean }>`
-  width: ${({ checked }) => (checked ? `20px` : `10px`)};
-  height: 10px;
-  border-radius: ${({ checked }) => (checked ? `5px` : `50%`)};
-  background-color: ${({ checked }) => (checked ? `#e76969;` : `#eaeaea`)};
-  margin: 0px 2px;
-`;

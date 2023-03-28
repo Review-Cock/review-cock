@@ -1,10 +1,8 @@
 import React from 'react';
 import axios from 'axios';
-import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
-import { IForm } from '../../types/join';
 import {
   NOT_CORRECT_PASSWORD_MESSAGE,
   EMAIL_REQUEST_MESSAGE,
@@ -12,8 +10,17 @@ import {
   PASSWORD_REQUEST_MESSAGE,
   PASSWORD_RE_REQUEST_MESSAGE,
   PHONENUMBER_REQUEST_MESSAGE,
-} from '../../utils/JoinConstants';
-import CheckBoxForAgreement from './CheckBoxForAgreement';
+} from '../../../utils/JoinConstants';
+import CheckBoxForAgreement from '../CheckBoxForAgreement/CheckBoxForAgreement';
+import { JoinFormBox, Label, JoinInput, ErrorBox } from './JoinForm.styles';
+
+interface IForm {
+  email: string;
+  nickname: string;
+  password: string;
+  passwordConfirm: string;
+  phoneNumber: number;
+}
 
 const JoinForm = () => {
   const navigate = useNavigate();
@@ -125,46 +132,5 @@ const JoinForm = () => {
     </JoinFormBox>
   );
 };
+
 export default JoinForm;
-
-const JoinFormBox = styled.form`
-  width: 35%;
-  margin: 40px 0px;
-  display: flex;
-  flex-direction: column;
-`;
-
-const Label = styled.label`
-  font-size: 15px;
-  color: #404040;
-  margin: 10px 0px;
-`;
-
-const JoinInput = styled.input`
-  padding: 15px;
-  background: #ffffff 0% 0% no-repeat padding-box;
-  border: 1px solid #cccccc;
-  border-radius: 5px;
-
-  &:focus {
-    outline-color: #e76969;
-  }
-
-  &::placeholder {
-    color: #cccccc;
-  }
-
-  &:last-child {
-    border: none;
-    background-color: #e76969;
-    color: #ffffff;
-    cursor: pointer;
-  }
-`;
-
-const ErrorBox = styled.div`
-  color: #f58e8e;
-  font-size: 0.5rem;
-  margin: 0.25rem;
-  padding-left: 0.25rem;
-`;

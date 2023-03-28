@@ -1,45 +1,6 @@
-import React from 'react';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
-import { SiNaver, SiKakaotalk } from 'react-icons/si';
-import { KAKAO_AUTH_URI, NAVER_AUTH_URI } from '../api';
-import LoginForm from '../components/Login/LoginForm';
-import { JOIN_BUTTON, LOGIN_TITLE, SNS_NOTIFICATION } from '../utils/LoginConstants';
-import MainPage from '../Layouts/MainPage';
 
-const Login = () => {
-  const navigate = useNavigate();
-  const toLoginHandle = () => navigate('/join');
-
-  return (
-    <MainPage>
-      <LoginBox>
-        <Title>{LOGIN_TITLE}</Title>
-
-        <LoginForm />
-
-        <SnSLoginBox>
-          <div>{SNS_NOTIFICATION}</div>
-
-          <div>
-            <NaverLogin href={NAVER_AUTH_URI}>
-              <SiNaver />
-            </NaverLogin>
-            <KaKaoLogin href={KAKAO_AUTH_URI}>
-              <SiKakaotalk />
-            </KaKaoLogin>
-          </div>
-        </SnSLoginBox>
-
-        <JoinBox onClick={toLoginHandle}>{JOIN_BUTTON}</JoinBox>
-      </LoginBox>
-    </MainPage>
-  );
-};
-
-export default Login;
-
-const LoginBox = styled.div`
+export const LoginBox = styled.div`
   width: 100%;
   height: 100vh;
   display: flex;
@@ -48,12 +9,12 @@ const LoginBox = styled.div`
   align-items: center;
 `;
 
-const Title = styled.div`
+export const Title = styled.div`
   text-align: center;
   font-size: 36px;
 `;
 
-const SnSLoginBox = styled.div`
+export const SnSLoginBox = styled.div`
   padding: 10px 0px 30px 0px;
   margin: 60px 0px;
   display: flex;
@@ -86,7 +47,7 @@ const SnSLoginBox = styled.div`
   }
 `;
 
-const NaverLogin = styled.a`
+export const NaverLogin = styled.a`
   svg {
     width: 36px;
     height: 36px;
@@ -95,7 +56,7 @@ const NaverLogin = styled.a`
   }
 `;
 
-const KaKaoLogin = styled.a`
+export const KaKaoLogin = styled.a`
   margin: 0px 10px;
 
   svg {
@@ -107,7 +68,7 @@ const KaKaoLogin = styled.a`
   }
 `;
 
-const JoinBox = styled.button`
+export const JoinBox = styled.button`
   padding: 1rem;
   display: flex;
   box-sizing: border-box;

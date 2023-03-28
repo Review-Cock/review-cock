@@ -1,30 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { CampaignItemProps } from '../../types/campaignItem';
-
-const CampaignItem = (props: CampaignItemProps) => {
-  const { region, storeName, priceName, application, total } = props;
-
-  return (
-    <Container>
-      <TitleText>{storeName}</TitleText>
-      <PriceNameText>{priceName}</PriceNameText>
-      <div>
-        <ApplicationText>
-          <div>
-            신청<span>{application}</span>명
-          </div>
-          <div>|</div>
-          <div>모집 {total}명</div>
-        </ApplicationText>
-        <ReionText>{region}</ReionText>
-      </div>
-    </Container>
-  );
-};
-
-const Container = styled.div`
+export const Container = styled.div`
   height: 100%;
   width: 100%;
   box-sizing: border-box;
@@ -35,7 +12,7 @@ const Container = styled.div`
   border-radius: 0px 0px 20px 20px;
 `;
 
-const TitleText = styled.div`
+export const TitleText = styled.div`
   width: 100%;
   font-style: normal;
   font-variant: normal;
@@ -46,7 +23,7 @@ const TitleText = styled.div`
   color: #222222;
 `;
 
-const PriceNameText = styled.div`
+export const PriceNameText = styled.div`
   padding-top: 5px;
   font-style: normal;
   font-variant: normal;
@@ -57,7 +34,7 @@ const PriceNameText = styled.div`
   color: #555555;
 `;
 
-const ApplicationText = styled.div`
+export const ApplicationText = styled.div`
   display: flex;
   align-items: center;
   font-size: 12px;
@@ -102,7 +79,7 @@ const ApplicationText = styled.div`
   }
 `;
 
-const ReionText = styled.div`
+export const ReionText = styled.div`
   display: flex;
   align-items: center;
   font-style: normal;
@@ -112,5 +89,3 @@ const ReionText = styled.div`
   font-family: Pretendard;
   color: #aaaaaa;
 `;
-
-export default CampaignItem;

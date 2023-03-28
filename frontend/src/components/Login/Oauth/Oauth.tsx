@@ -2,14 +2,18 @@ import axios from 'axios';
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const KakakoOauth = () => {
+interface IOauth {
+  apiUrl: string;
+}
+
+const Oauth = ({ apiUrl }: IOauth) => {
   const code = new URL(window.location.href).searchParams.get('code');
   const navigate = useNavigate();
 
   useEffect(() => {
     (async () => {
       axios
-        .post('', {
+        .post(apiUrl, {
           code,
         })
         .then((response) => {
@@ -25,4 +29,4 @@ const KakakoOauth = () => {
 
   return <div>1</div>;
 };
-export default KakakoOauth;
+export default Oauth;

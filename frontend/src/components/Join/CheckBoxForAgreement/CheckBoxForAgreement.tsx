@@ -1,7 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
-import checkIcon from '../../assets/checkIcon.png';
-import checkedIcon from '../../assets/checkedIcon.png';
+import { Wrapper, CheckBoxWrapper, CheckBoxLabel, CheckBox, Mark, Table, Box } from './CheckBoxForAgreement.styles';
 
 const AGGREMENT_BOX = [
   { title: '목적', contents: '이용자 식별및 본인 여부 확인 닉네임' },
@@ -61,83 +59,5 @@ const CheckBoxForAgreement = () => {
     </Wrapper>
   );
 };
-
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin: 20px 0px;
-`;
-
-const CheckBoxWrapper = styled.div`
-  margin: 10px 0px;
-  color: #888888;
-  font-size: 13px;
-  cursor: pointer;
-`;
-
-const CheckBoxLabel = styled.label`
-  display: flex;
-  align-items: center;
-  user-select: none;
-  color: #888888;
-  cursor: pointer;
-
-  div {
-    margin-left: 5px;
-  }
-`;
-
-const CheckBox = styled.input`
-  appearance: none;
-  padding: 8px;
-  background-size: 100% 100%;
-  background-image: url(${checkIcon});
-  cursor: pointer;
-
-  &:checked {
-    border: transparent;
-    background-image: url(${checkedIcon});
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-  }
-`;
-
-const Mark = styled.span`
-  color: #e76969;
-`;
-
-const Table = styled.div`
-  display: flex;
-  margin: 20px 0px;
-  border: 1px solid #eaeaea;
-`;
-
-const Box = styled.div`
-  width: 99%;
-  display: flex;
-  flex-direction: column;
-  font-size: 13px;
-
-  &:nth-child(2) {
-    border-left: 1px solid #eaeaea;
-    border-right: 1px solid #eaeaea;
-  }
-
-  div {
-    &:first-child {
-      box-sizing: border-box;
-      text-align: center;
-      padding: 15px;
-      background-color: #f5f5f5;
-    }
-
-    &:last-child {
-      display: flex;
-      justify-content: center;
-      padding: 20px 10px;
-      width: 80%;
-    }
-  }
-`;
 
 export default CheckBoxForAgreement;

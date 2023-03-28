@@ -1,11 +1,29 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
-import Carousel from '../components/Common/Carousel';
-import CampaignItemLayout from '../Layouts/CampaignItemLayout';
-import MainPage from '../Layouts/MainPage';
-import slippersImg from '../assets/슬리퍼.jpg';
-import coffeeImg from '../assets/커피.jpg';
+import Carousel from '../../components/Common/Carousel/Carousel';
+import CampaignItemLayout from '../../Layouts/CampaignItemLayout/CampaignItemLayout';
+import MainPage from '../../Layouts/MainPage';
+import slippersImg from '../../assets/슬리퍼.jpg';
+import coffeeImg from '../../assets/커피.jpg';
+import {
+  Wrapper,
+  Banner,
+  CarouselTopLink,
+  CarouselTopBox,
+  HotCampaignList,
+  Title,
+  BannerMiddle,
+  LastMinuteBox,
+  LastMinuteTop,
+  LastMinuteTopItem,
+  LastMinuteTitle,
+  LastMinuteReword,
+  LastMinuteBottom,
+  LastMinuteBottomLeft,
+  LastMinuteBottomRight,
+  LastMinuteBottomRightItem,
+  FixedIconBox,
+} from './Home.styles';
 
 const CarouselTopImgs = [{ img: slippersImg }, { img: slippersImg }, { img: slippersImg }, { img: slippersImg }];
 
@@ -172,7 +190,7 @@ const Home = () => {
             {CarouselTopImgs.map((item, i) => {
               return (
                 <CarouselTopLink key={i} to={'/'}>
-                  <Box src={`${item.img}`}></Box>
+                  <CarouselTopBox src={`${item.img}`}></CarouselTopBox>
                 </CarouselTopLink>
               );
             })}
@@ -282,175 +300,3 @@ const Home = () => {
 };
 
 export default Home;
-
-const Wrapper = styled.div`
-  width: 100%;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const Banner = styled.div`
-  margin: 40px 0px;
-`;
-
-const CarouselTopLink = styled(Link)`
-  width: 500px;
-`;
-
-const Box = styled.img`
-  width: 490px;
-  height: 300px;
-  border-radius: 30px;
-  top: 50%;
-  left: 50%;
-`;
-
-const HotCampaignList = styled.div`
-  margin: 60px 0px;
-`;
-
-const Title = styled.div`
-  font-size: 36px;
-  color: #222222;
-  margin-bottom: 40px;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: bold;
-  line-height: 43px;
-  font-family: Pretendard;
-`;
-
-const BannerMiddle = styled.div`
-  width: 100%;
-  height: 200px;
-  margin: 60px 0px;
-  background-color: #b997f9;
-`;
-
-const LastMinuteBox = styled.div`
-  margin: 60px 0px;
-  width: 1000px;
-`;
-
-const LastMinuteTop = styled.div`
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  gap: 10px;
-`;
-
-const LastMinuteTopItem = styled.div`
-  width: 230px;
-  height: 210px;
-  display: flex;
-  flex-direction: column;
-
-  img {
-    border-radius: 15px 15px 15px 15px;
-    height: 130px;
-    width: inherit;
-  }
-
-  a {
-    width: inherit;
-    color: inherit;
-    text-decoration: none;
-  }
-`;
-
-const LastMinuteTitle = styled.div`
-  box-sizing: border-box;
-  width: 100%;
-  font-size: 15px;
-  text-align: center;
-  padding: 20px 0px 9px 0px;
-`;
-
-const LastMinuteReword = styled.div`
-  width: 100%;
-  font-size: 11px;
-  text-align: center;
-  color: #888888;
-  padding: 0px 0px 40px 0px;
-`;
-
-const LastMinuteBottom = styled.div`
-  border-top: 2px solid #222222;
-  padding: 30px 0px;
-  border-bottom: 1px solid #cccccc;
-  width: 100%;
-  margin: 30px 0px;
-  display: flex;
-`;
-
-const LastMinuteBottomLeft = styled.div`
-  width: 50%;
-  border-radius: 20px;
-  height: inherit;
-  margin-right: 20px;
-  overflow: hidden;
-`;
-
-const LastMinuteBottomRight = styled.div`
-  width: 50%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-`;
-
-const LastMinuteBottomRightItem = styled.div`
-  border-top: 1px solid #eaeaea;
-  box-sizing: border-box;
-  height: 100%;
-  padding: 30px 0px;
-
-  &:first-child {
-    padding-top: 0px;
-    border: none;
-  }
-  &:last-child {
-    padding-bottom: 0px;
-  }
-`;
-
-const FixedIconBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  position: fixed;
-  right: 30px;
-  bottom: 30px;
-  z-index: 10;
-
-  a {
-    width: 50px;
-    height: 50px;
-    margin: 5px 0px;
-    border-radius: 5px;
-    background-color: #e76969;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    svg {
-      fill: white;
-      width: 25px;
-      height: 25px;
-    }
-  }
-  button {
-    cursor: pointer;
-    border-radius: 5px;
-    border: none;
-    width: 50px;
-    height: 50px;
-    box-shadow: 3px 3px 6px #00000026;
-    background-color: #555555;
-    cursor: pointer;
-    svg {
-      fill: white;
-      width: 25px;
-      height: 25px;
-    }
-  }
-`;
