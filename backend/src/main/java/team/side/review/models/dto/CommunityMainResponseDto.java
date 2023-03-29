@@ -38,4 +38,5 @@ public class CommunityMainResponseDto {
         this.createdDate = createdDate;
         this.modifiedDate = modifiedDate;
     }
+
 }
