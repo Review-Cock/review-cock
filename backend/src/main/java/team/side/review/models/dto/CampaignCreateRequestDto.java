@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.apache.commons.lang3.StringUtils;
+import team.side.review.models.entity.Campaign;
 import team.side.review.models.enums.CampaignType;
 
 import javax.validation.constraints.AssertTrue;
@@ -109,5 +110,31 @@ public class CampaignCreateRequestDto {
     @AssertTrue(message = "체험종료일시는 체험시작일시 이후여야 합니다.")
     private boolean isExpEndDateTimeAfterExpStartDateTime() {
         return expEndDateTime.isAfter(expStartDateTime);
+    }
+
+    public Campaign toEntity() {
+        Campaign campaign = Campaign.builder()
+                .campaignType(this.campaignType)
+                .category(this.category)
+                .name(this.name)
+                .regStartDateTime(this.regStartDateTime)
+                .regEndDateTime(this.regEndDateTime)
+                .noticeDateTime(this.noticeDateTime)
+                .expStartDateTime(this.expStartDateTime)
+                .expEndDateTime(this.expEndDateTime)
+                .content(this.content)
+                .recruitNumber(this.recruitNumber)
+                .location(this.location)
+                .siteUrl(this.siteUrl)
+                .build();
+
+        for (String tag : searchTags) {
+            campaign.addCampaignTag(tag);
+        }
+        for(String imageUrl : imageUrls) {
+            campaign.addCampaignImage(imageUrl);
+        }
+
+        return campaign;
     }
 }

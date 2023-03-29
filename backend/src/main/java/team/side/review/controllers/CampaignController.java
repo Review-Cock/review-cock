@@ -4,6 +4,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,14 +19,18 @@ import team.side.review.models.dto.CampaignCreateResponsetDto;
 import team.side.review.models.dto.CampaignDetailResponseDto;
 import team.side.review.models.dto.ErrorResponseDto;
 import team.side.review.models.dto.ResponseDto;
+import team.side.review.services.CampaignService;
 
 import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/campaign")
+@RequiredArgsConstructor
 @Slf4j
 @Api(value = "체험단 API", description = "체험단 조회, 등록, 삭제")
 public class CampaignController {
+
+    private final CampaignService campaignService;
 
     @PostMapping
     @ApiOperation(value = "등록 API", notes = "체험단 등록")
@@ -35,10 +40,8 @@ public class CampaignController {
     public ResponseEntity<ResponseDto<CampaignCreateResponsetDto>> createCampaign(
             @RequestBody @Valid CampaignCreateRequestDto requestDTO) {
 
-        // TODO: 캠페인 생성 로직 구현
-
-        CampaignCreateResponsetDto responsetDto = new CampaignCreateResponsetDto(1L);
-        return ResponseEntity.ok(ResponseDto.success(responsetDto));
+        Long campaignId = campaignService.saveCampaign(requestDTO.toEntity());
+        return ResponseEntity.ok(ResponseDto.success(new CampaignCreateResponsetDto(campaignId)));
     }
     @DeleteMapping("/{campaignId}")
     @ApiOperation(value = "삭제 API", notes = "체험단 삭제")
