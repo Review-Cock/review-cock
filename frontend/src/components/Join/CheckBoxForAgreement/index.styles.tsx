@@ -65,6 +65,11 @@ export const Box = styled.div`
 
   div {
     &:first-child {
+      font-size: 13px;
+      font-style: normal;
+      font-variant: normal;
+      font-weight: normal;
+      line-height: 24px;
       box-sizing: border-box;
       text-align: center;
       padding: 15px;
@@ -72,10 +77,20 @@ export const Box = styled.div`
     }
 
     &:last-child {
+      padding: 20px 10px;
+      color: #555555;
       display: flex;
       justify-content: center;
-      padding: 20px 10px;
-      width: 80%;
+      font-size: 13px;
+      font-style: normal;
+      font-variant: normal;
+      font-weight: normal;
+      line-height: 24px;
+      font-family: Pretendard;
+
+      span {
+        width: 70%;
+      }
     }
   }
 `;

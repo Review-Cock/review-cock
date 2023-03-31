@@ -2,7 +2,7 @@ import React from 'react';
 import { Wrapper, CheckBoxWrapper, CheckBoxLabel, CheckBox, Mark, Table, Box } from './index.styles';
 
 const AGGREMENT_BOX = [
-  { title: '목적', contents: '이용자 식별및 본인 여부 확인 닉네임' },
+  { title: '목적', contents: '이용자 식별 및 본인 여부 확인 닉네임' },
   { title: '항목', contents: '닉네임, 비밀번호, 이메일주소' },
   {
     title: '보유 및 이용기간',
@@ -50,8 +50,12 @@ const CheckBoxForAgreement = () => {
         {AGGREMENT_BOX.map((item, i) => {
           return (
             <Box key={i}>
-              <div>{item.title}</div>
-              <div>{item.contents}</div>
+              <div>
+                <span>{item.title}</span>
+              </div>
+              <div>
+                <span>{item.contents}</span>
+              </div>
             </Box>
           );
         })}
