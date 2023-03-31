@@ -11,11 +11,16 @@ export const LoginBox = styled.div`
 
 export const Title = styled.div`
   text-align: center;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: bold;
   font-size: 36px;
+  line-height: 40px;
+  font-family: Pretendard;
 `;
 
 export const SnSLoginBox = styled.div`
-  padding: 10px 0px 30px 0px;
+  padding-bottom: 30px;
   margin: 60px 0px;
   display: flex;
   flex-direction: column;
@@ -51,7 +56,8 @@ export const NaverLogin = styled.a`
   svg {
     width: 36px;
     height: 36px;
-    color: #07b753;
+    background-color: #2eb401;
+    color: #f5f5f5;
     border-radius: 50%;
   }
 `;
