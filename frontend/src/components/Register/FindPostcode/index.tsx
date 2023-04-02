@@ -7,12 +7,14 @@ const FindPostcode = () => {
 
   const [address, setAddress] = useState('');
   const [detailAddress, setDetailAddress] = useState('');
+  const [postCode, setPostCode] = useState('');
 
   const onChangeDetailAddress = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDetailAddress(e.target.value);
   };
 
   const handleComplete = (data: any) => {
+    const postCode = data.zonecode;
     let fullAddress = data.address;
     let extraAddress = '';
 
@@ -25,7 +27,7 @@ const FindPostcode = () => {
       }
       fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
     }
-
+    setPostCode(postCode);
     setAddress(fullAddress);
   };
 
@@ -34,18 +36,66 @@ const FindPostcode = () => {
   };
 
   return (
-    <div>
-      <button type="button" onClick={handleClick}>
-        주소검색
-      </button>
-      <AddressInput type="text" disabled value={address} />
-      <AddressInput type="text" value={detailAddress} placeholder="상세주소" onChange={onChangeDetailAddress} />
-    </div>
+    <AddressBox>
+      <div>
+        <BusinessNumberInputShort value={postCode} type="text" placeholder="우편번호" disabled />
+        <Button onClick={handleClick} name="adress" id="adress">
+          우편번호 찾기
+        </Button>
+      </div>
+      <BusinessNumberInputLong value={address} type="text" placeholder="주소" disabled />
+      <BusinessNumberInputLong
+        value={detailAddress}
+        onChange={onChangeDetailAddress}
+        type="text"
+        placeholder="상세주소"
+      />
+    </AddressBox>
   );
 };
 
-const AddressInput = styled.input`
-  width: 100%;
+const AddressBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  & input {
+    margin-bottom: 10px;
+  }
 `;
 
+const BusinessNumberInputShort = styled.input`
+  width: 310px;
+  height: 48px;
+  background: #ffffff 0% 0% no-repeat padding-box;
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+  opacity: 1;
+  outline: none;
+  text-align: left;
+  font: normal normal normal 16px/40px Pretendard;
+  margin-right: 20px;
+  letter-spacing: 0px;
+  padding-left: 20px;
+  opacity: 1;
+  ::placeholder {
+    color: #cccccc;
+  }
+`;
+
+const BusinessNumberInputLong = styled(BusinessNumberInputShort)`
+  width: 480px;
+`;
+
+const Button = styled.button`
+  width: 130px;
+  height: 48px;
+  background: #555555 0% 0% no-repeat padding-box;
+  border-radius: 5px;
+  opacity: 1;
+  text-align: center;
+  font: normal normal medium 18px/40px Pretendard;
+  letter-spacing: 0px;
+  color: #ffffff;
+  opacity: 1;
+  cursor: pointer;
+`;
 export default FindPostcode;
