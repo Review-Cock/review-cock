@@ -18,7 +18,10 @@
       "@recoil/*": ["./recoil/*"],
 
       "@utils": ["./utils/index.ts"],
-      "@utils/*": ["./utils/*"]
+      "@utils/*": ["./utils/*"],
+
+      "@hooks": ["./hooks/index.ts"],
+      "@hooks/*": ["./hooks/*"]
     }
   }
 }
