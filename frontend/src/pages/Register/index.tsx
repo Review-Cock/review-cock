@@ -1,11 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import checkIcon from '@assets/checkIcon.png';
 import checkedIcon from '@assets/checkedIcon.png';
 
-import MainPage from '../../Layouts/MainPage';
+import MainPage from '@layouts/MainPage';
+import HashTagBox from '@components/Register/HashTagBox';
 
 const Register = () => {
+  const [hashTag, setHashTag] = useState('');
+  const [hashTagList, setHashTagList] = useState([]);
+
+  const handleHashTag = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setHashTag(e.target.value);
+  };
+
+  const handelHashTagKeydown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && hashTag !== '') {
+      setHashTagList((v) => [...v, hashTag]);
+      setHashTag('');
+    }
+  };
+
   return (
     <MainPage>
       <Container>
@@ -58,7 +73,18 @@ const Register = () => {
           <InputBox>
             <InputLabel htmlFor="keyword">필수키워드</InputLabel>
             <RedStar>*</RedStar>
-            <TextInput type="text" name="keyword" id="keyword" placeholder="키워드를 입력해주세요." />
+            <div>
+              <TextInput
+                type="text"
+                name="keyword"
+                id="keyword"
+                placeholder="키워드를 입력해주세요."
+                value={hashTag}
+                onChange={handleHashTag}
+                onKeyPress={handelHashTagKeydown}
+              />
+              <HashTagBox tagList={hashTagList} />
+            </div>
           </InputBox>
           <InputBox>
             <InputLabel htmlFor="">SNS 유형</InputLabel>
