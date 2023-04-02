@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import checkIcon from '../assets/checkIcon.png';
-import checkedIcon from '../assets/checkedIcon.png';
+import checkIcon from '@assets/checkIcon.png';
+import checkedIcon from '@assets/checkedIcon.png';
 
-import MainPage from '../Layouts/MainPage';
+import MainPage from '../../Layouts/MainPage';
 
 const Register = () => {
   return (
@@ -36,9 +36,14 @@ const Register = () => {
             <TextInput type="text" name="title" id="title" placeholder="제목을 입력해 주세요." />
           </InputBox>
           <InputBox>
+            <InputLabel htmlFor="title">제공 상품</InputLabel>
+            <RedStar>*</RedStar>
+            <TextInput type="text" name="title" id="title" placeholder="리뷰어에게 제공하는 상품을 입력해주세요." />
+          </InputBox>
+          <InputBox>
             <InputLabel htmlFor="detail">소개</InputLabel>
             <RedStar></RedStar>
-            <TextInput type="text" name="detail" id="detail" placeholder="1234-5678 을 입력해주세요." />
+            <TextInput type="text" name="detail" id="detail" placeholder="캠페인 소개" />
           </InputBox>
           <InputBox>
             <InputLabel htmlFor="headCount">총 모집 인원</InputLabel>
@@ -46,9 +51,28 @@ const Register = () => {
             <TextInput type="number" id="headCount" name="headCount" placeholder="N명" />
           </InputBox>
           <InputBox>
-            <InputLabel htmlFor="snsLink">SNS링크</InputLabel>
+            <InputLabel htmlFor="mission">리뷰어 미션</InputLabel>
             <RedStar>*</RedStar>
-            <TextInput type="text" id="snsLink" name="snsLink" placeholder="https://" />
+            <TextInput type="text" id="mission" name="mission" placeholder="https://" />
+          </InputBox>
+          <InputBox>
+            <InputLabel htmlFor="keyword">필수키워드</InputLabel>
+            <RedStar>*</RedStar>
+            <TextInput type="text" name="keyword" id="keyword" placeholder="키워드를 입력해주세요." />
+          </InputBox>
+          <InputBox>
+            <InputLabel htmlFor="">SNS 유형</InputLabel>
+            <RedStar>*</RedStar>
+            <CheckBoxWrapper>
+              <CheckBoxLabel htmlFor="">
+                <CheckBox type="checkbox" />
+                블로그
+              </CheckBoxLabel>
+              <CheckBoxLabel htmlFor="">
+                <CheckBox type="checkbox" />
+                인스타그램
+              </CheckBoxLabel>
+            </CheckBoxWrapper>
           </InputBox>
           <InputBox>
             <InputLabel htmlFor="">유형선택</InputLabel>
