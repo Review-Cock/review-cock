@@ -1,17 +1,36 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import checkIcon from '@assets/checkIcon.png';
-import checkedIcon from '@assets/checkedIcon.png';
+
+import useInput from '@hooks/useInput';
 
 import MainPage from '@layouts/MainPage';
 import HashTagBox from '@components/Register/HashTagBox';
+import FindPostcode from '@components/Register/FindPostcode';
+import ImageUpload from '@components/Register/ImageUpload';
+import Checkbox from '@components/Register/Checkbox';
 
 const Register = () => {
-  const [hashTag, setHashTag] = useState('');
+  const [businessNumber, onChangeBusinessNumber] = useInput('');
+  const [title, onChangeTitle] = useInput('');
+  const [service, onChangeService] = useInput('');
+  const [detail, onChangeDetail] = useInput('');
+  const [headCount, onChangeHeadCount] = useInput('');
+  const [mission, onChangeMission] = useInput('');
+  const [hashTag, onChangeHashTag, setHashTag] = useInput('');
+  const [applyStart, onChangeApplyStart] = useInput('');
+  const [applyEnd, onChangeApplyEnd] = useInput('');
+  const [experienceStart, onChangeExperienceStart] = useInput('');
+  const [experienceEnd, onChangeExperienceEnd] = useInput('');
+  const [announce, onChangeAnnounce] = useInput('');
+  const [snsType, , setSnsType] = useInput('');
+  const [campaignType, , setCampaignType] = useInput('');
+  const [address, , setAddress] = useInput('');
   const [hashTagList, setHashTagList] = useState([]);
+  const [mainImage, setMainImage] = useState([]);
+  const [detailImage, setDetailImage] = useState([]);
 
-  const handleHashTag = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setHashTag(e.target.value);
+  const handleBusinessNumberBtn = () => {
+    window.alert('시연을 위해 인증코드를 비활성화 해놓았습니다.\n그냥 진행하시면 됩니다.');
   };
 
   const handelHashTagKeydown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -35,12 +54,14 @@ const Register = () => {
             <RedStar>*</RedStar>
 
             <BusinessNumberInput
+              value={businessNumber}
+              onChange={onChangeBusinessNumber}
               type="text"
               name="businessNumber"
               id="businessNumber"
               placeholder="1234-5678 을 입력해주세요."
             />
-            <Button>인증하기</Button>
+            <Button onClick={handleBusinessNumberBtn}>인증하기</Button>
           </InputBox>
         </CampainInfoBox>
 
@@ -48,27 +69,62 @@ const Register = () => {
           <InputBox>
             <InputLabel htmlFor="title">제목</InputLabel>
             <RedStar>*</RedStar>
-            <TextInput type="text" name="title" id="title" placeholder="제목을 입력해 주세요." />
+            <TextInput
+              value={title}
+              onChange={onChangeTitle}
+              type="text"
+              name="title"
+              id="title"
+              placeholder="제목을 입력해 주세요."
+            />
           </InputBox>
           <InputBox>
-            <InputLabel htmlFor="title">제공 상품</InputLabel>
+            <InputLabel htmlFor="service">제공 상품</InputLabel>
             <RedStar>*</RedStar>
-            <TextInput type="text" name="title" id="title" placeholder="리뷰어에게 제공하는 상품을 입력해주세요." />
+            <TextInput
+              value={service}
+              onChange={onChangeService}
+              type="text"
+              name="title"
+              id="title"
+              placeholder="리뷰어에게 제공하는 상품을 입력해주세요."
+            />
           </InputBox>
           <InputBox>
             <InputLabel htmlFor="detail">소개</InputLabel>
             <RedStar></RedStar>
-            <TextInput type="text" name="detail" id="detail" placeholder="캠페인 소개" />
+            <TextInput
+              value={detail}
+              onChange={onChangeDetail}
+              type="text"
+              name="detail"
+              id="detail"
+              placeholder="캠페인 소개"
+            />
           </InputBox>
           <InputBox>
             <InputLabel htmlFor="headCount">총 모집 인원</InputLabel>
             <RedStar>*</RedStar>
-            <TextInput type="number" id="headCount" name="headCount" placeholder="N명" />
+            <TextInput
+              value={headCount}
+              onChange={onChangeHeadCount}
+              type="number"
+              id="headCount"
+              name="headCount"
+              placeholder="N명"
+            />
           </InputBox>
           <InputBox>
             <InputLabel htmlFor="mission">리뷰어 미션</InputLabel>
             <RedStar>*</RedStar>
-            <TextInput type="text" id="mission" name="mission" placeholder="https://" />
+            <TextInput
+              value={mission}
+              onChange={onChangeMission}
+              type="text"
+              id="mission"
+              name="mission"
+              placeholder="https://"
+            />
           </InputBox>
           <InputBox>
             <InputLabel htmlFor="keyword">필수키워드</InputLabel>
@@ -78,9 +134,9 @@ const Register = () => {
                 type="text"
                 name="keyword"
                 id="keyword"
-                placeholder="키워드를 입력해주세요."
+                placeholder="키워드를 입력 후 엔터를 추가해주세요."
                 value={hashTag}
-                onChange={handleHashTag}
+                onChange={onChangeHashTag}
                 onKeyPress={handelHashTagKeydown}
               />
               <HashTagBox tagList={hashTagList} />
@@ -89,66 +145,72 @@ const Register = () => {
           <InputBox>
             <InputLabel htmlFor="">SNS 유형</InputLabel>
             <RedStar>*</RedStar>
-            <CheckBoxWrapper>
-              <CheckBoxLabel htmlFor="">
-                <CheckBox type="checkbox" />
-                블로그
-              </CheckBoxLabel>
-              <CheckBoxLabel htmlFor="">
-                <CheckBox type="checkbox" />
-                인스타그램
-              </CheckBoxLabel>
-            </CheckBoxWrapper>
+            <Checkbox onChangeType={setSnsType} type="snsType" />
           </InputBox>
           <InputBox>
             <InputLabel htmlFor="">유형선택</InputLabel>
             <RedStar>*</RedStar>
-            <CheckBoxWrapper>
-              <CheckBoxLabel htmlFor="">
-                <CheckBox type="checkbox" />
-                참가형
-              </CheckBoxLabel>
-              <CheckBoxLabel htmlFor="">
-                <CheckBox type="checkbox" />
-                배송형
-              </CheckBoxLabel>
-            </CheckBoxWrapper>
+            <Checkbox onChangeType={setCampaignType} type="campaignType" />
           </InputBox>
         </CampainInfoBox>
 
         <CampainInfoBox>
           <InputBox>
-            <InputLabel htmlFor="apply">신청기간</InputLabel>
+            <InputLabel htmlFor="applyStart">신청기간</InputLabel>
             <RedStar>*</RedStar>
             <DateInput
+              value={applyStart}
+              onChange={onChangeApplyStart}
               type="date"
-              name="apply"
-              id="apply"
+              name="applyStart"
+              id="applyStart"
               data-placeholder="YYYY-MM-DD"
               required
               aria-required="true"
             />
             <Tilde>~</Tilde>
-            <DateInput type="date" data-placeholder="YYYY-MM-DD" required aria-required="true" />
+            <DateInput
+              value={applyEnd}
+              onChange={onChangeApplyEnd}
+              name="applyEnd"
+              id="applyEnd"
+              type="date"
+              data-placeholder="YYYY-MM-DD"
+              required
+              aria-required="true"
+            />
           </InputBox>
           <InputBox>
-            <InputLabel htmlFor="experience">체험기간</InputLabel>
+            <InputLabel htmlFor="experienceStart">체험기간</InputLabel>
             <RedStar>*</RedStar>
             <DateInput
+              value={experienceStart}
+              onChange={onChangeExperienceStart}
               type="date"
-              name="experience"
-              id="experience"
+              name="experienceStart"
+              id="experienceStart"
               data-placeholder="YYYY-MM-DD"
               required
               aria-required="true"
             />
             <Tilde>~</Tilde>
-            <DateInput type="date" data-placeholder="YYYY-MM-DD" required aria-required="true" />
+            <DateInput
+              value={experienceEnd}
+              onChange={onChangeExperienceEnd}
+              name="experienceEnd"
+              id="experienceEnd"
+              type="date"
+              data-placeholder="YYYY-MM-DD"
+              required
+              aria-required="true"
+            />
           </InputBox>
           <InputBox>
             <InputLabel htmlFor="announce">발표일</InputLabel>
             <RedStar>*</RedStar>
             <DateInput
+              value={announce}
+              onChange={onChangeAnnounce}
               type="date"
               name="announce"
               id="announce"
@@ -163,41 +225,19 @@ const Register = () => {
           <InputBox>
             <InputLabel htmlFor="adress">주소</InputLabel>
             <RedStar>*</RedStar>
-            <AdressBox>
-              <div>
-                <BusinessNumberInput type="text" placeholder="우편번호" disabled />
-                <Button name="adress" id="adress">
-                  우편번호 찾기
-                </Button>
-              </div>
-              <BusinessNumberInput type="text" placeholder="주소" disabled />
-              <BusinessNumberInput type="text" placeholder="상세주소" />
-            </AdressBox>
+            <FindPostcode onChangeAddress={setAddress} />
           </InputBox>
 
           <InputBox>
             <InputLabel htmlFor="">대표이미지</InputLabel>
             <RedStar>*</RedStar>
-            <FileInput type="file" name="" id="" />
-            <ImageBox>
-              <p>다운이미지</p>
-              <p>등록할 이미지를 끌어오거나,</p>
-              <p>
-                <span>여기</span>를 클릭하여 등록하세요.
-              </p>
-            </ImageBox>
+            <ImageUpload type="single" setImage={setMainImage} />
           </InputBox>
+
           <InputBox>
             <InputLabel htmlFor="">상세이미지</InputLabel>
             <RedStar>*</RedStar>
-            <FileInput type="file" name="" id="" />
-            <ImageBox>
-              <p>다운이미지</p>
-              <p>등록할 이미지를 끌어오거나,</p>
-              <p>
-                <span>여기</span>를 클릭하여 등록하세요.
-              </p>
-            </ImageBox>
+            <ImageUpload type="multiple" setImage={setDetailImage} />
           </InputBox>
         </CampainInfoBox>
         <ButtonBox>
@@ -255,14 +295,6 @@ const InputBox = styled.div`
   margin-bottom: 30px;
   display: flex;
   align-items: center;
-`;
-
-const AdressBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  & input {
-    margin-bottom: 10px;
-  }
 `;
 
 const ButtonBox = styled.div`
@@ -362,13 +394,6 @@ const FileInput = styled.input`
   display: none;
 `;
 
-const CheckBoxWrapper = styled.div`
-  width: 460px;
-  height: 60px;
-  display: flex;
-  align-items: center;
-`;
-
 const RedStar = styled.div`
   width: 1%;
   display: flex;
@@ -386,58 +411,6 @@ const Tilde = styled.div`
   width: 10px;
   height: 10px;
   margin-right: 19px;
-`;
-
-const CheckBox = styled.input`
-  appearance: none;
-  width: 16px;
-  height: 16px;
-  background-size: 100% 100%;
-  background-image: url(${checkIcon});
-  cursor: pointer;
-
-  &:checked {
-    border: transparent;
-    background-image: url(${checkedIcon});
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-  }
-`;
-
-const ImageBox = styled.div`
-  width: 482px;
-  height: 167px;
-  background: #fef3f3 0% 0% no-repeat padding-box;
-  border: 1px solid #cccccc;
-  border-radius: 5px;
-  opacity: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: right;
-  font: normal normal normal 16px/24px Pretendard;
-  letter-spacing: 0px;
-  color: #555555;
-  opacity: 1;
-
-  & > p {
-    :first-child {
-      margin-bottom: 20px;
-    }
-    span {
-      color: #e76969;
-      cursor: pointer;
-    }
-  }
-`;
-
-const CheckBoxLabel = styled.label`
-  display: flex;
-  align-items: center;
-  user-select: none;
-  color: #888888;
-  margin-right: 60px;
 `;
 
 const Button = styled.button`

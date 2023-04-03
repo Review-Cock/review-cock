@@ -5,9 +5,10 @@ import checkedIcon from '@assets/checkedIcon.png';
 
 interface CheckboxProps {
   type: string;
+  onChangeType: (t: string) => void;
 }
 
-const Checkbox = ({ type }: CheckboxProps) => {
+const Checkbox = ({ type, onChangeType }: CheckboxProps) => {
   const handleSnsTypeCheckbox = (e: React.MouseEvent<HTMLInputElement>) => {
     const currentCheck = e.target;
     const allCheckbox = document.getElementsByName('snsType') as NodeListOf<HTMLInputElement>;
@@ -16,6 +17,7 @@ const Checkbox = ({ type }: CheckboxProps) => {
         allCheckbox[i].checked = false;
       } else {
         allCheckbox[i].checked = true;
+        onChangeType(allCheckbox[i].value);
       }
     }
   };
@@ -28,6 +30,7 @@ const Checkbox = ({ type }: CheckboxProps) => {
         allCheckbox[i].checked = false;
       } else {
         allCheckbox[i].checked = true;
+        onChangeType(allCheckbox[i].value);
       }
     }
   };
@@ -49,11 +52,11 @@ const Checkbox = ({ type }: CheckboxProps) => {
       {type === 'campaignType' && (
         <CheckBoxWrapper>
           <CheckBoxLabel htmlFor="">
-            <CheckBoxItem type="checkbox" name="campaignType" onClick={handleCampaignTypeCheckbox} />
-            참가형
+            <CheckBoxItem type="checkbox" name="campaignType" value="region" onClick={handleCampaignTypeCheckbox} />
+            지역형
           </CheckBoxLabel>
           <CheckBoxLabel htmlFor="">
-            <CheckBoxItem type="checkbox" name="campaignType" onClick={handleCampaignTypeCheckbox} />
+            <CheckBoxItem type="checkbox" name="campaignType" value="delivery" onClick={handleCampaignTypeCheckbox} />
             배송형
           </CheckBoxLabel>
         </CheckBoxWrapper>

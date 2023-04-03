@@ -2,7 +2,11 @@ import React, { useState } from 'react';
 import { useDaumPostcodePopup } from 'react-daum-postcode';
 import styled from 'styled-components';
 
-const FindPostcode = () => {
+interface FindPostCode {
+  onChangeAddress: (t: string) => void;
+}
+
+const FindPostcode = ({ onChangeAddress }: FindPostCode) => {
   const open = useDaumPostcodePopup('https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js');
 
   const [address, setAddress] = useState('');
@@ -11,6 +15,7 @@ const FindPostcode = () => {
 
   const onChangeDetailAddress = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDetailAddress(e.target.value);
+    onChangeAddress(`${address} ${e.target.value}`);
   };
 
   const handleComplete = (data: any) => {
