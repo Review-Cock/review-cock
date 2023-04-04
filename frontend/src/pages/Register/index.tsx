@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { useMutation } from 'react-query';
+import axios from 'axios';
 
 import useInput from '@hooks/useInput';
 
@@ -10,38 +12,94 @@ import ImageUpload from '@components/Register/ImageUpload';
 import Checkbox from '@components/Register/Checkbox';
 import { useNavigate } from 'react-router-dom';
 
-const Register = () => {
-  const navigate = useNavigate();
+export interface ICampaignInfo {
+  campaignType: string;
+  category: string;
+  content: string;
+  expEndDateTime: string;
+  expStartDateTime: string;
+  imageUrls: string[];
+  location: string;
+  name: string;
+  noticeDateTime: string;
+  service: string;
+  recruitNumber: string;
+  regStartDateTime: string;
+  regEndDateTime: string;
+  searchTags: string[];
+  siteUrl: string;
+  snsType: string;
+}
 
+const Register = () => {
+  const RegisterMutation = useMutation(
+    (CampaignInfo: ICampaignInfo) => axios.post('118.67.133.214:8080/api/campaign', CampaignInfo),
+    {
+      onSuccess: (res) => {
+        console.log(res);
+        window.alert('새로운 캠페인이 등록되었습니다.');
+        navigate('/');
+      },
+      onError: (error) => {
+        console.log(error);
+      },
+    },
+  );
+
+  const navigate = useNavigate();
   const [businessNumber, onChangeBusinessNumber] = useInput('');
-  const [title, onChangeTitle] = useInput('');
-  const [service, onChangeService] = useInput('');
-  const [detail, onChangeDetail] = useInput('');
-  const [headCount, onChangeHeadCount] = useInput('');
-  const [mission, onChangeMission] = useInput('');
   const [hashTag, onChangeHashTag, setHashTag] = useInput('');
-  const [applyStart, onChangeApplyStart] = useInput('');
-  const [applyEnd, onChangeApplyEnd] = useInput('');
-  const [experienceStart, onChangeExperienceStart] = useInput('');
-  const [experienceEnd, onChangeExperienceEnd] = useInput('');
-  const [announce, onChangeAnnounce] = useInput('');
-  const [snsType, , setSnsType] = useInput('');
+
   const [campaignType, , setCampaignType] = useInput('');
   const [category, setCategory] = useState('');
-  const [address, , setAddress] = useInput('');
-  const [hashTagList, setHashTagList] = useState([]);
+  const [content, onChangeContent] = useInput('');
+  const [expEndDateTime, onChangeExpEndDateTime] = useInput('');
+  const [expStartDateTime, onChangeExpStartDateTime] = useInput('');
   const [mainImage, setMainImage] = useState([]);
   const [detailImage, setDetailImage] = useState([]);
+  const [location, , setLocation] = useInput('');
+  const [name, onChangeName] = useInput('');
+  const [noticeDateTime, onChangeNoticeDateTime] = useInput('');
+  const [service, onChangeService] = useInput('');
+  const [recruitNumber, onChangeRecruitNumber] = useInput('');
+  const [regStartDateTime, onChangeRegStartDateTime] = useInput('');
+  const [regEndDateTime, onChangeRegEndDateTime] = useInput('');
+  const [searchTags, setSearchTags] = useState([]);
+  const [siteUrl, onChangeSiteUrl] = useInput('');
+  const [snsType, , setSnsType] = useInput('');
 
   const handleBusinessNumberBtn = () => {
     window.alert('시연을 위해 인증코드를 비활성화 해놓았습니다.\n그냥 진행하시면 됩니다.');
   };
 
-  const handelHashTagKeydown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleHashTagKeydown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && hashTag !== '') {
-      setHashTagList((v) => [...v, hashTag]);
+      setSearchTags((v) => [...v, hashTag]);
       setHashTag('');
     }
+  };
+
+  const handleSummit = () => {
+    const imageUrls = [...mainImage, ...detailImage];
+    const CampaignInfo = {
+      campaignType,
+      category,
+      content,
+      expEndDateTime,
+      expStartDateTime,
+      imageUrls,
+      location,
+      name,
+      noticeDateTime,
+      service,
+      recruitNumber,
+      regStartDateTime,
+      regEndDateTime,
+      searchTags,
+      siteUrl,
+      snsType,
+    };
+    RegisterMutation.mutate(CampaignInfo);
   };
 
   return (
@@ -74,8 +132,8 @@ const Register = () => {
             <InputLabel htmlFor="title">제목</InputLabel>
             <RedStar>*</RedStar>
             <TextInput
-              value={title}
-              onChange={onChangeTitle}
+              value={name}
+              onChange={onChangeName}
               type="text"
               name="title"
               id="title"
@@ -98,8 +156,8 @@ const Register = () => {
             <InputLabel htmlFor="detail">소개</InputLabel>
             <RedStar></RedStar>
             <TextInput
-              value={detail}
-              onChange={onChangeDetail}
+              value={content}
+              onChange={onChangeContent}
               type="text"
               name="detail"
               id="detail"
@@ -110,8 +168,8 @@ const Register = () => {
             <InputLabel htmlFor="headCount">총 모집 인원</InputLabel>
             <RedStar>*</RedStar>
             <TextInput
-              value={headCount}
-              onChange={onChangeHeadCount}
+              value={recruitNumber}
+              onChange={onChangeRecruitNumber}
               type="number"
               id="headCount"
               name="headCount"
@@ -122,8 +180,8 @@ const Register = () => {
             <InputLabel htmlFor="mission">리뷰어 미션</InputLabel>
             <RedStar>*</RedStar>
             <TextInput
-              value={mission}
-              onChange={onChangeMission}
+              value={siteUrl}
+              onChange={onChangeSiteUrl}
               type="text"
               id="mission"
               name="mission"
@@ -141,9 +199,9 @@ const Register = () => {
                 placeholder="키워드를 입력 후 엔터를 추가해주세요."
                 value={hashTag}
                 onChange={onChangeHashTag}
-                onKeyPress={handelHashTagKeydown}
+                onKeyPress={handleHashTagKeydown}
               />
-              <HashTagBox tagList={hashTagList} />
+              <HashTagBox tagList={searchTags} />
             </div>
           </InputBox>
           <InputBox>
@@ -163,8 +221,8 @@ const Register = () => {
             <InputLabel htmlFor="applyStart">신청기간</InputLabel>
             <RedStar>*</RedStar>
             <DateInput
-              value={applyStart}
-              onChange={onChangeApplyStart}
+              value={regStartDateTime}
+              onChange={onChangeRegStartDateTime}
               type="date"
               name="applyStart"
               id="applyStart"
@@ -174,8 +232,8 @@ const Register = () => {
             />
             <Tilde>~</Tilde>
             <DateInput
-              value={applyEnd}
-              onChange={onChangeApplyEnd}
+              value={regEndDateTime}
+              onChange={onChangeRegEndDateTime}
               name="applyEnd"
               id="applyEnd"
               type="date"
@@ -188,8 +246,8 @@ const Register = () => {
             <InputLabel htmlFor="experienceStart">체험기간</InputLabel>
             <RedStar>*</RedStar>
             <DateInput
-              value={experienceStart}
-              onChange={onChangeExperienceStart}
+              value={expStartDateTime}
+              onChange={onChangeExpStartDateTime}
               type="date"
               name="experienceStart"
               id="experienceStart"
@@ -199,8 +257,8 @@ const Register = () => {
             />
             <Tilde>~</Tilde>
             <DateInput
-              value={experienceEnd}
-              onChange={onChangeExperienceEnd}
+              value={expEndDateTime}
+              onChange={onChangeExpEndDateTime}
               name="experienceEnd"
               id="experienceEnd"
               type="date"
@@ -213,8 +271,8 @@ const Register = () => {
             <InputLabel htmlFor="announce">발표일</InputLabel>
             <RedStar>*</RedStar>
             <DateInput
-              value={announce}
-              onChange={onChangeAnnounce}
+              value={noticeDateTime}
+              onChange={onChangeNoticeDateTime}
               type="date"
               name="announce"
               id="announce"
@@ -229,7 +287,7 @@ const Register = () => {
           <InputBox>
             <InputLabel htmlFor="adress">주소</InputLabel>
             <RedStar>*</RedStar>
-            <FindPostcode onChangeAddress={setAddress} />
+            <FindPostcode onChangeAddress={setLocation} />
           </InputBox>
 
           <InputBox>
@@ -245,7 +303,7 @@ const Register = () => {
           </InputBox>
         </CampainInfoBox>
         <ButtonBox>
-          <SubmitButton>등록하기</SubmitButton>
+          <SubmitButton onClick={handleSummit}>등록하기</SubmitButton>
           <SubmitButton
             onClick={() => {
               navigate('/');
@@ -398,10 +456,6 @@ const DateInput = styled.input`
   :valid::before {
     display: none;
   }
-`;
-
-const FileInput = styled.input`
-  display: none;
 `;
 
 const RedStar = styled.div`
