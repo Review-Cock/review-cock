@@ -8,8 +8,11 @@ import HashTagBox from '@components/Register/HashTagBox';
 import FindPostcode from '@components/Register/FindPostcode';
 import ImageUpload from '@components/Register/ImageUpload';
 import Checkbox from '@components/Register/Checkbox';
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
+  const navigate = useNavigate();
+
   const [businessNumber, onChangeBusinessNumber] = useInput('');
   const [title, onChangeTitle] = useInput('');
   const [service, onChangeService] = useInput('');
@@ -24,6 +27,7 @@ const Register = () => {
   const [announce, onChangeAnnounce] = useInput('');
   const [snsType, , setSnsType] = useInput('');
   const [campaignType, , setCampaignType] = useInput('');
+  const [category, setCategory] = useState('');
   const [address, , setAddress] = useInput('');
   const [hashTagList, setHashTagList] = useState([]);
   const [mainImage, setMainImage] = useState([]);
@@ -150,7 +154,7 @@ const Register = () => {
           <InputBox>
             <InputLabel htmlFor="">유형선택</InputLabel>
             <RedStar>*</RedStar>
-            <Checkbox onChangeType={setCampaignType} type="campaignType" />
+            <Checkbox onChangeCategory={setCategory} onChangeType={setCampaignType} type="campaignType" />
           </InputBox>
         </CampainInfoBox>
 
@@ -242,7 +246,13 @@ const Register = () => {
         </CampainInfoBox>
         <ButtonBox>
           <SubmitButton>등록하기</SubmitButton>
-          <SubmitButton>작성취소</SubmitButton>
+          <SubmitButton
+            onClick={() => {
+              navigate('/');
+            }}
+          >
+            작성취소
+          </SubmitButton>
         </ButtonBox>
       </Container>
     </MainPage>

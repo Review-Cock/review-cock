@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import checkIcon from '@assets/checkIcon.png';
 import checkedIcon from '@assets/checkedIcon.png';
@@ -6,9 +6,14 @@ import checkedIcon from '@assets/checkedIcon.png';
 interface CheckboxProps {
   type: string;
   onChangeType: (t: string) => void;
+  onChangeCategory?: (t: string) => void;
 }
 
-const Checkbox = ({ type, onChangeType }: CheckboxProps) => {
+const Checkbox = ({ type, onChangeType, onChangeCategory }: CheckboxProps) => {
+  const deliveryCategory = ['생활', '서비스', '유아동', '디지털', '뷰티', '패션', '도서', '식품', '반려동물'];
+  const regionCategory = ['맛집', '뷰티', '숙박', '문화', '배달', '테이크아웃', '기타'];
+  const [curCampaignType, setCurCampaignType] = useState('');
+
   const handleSnsTypeCheckbox = (e: React.MouseEvent<HTMLInputElement>) => {
     const currentCheck = e.target;
     const allCheckbox = document.getElementsByName('snsType') as NodeListOf<HTMLInputElement>;
@@ -31,8 +36,13 @@ const Checkbox = ({ type, onChangeType }: CheckboxProps) => {
       } else {
         allCheckbox[i].checked = true;
         onChangeType(allCheckbox[i].value);
+        setCurCampaignType(allCheckbox[i].value);
       }
     }
+  };
+
+  const handleCategory = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    onChangeCategory(e.target.value);
   };
 
   return (
@@ -59,6 +69,24 @@ const Checkbox = ({ type, onChangeType }: CheckboxProps) => {
             <CheckBoxItem type="checkbox" name="campaignType" value="delivery" onClick={handleCampaignTypeCheckbox} />
             배송형
           </CheckBoxLabel>
+          {curCampaignType === 'region' && (
+            <SelectTag onChange={handleCategory}>
+              {regionCategory.map((name, i) => (
+                <option key={i} value={name}>
+                  {name}
+                </option>
+              ))}
+            </SelectTag>
+          )}
+          {curCampaignType === 'delivery' && (
+            <SelectTag onChange={handleCategory}>
+              {deliveryCategory.map((name, i) => (
+                <option key={i} value={name}>
+                  {name}
+                </option>
+              ))}
+            </SelectTag>
+          )}
         </CheckBoxWrapper>
       )}
     </div>
@@ -94,5 +122,11 @@ const CheckBoxItem = styled.input`
     background-size: 100% 100%;
     background-repeat: no-repeat;
   }
+`;
+
+const SelectTag = styled.select`
+  outline: none;
+  border: 1px solid #cccccc;
+  padding: 5px;
 `;
 export default Checkbox;
