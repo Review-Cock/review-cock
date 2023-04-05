@@ -69,7 +69,7 @@ public class CampaignController {
     public ResponseEntity<ResponseDto<Page<CampaignDetailResponseDto>>> getCampaignList(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "VISIT") CampaignType campaignType) {
+            @RequestParam(required = false) CampaignType campaignType) {
 
         Page<CampaignDetailResponseDto> responseList = campaignService.getCampaignList(page, size, campaignType);
         return ResponseEntity.ok(ResponseDto.success(responseList));
