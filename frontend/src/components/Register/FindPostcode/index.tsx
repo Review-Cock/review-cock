@@ -1,18 +1,31 @@
 import React, { useState } from 'react';
 import { useDaumPostcodePopup } from 'react-daum-postcode';
-import styled from 'styled-components';
 
-const FindPostcode = () => {
+import {
+  AddressBox,
+  BusinessNumberInputShort,
+  BusinessNumberInputLong,
+  Button,
+} from '@components/Register/FindPostcode/index.style';
+
+interface FindPostCode {
+  onChangeAddress: (t: string) => void;
+}
+
+const FindPostcode = ({ onChangeAddress }: FindPostCode) => {
   const open = useDaumPostcodePopup('https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js');
 
   const [address, setAddress] = useState('');
   const [detailAddress, setDetailAddress] = useState('');
+  const [postCode, setPostCode] = useState('');
 
   const onChangeDetailAddress = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDetailAddress(e.target.value);
+    onChangeAddress(`${address} ${e.target.value}`);
   };
 
   const handleComplete = (data: any) => {
+    const postCode = data.zonecode;
     let fullAddress = data.address;
     let extraAddress = '';
 
@@ -25,7 +38,7 @@ const FindPostcode = () => {
       }
       fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
     }
-
+    setPostCode(postCode);
     setAddress(fullAddress);
   };
 
@@ -34,18 +47,22 @@ const FindPostcode = () => {
   };
 
   return (
-    <div>
-      <button type="button" onClick={handleClick}>
-        주소검색
-      </button>
-      <AddressInput type="text" disabled value={address} />
-      <AddressInput type="text" value={detailAddress} placeholder="상세주소" onChange={onChangeDetailAddress} />
-    </div>
+    <AddressBox>
+      <div>
+        <BusinessNumberInputShort value={postCode} type="text" placeholder="우편번호" disabled />
+        <Button onClick={handleClick} name="adress" id="adress">
+          우편번호 찾기
+        </Button>
+      </div>
+      <BusinessNumberInputLong value={address} type="text" placeholder="주소" disabled />
+      <BusinessNumberInputLong
+        value={detailAddress}
+        onChange={onChangeDetailAddress}
+        type="text"
+        placeholder="상세주소"
+      />
+    </AddressBox>
   );
 };
-
-const AddressInput = styled.input`
-  width: 100%;
-`;
 
 export default FindPostcode;
