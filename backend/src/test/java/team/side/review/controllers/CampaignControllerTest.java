@@ -35,6 +35,7 @@ class CampaignControllerTest {
         //given
         String requestJSON = "{\n" +
                 "  \"campaignType\": \"VISIT\",\n" +
+                "  \"channelType\": \"BLOG\",\n" +
                 "  \"category\": \"카테고리\",\n" +
                 "  \"name\": \"제목\",\n" +
                 "  \"regStartDateTime\": \"2024-03-08T09:00:00\",\n" +
@@ -43,6 +44,7 @@ class CampaignControllerTest {
                 "  \"expStartDateTime\": \"2024-03-30T09:00:00\",\n" +
                 "  \"expEndDateTime\": \"2024-04-05T09:00:00\",\n" +
                 "  \"content\": \"내용\",\n" +
+                "  \"description\": \"제공상품내용\",\n" +
                 "  \"recruitNumber\": 100,\n" +
                 "  \"searchTags\": [\n" +
                 "    \"태그1\",\n" +
