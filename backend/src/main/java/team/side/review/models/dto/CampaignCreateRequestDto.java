@@ -9,6 +9,7 @@ import lombok.ToString;
 import org.apache.commons.lang3.StringUtils;
 import team.side.review.models.entity.Campaign;
 import team.side.review.models.enums.CampaignType;
+import team.side.review.models.enums.ChannelType;
 
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Future;
@@ -33,6 +34,10 @@ public class CampaignCreateRequestDto {
     @NotBlank(message = "카테고리는 필수 입력입니다.")
     @ApiModelProperty(value = "카테고리 ID", required = true)
     private String category;
+
+    @NotNull(message = "SNS유형은 필수 입니다.")
+    @ApiModelProperty(value = "SNS 채널 유형", required = true)
+    private ChannelType channelType;
 
     @NotBlank(message = "제목은 필수 입력입니다.")
     @ApiModelProperty(value = "제목", required = true)
@@ -61,6 +66,10 @@ public class CampaignCreateRequestDto {
     @Future(message = "체험기간은 현재일시 이후로 등록 가능합니다.")
     @ApiModelProperty(value = "체험종료일시", required = true)
     private LocalDateTime expEndDateTime;
+
+    @NotBlank(message = "제공상품 내용은 필수 입력입니다.")
+    @ApiModelProperty(value = "제공 상품 내용", required = true)
+    private String campaignDescription;
 
     @NotBlank(message = "내용은 필수 입력입니다.")
     @ApiModelProperty(value = "내용", required = true)
@@ -115,6 +124,7 @@ public class CampaignCreateRequestDto {
     public Campaign toEntity() {
         Campaign campaign = Campaign.builder()
                 .campaignType(this.campaignType)
+                .channelType(this.channelType)
                 .category(this.category)
                 .name(this.name)
                 .regStartDateTime(this.regStartDateTime)
@@ -123,6 +133,7 @@ public class CampaignCreateRequestDto {
                 .expStartDateTime(this.expStartDateTime)
                 .expEndDateTime(this.expEndDateTime)
                 .content(this.content)
+                .campaignDescription(this.campaignDescription)
                 .recruitNumber(this.recruitNumber)
                 .location(this.location)
                 .siteUrl(this.siteUrl)

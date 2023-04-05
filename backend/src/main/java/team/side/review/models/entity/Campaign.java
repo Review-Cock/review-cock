@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import team.side.review.models.enums.CampaignType;
+import team.side.review.models.enums.ChannelType;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -35,6 +36,9 @@ public class Campaign {
     @Enumerated(EnumType.STRING)
     private CampaignType campaignType;
 
+    @Enumerated(EnumType.STRING)
+    private ChannelType channelType;
+
     private String category;
 
     private String name;
@@ -50,6 +54,8 @@ public class Campaign {
     private LocalDateTime expEndDateTime;
 
     private String content;
+
+    private String campaignDescription;
 
     private int recruitNumber;
 
