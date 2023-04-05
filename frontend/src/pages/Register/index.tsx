@@ -28,8 +28,10 @@ import {
 } from '@pages/Register/index.styles';
 
 interface ICampaignInfo {
+  campaignDescription: string;
   campaignType: string;
   category: string;
+  channelType: string;
   content: string;
   expEndDateTime: string;
   expStartDateTime: string;
@@ -37,13 +39,11 @@ interface ICampaignInfo {
   location: string;
   name: string;
   noticeDateTime: string;
-  service: string;
   recruitNumber: string;
   regStartDateTime: string;
   regEndDateTime: string;
   searchTags: string[];
   siteUrl: string;
-  snsType: string;
 }
 
 const Register = () => {
@@ -65,8 +65,10 @@ const Register = () => {
   const [businessNumber, onChangeBusinessNumber] = useInput('');
   const [hashTag, onChangeHashTag, setHashTag] = useInput('');
 
+  const [campaignDescription, onChangeCampaignDescription] = useInput('');
   const [campaignType, , setCampaignType] = useInput('');
   const [category, setCategory] = useState('');
+  const [channelType, , setChannelType] = useInput('');
   const [content, onChangeContent] = useInput('');
   const [expEndDateTime, onChangeExpEndDateTime] = useInput('');
   const [expStartDateTime, onChangeExpStartDateTime] = useInput('');
@@ -75,13 +77,11 @@ const Register = () => {
   const [location, , setLocation] = useInput('');
   const [name, onChangeName] = useInput('');
   const [noticeDateTime, onChangeNoticeDateTime] = useInput('');
-  const [service, onChangeService] = useInput('');
   const [recruitNumber, onChangeRecruitNumber] = useInput('');
   const [regStartDateTime, onChangeRegStartDateTime] = useInput('');
   const [regEndDateTime, onChangeRegEndDateTime] = useInput('');
   const [searchTags, setSearchTags] = useState([]);
   const [siteUrl, onChangeSiteUrl] = useInput('');
-  const [snsType, , setSnsType] = useInput('');
 
   const handleBusinessNumberBtn = () => {
     window.alert('시연을 위해 인증코드를 비활성화 해놓았습니다.\n그냥 진행하시면 됩니다.');
@@ -97,8 +97,10 @@ const Register = () => {
   const handleSummit = () => {
     const imageUrls = [...mainImage, ...detailImage];
     const CampaignInfo = {
+      campaignDescription,
       campaignType,
       category,
+      channelType,
       content,
       expEndDateTime,
       expStartDateTime,
@@ -106,13 +108,11 @@ const Register = () => {
       location,
       name,
       noticeDateTime,
-      service,
       recruitNumber,
       regStartDateTime,
       regEndDateTime,
       searchTags,
       siteUrl,
-      snsType,
     };
     RegisterMutation.mutate(CampaignInfo);
   };
@@ -159,8 +159,8 @@ const Register = () => {
             <InputLabel htmlFor="service">제공 상품</InputLabel>
             <RedStar>*</RedStar>
             <TextInput
-              value={service}
-              onChange={onChangeService}
+              value={content}
+              onChange={onChangeContent}
               type="text"
               name="title"
               id="title"
@@ -171,8 +171,8 @@ const Register = () => {
             <InputLabel htmlFor="detail">소개</InputLabel>
             <RedStar></RedStar>
             <TextInput
-              value={content}
-              onChange={onChangeContent}
+              value={campaignDescription}
+              onChange={onChangeCampaignDescription}
               type="text"
               name="detail"
               id="detail"
@@ -222,7 +222,7 @@ const Register = () => {
           <InputBox>
             <InputLabel htmlFor="">SNS 유형</InputLabel>
             <RedStar>*</RedStar>
-            <Checkbox onChangeType={setSnsType} type="snsType" />
+            <Checkbox onChangeType={setChannelType} type="snsType" />
           </InputBox>
           <InputBox>
             <InputLabel htmlFor="">유형선택</InputLabel>
