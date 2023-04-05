@@ -89,7 +89,10 @@ public class CampaignCreateRequestDto {
 
     @AssertTrue(message = "방문형에는 주소가 필수입니다.")
     private boolean isValidLocation() {
-        return campaignType == CampaignType.VISIT && StringUtils.isNotBlank(location);
+        if (campaignType != CampaignType.VISIT) {
+            return true;
+        }
+        return StringUtils.isNotBlank(location);
     }
 
     @AssertTrue(message = "신청종료일시는 신청시작일시 이후이어야 합니다.")

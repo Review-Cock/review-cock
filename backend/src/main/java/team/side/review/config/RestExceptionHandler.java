@@ -7,9 +7,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import team.side.review.models.dto.ErrorResponseDto;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,6 +30,16 @@ public class RestExceptionHandler {
                 new ErrorResponseDto(String.valueOf(HttpStatus.BAD_REQUEST.value())
                         , HttpStatus.BAD_REQUEST.getReasonPhrase()
                         , errorMessages);
+        return ResponseEntity.badRequest().body(responseDto);
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    @ResponseBody
+    public ResponseEntity<ErrorResponseDto> handleEntityNotFoundException(EntityNotFoundException e) {
+        ErrorResponseDto responseDto =
+                new ErrorResponseDto(String.valueOf(HttpStatus.BAD_REQUEST.value())
+                        , HttpStatus.BAD_REQUEST.getReasonPhrase()
+                        , List.of(e.getMessage()));
         return ResponseEntity.badRequest().body(responseDto);
     }
 }
