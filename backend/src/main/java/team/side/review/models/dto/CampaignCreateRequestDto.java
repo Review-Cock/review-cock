@@ -7,7 +7,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.apache.commons.lang3.StringUtils;
+import team.side.review.models.entity.Campaign;
 import team.side.review.models.enums.CampaignType;
+import team.side.review.models.enums.ChannelType;
 
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Future;
@@ -32,6 +34,10 @@ public class CampaignCreateRequestDto {
     @NotBlank(message = "카테고리는 필수 입력입니다.")
     @ApiModelProperty(value = "카테고리 ID", required = true)
     private String category;
+
+    @NotNull(message = "SNS유형은 필수 입니다.")
+    @ApiModelProperty(value = "SNS 채널 유형", required = true)
+    private ChannelType channelType;
 
     @NotBlank(message = "제목은 필수 입력입니다.")
     @ApiModelProperty(value = "제목", required = true)
@@ -61,6 +67,10 @@ public class CampaignCreateRequestDto {
     @ApiModelProperty(value = "체험종료일시", required = true)
     private LocalDateTime expEndDateTime;
 
+    @NotBlank(message = "제공상품 내용은 필수 입력입니다.")
+    @ApiModelProperty(value = "제공 상품 내용", required = true)
+    private String campaignDescription;
+
     @NotBlank(message = "내용은 필수 입력입니다.")
     @ApiModelProperty(value = "내용", required = true)
     private String content;
@@ -88,7 +98,10 @@ public class CampaignCreateRequestDto {
 
     @AssertTrue(message = "방문형에는 주소가 필수입니다.")
     private boolean isValidLocation() {
-        return campaignType == CampaignType.VISIT && StringUtils.isNotBlank(location);
+        if (campaignType != CampaignType.VISIT) {
+            return true;
+        }
+        return StringUtils.isNotBlank(location);
     }
 
     @AssertTrue(message = "신청종료일시는 신청시작일시 이후이어야 합니다.")
@@ -109,5 +122,33 @@ public class CampaignCreateRequestDto {
     @AssertTrue(message = "체험종료일시는 체험시작일시 이후여야 합니다.")
     private boolean isExpEndDateTimeAfterExpStartDateTime() {
         return expEndDateTime.isAfter(expStartDateTime);
+    }
+
+    public Campaign toEntity() {
+        Campaign campaign = Campaign.builder()
+                .campaignType(this.campaignType)
+                .channelType(this.channelType)
+                .category(this.category)
+                .name(this.name)
+                .regStartDateTime(this.regStartDateTime)
+                .regEndDateTime(this.regEndDateTime)
+                .noticeDateTime(this.noticeDateTime)
+                .expStartDateTime(this.expStartDateTime)
+                .expEndDateTime(this.expEndDateTime)
+                .content(this.content)
+                .campaignDescription(this.campaignDescription)
+                .recruitNumber(this.recruitNumber)
+                .location(this.location)
+                .siteUrl(this.siteUrl)
+                .build();
+
+        for (String tag : searchTags) {
+            campaign.addCampaignTag(tag);
+        }
+        for(String imageUrl : imageUrls) {
+            campaign.addCampaignImage(imageUrl);
+        }
+
+        return campaign;
     }
 }

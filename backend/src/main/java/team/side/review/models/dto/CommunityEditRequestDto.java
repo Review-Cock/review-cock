@@ -7,6 +7,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import team.side.review.models.entity.Community;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -24,4 +25,15 @@ public class CommunityEditRequestDto {
         this.title = title;
         this.content = content;
     }
+
+    public Community toEntity(CommunityEditRequestDto communityEditRequestDto){
+        Community community = Community.builder()
+                .title(communityEditRequestDto.getTitle())
+                .content(communityEditRequestDto.getContent())
+                .build();
+
+        return community;
+
+    }
+
 }
