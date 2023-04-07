@@ -3,6 +3,7 @@ package team.side.review.services;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.stereotype.Service;
 import team.side.review.models.dto.*;
 import team.side.review.models.entity.Detail;
@@ -17,15 +18,15 @@ import java.util.Optional;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class UserService {
+public class UserService { //implements UserDetailsService {
 
     private final UserRepository userRepository;
 
 
     @Transactional
     public LoginResponseDto login(LoginRequestDto loginRequestDto){
-
-        return new LoginResponseDto("w", "success");
+        
+        return new LoginResponseDto(loginRequestDto.getEmail(), "success");
     }
 
     @Transactional
@@ -80,4 +81,8 @@ public class UserService {
     }
 
 
+//    @Override
+//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+//        return userRepository.findByNickname(username);
+//    }
 }
