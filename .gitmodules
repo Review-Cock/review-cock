@@ -1,0 +1,4 @@
+[submodule "backend/src/main/resources/review-cock-security"]
+	path = backend/src/main/resources/review-cock-security
+	url = https://github.com/Review-Cock/review-cock-security.git
+    branch = main

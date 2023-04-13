@@ -1,0 +1,4 @@
+spring:
+  config:
+    import:
+      - review-cock-security/application-secret.yml
