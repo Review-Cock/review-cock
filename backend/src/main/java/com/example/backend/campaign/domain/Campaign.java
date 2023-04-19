@@ -79,7 +79,7 @@ public class Campaign {
     private CampaignDate experience;
 
     @OneToMany(mappedBy = "campaign", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<CampaignImage> images;
+    private Set<CampaignImage> images = new HashSet<>();
 
     @OneToMany(mappedBy = "campaign", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<CampaignKeyword> keywords = new HashSet<>();
@@ -114,5 +114,13 @@ public class Campaign {
             this.category = category;
             this.category.addCampaign(this);
         }
+    }
+
+    public void addImage(CampaignImage image) {
+        this.images.add(image);
+    }
+
+    public void addKeyword(CampaignKeyword keyword) {
+        this.keywords.add(keyword);
     }
 }
