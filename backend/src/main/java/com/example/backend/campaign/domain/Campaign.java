@@ -18,10 +18,13 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -72,11 +75,11 @@ public class Campaign {
     })
     private CampaignDate experience;
 
-    @OneToMany(mappedBy = "campaign", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<CampaignImage> images;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private CampaignCategory category;
 
     @OneToMany(mappedBy = "campaign", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<CampaignCategory> category;
+    private Set<CampaignImage> images;
 
     @OneToMany(mappedBy = "campaign", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<CampaignKeyword> keywords = new HashSet<>();
