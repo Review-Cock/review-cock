@@ -22,7 +22,13 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
 @Entity
 public class Campaign {
@@ -81,4 +87,21 @@ public class Campaign {
 
     @LastModifiedDate
     private LocalDateTime lastModifiedDate;
+
+    @Builder
+    public Campaign(String title, String content, int recruitNumber, int applyNumber, CampaignAddress address,
+        CampaignType type, CampaignChannelType channelType, String siteUrl, CampaignDate registrationDate,
+        LocalDate presentationDate, CampaignDate experience) {
+        this.title = title;
+        this.content = content;
+        this.recruitNumber = recruitNumber;
+        this.applyNumber = applyNumber;
+        this.address = address;
+        this.type = type;
+        this.channelType = channelType;
+        this.siteUrl = siteUrl;
+        this.registrationDate = registrationDate;
+        this.presentationDate = presentationDate;
+        this.experience = experience;
+    }
 }
