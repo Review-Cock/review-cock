@@ -92,8 +92,11 @@ public class Campaign {
     private LocalDateTime lastModifiedDate;
 
     @Builder
-    public Campaign(CampaignCategory category, String title, String content, int recruitNumber, int applyNumber, CampaignAddress address,
-        CampaignType type, CampaignChannelType channelType, String siteUrl, CampaignDate registrationDate,
+    public Campaign(
+        CampaignCategory category, String title, String content,
+        int recruitNumber, int applyNumber, CampaignAddress address,
+        CampaignType type, CampaignChannelType channelType,
+        String siteUrl, CampaignDate registrationDate,
         LocalDate presentationDate, CampaignDate experience) {
         setCategory(category);
         this.title = title;
