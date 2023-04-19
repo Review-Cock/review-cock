@@ -1,4 +1,4 @@
-package com.example.backend.campaign;
+package com.example.backend.campaign.domain;
 
 public enum CampaignType {
 

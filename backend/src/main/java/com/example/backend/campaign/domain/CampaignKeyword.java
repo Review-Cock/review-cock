@@ -1,6 +1,6 @@
 package com.example.backend.campaign.domain;
 
-import com.example.backend.tag.domain.Tag;
+import com.example.backend.keyword.domain.Keyword;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -10,7 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 
 @Entity
-public class CampaignTag {
+public class CampaignKeyword {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,5 +20,5 @@ public class CampaignTag {
     private Campaign campaign;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private Tag tag;
+    private Keyword keyword;
 }

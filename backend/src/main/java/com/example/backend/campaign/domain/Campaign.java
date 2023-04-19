@@ -1,14 +1,22 @@
-package com.example.backend.campaign;
+package com.example.backend.campaign.domain;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
+import jakarta.persistence.AttributeOverride;
+import jakarta.persistence.AttributeOverrides;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Campaign {
@@ -17,44 +25,51 @@ public class Campaign {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    private String title;
+
+    private String content;
+
+    private int recruitNumber;
+
+    private int applyNumber;
+
+    @Embedded
+    private CampaignAddress address;
+
     @Enumerated(EnumType.STRING)
     private CampaignType type;
 
-    @Column(nullable = false)
-    private String category;
+    @Enumerated(EnumType.STRING)
+    private CampaignChannelType channelType;
 
-    @Column(nullable = false)
-    private String name;
+    private String siteUrl;
 
-    @Column(nullable = false)
-    private LocalDateTime regStartDate;
+    @Embedded
+    @AttributeOverrides({
+        @AttributeOverride(name = "startDate", column = @Column(name = "REGISTRATION_START_DATE")),
+        @AttributeOverride(name = "endDate", column = @Column(name = "REGISTRATION_END_DATE"))
+    })
+    private CampaignDate registrationDate;
 
-    @Column(nullable = false)
-    private LocalDateTime regEndDate;
+    private LocalDate presentationDate;
 
-    @Column(nullable = false)
-    private LocalDateTime expStartDate;
+    @Embedded
+    @AttributeOverrides({
+        @AttributeOverride(name = "startDate", column = @Column(name = "EXPERIENCE_START_DATE")),
+        @AttributeOverride(name = "endDate", column = @Column(name = "EXPERIENCE_END_DATE"))
+    })
+    private CampaignDate experience;
 
-    @Column(nullable = false)
-    private LocalDateTime expEndDate;
+    @OneToMany(mappedBy = "campaign", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<CampaignImage> images;
 
-    @Column(nullable = false)
-    private String content;
+    @OneToMany(mappedBy = "campaign", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<CampaignCategory> category;
 
-    @Column(nullable = false)
-    private int recruitNumber;
+    @OneToMany(mappedBy = "campaign", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<CampaignKeyword> keywords = new HashSet<>();
 
-    @Column(nullable = false)
-    private int applyNumber;
-
-    @Column(nullable = false)
-    private String location;
-
-    @Column(nullable = false)
-    private String url;
-
-    @Column(nullable = false, updatable = false)
+    @Column(updatable = false)
     private LocalDateTime createdDate;
 
     private LocalDateTime lastModifiedDate;

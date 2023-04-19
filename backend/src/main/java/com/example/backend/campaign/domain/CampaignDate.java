@@ -1,14 +1,10 @@
 package com.example.backend.campaign.domain;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
-import jakarta.persistence.Column;
+public class CampaignDate {
 
-public class CampaignTime {
+    private LocalDate startDate;
 
-    @Column(nullable = false)
-    private LocalDateTime startTime;
-
-    @Column(nullable = false)
-    private LocalDateTime endDateTime;
+    private LocalDate endDate;
 }
