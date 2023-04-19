@@ -3,6 +3,7 @@ package com.example.backend.campaign.domain;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import org.springframework.data.annotation.CreatedDate;
@@ -39,6 +40,9 @@ public class Campaign {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private CampaignCategory category;
+
     private String title;
 
     private String content;
@@ -74,9 +78,6 @@ public class Campaign {
     })
     private CampaignDate experience;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private CampaignCategory category;
-
     @OneToMany(mappedBy = "campaign", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<CampaignImage> images;
 
@@ -91,9 +92,10 @@ public class Campaign {
     private LocalDateTime lastModifiedDate;
 
     @Builder
-    public Campaign(String title, String content, int recruitNumber, int applyNumber, CampaignAddress address,
+    public Campaign(CampaignCategory category, String title, String content, int recruitNumber, int applyNumber, CampaignAddress address,
         CampaignType type, CampaignChannelType channelType, String siteUrl, CampaignDate registrationDate,
         LocalDate presentationDate, CampaignDate experience) {
+        setCategory(category);
         this.title = title;
         this.content = content;
         this.recruitNumber = recruitNumber;
@@ -105,5 +107,12 @@ public class Campaign {
         this.registrationDate = registrationDate;
         this.presentationDate = presentationDate;
         this.experience = experience;
+    }
+
+    private void setCategory(CampaignCategory category) {
+        if (Objects.nonNull(this.category)) {
+            this.category = category;
+            this.category.addCampaign(this);
+        }
     }
 }

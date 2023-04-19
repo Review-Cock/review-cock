@@ -21,4 +21,8 @@ public class CampaignCategory {
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private List<Campaign> campaigns = new ArrayList<>();
+
+    public void addCampaign(Campaign campaign) {
+        this.campaigns.add(campaign);
+    }
 }
