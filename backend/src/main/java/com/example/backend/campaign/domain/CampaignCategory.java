@@ -9,7 +9,13 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class CampaignCategory {
 
@@ -21,6 +27,11 @@ public class CampaignCategory {
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private List<Campaign> campaigns = new ArrayList<>();
+
+    @Builder
+    public CampaignCategory(String title) {
+        this.title = title;
+    }
 
     public void addCampaign(Campaign campaign) {
         this.campaigns.add(campaign);
