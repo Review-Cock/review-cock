@@ -10,7 +10,16 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@Getter
+@Builder
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class CampaignImage {
 
@@ -26,4 +35,12 @@ public class CampaignImage {
 
     @Enumerated(EnumType.STRING)
     private CampaignImageType type;
+
+    public static CampaignImage createImage(Campaign campaign, File file, CampaignImageType type) {
+        return CampaignImage.builder()
+            .campaign(campaign)
+            .file(file)
+            .type(type)
+            .build();
+    }
 }
