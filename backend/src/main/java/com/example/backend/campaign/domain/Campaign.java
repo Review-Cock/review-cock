@@ -10,6 +10,8 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.example.backend.user.domain.User;
+
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.AttributeOverrides;
 import jakarta.persistence.CascadeType;
@@ -66,7 +68,6 @@ public class Campaign {
     @Column(nullable = false)
     private CampaignChannelType channelType;
 
-    @Column(nullable = false)
     private String siteUrl;
 
     @Embedded
