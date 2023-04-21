@@ -2,11 +2,13 @@ package com.example.backend.campaign.domain;
 
 import com.example.backend.keyword.domain.Keyword;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -26,9 +28,11 @@ public class CampaignKeyword {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "campaign_id", nullable = false)
     private Campaign campaign;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "keyword_id", nullable = false)
     private Keyword keyword;
 
     public static CampaignKeyword createKeyword(Campaign campaign, Keyword keyword) {

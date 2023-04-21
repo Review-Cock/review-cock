@@ -23,6 +23,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.AccessLevel;
@@ -41,10 +42,13 @@ public class Campaign {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "campaign_category_id", nullable = false)
     private CampaignCategory category;
 
+    @Column(nullable = false)
     private String title;
 
+    @Column(nullable = false)
     private String content;
 
     private int recruitNumber;
@@ -55,27 +59,32 @@ public class Campaign {
     private CampaignAddress address;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private CampaignType type;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private CampaignChannelType channelType;
 
+    @Column(nullable = false)
     private String siteUrl;
 
     @Embedded
     @AttributeOverrides({
-        @AttributeOverride(name = "startDate", column = @Column(name = "REGISTRATION_START_DATE")),
-        @AttributeOverride(name = "endDate", column = @Column(name = "REGISTRATION_END_DATE"))
+        @AttributeOverride(name = "startDate", column = @Column(name = "REGISTRATION_START_DATE", nullable = false)),
+        @AttributeOverride(name = "endDate", column = @Column(name = "REGISTRATION_END_DATE", nullable = false))
     })
     private CampaignDate registrationDate;
 
+    @Column(nullable = false)
     private LocalDate presentationDate;
 
     @Embedded
     @AttributeOverrides({
-        @AttributeOverride(name = "startDate", column = @Column(name = "EXPERIENCE_START_DATE")),
-        @AttributeOverride(name = "endDate", column = @Column(name = "EXPERIENCE_END_DATE"))
+        @AttributeOverride(name = "startDate", column = @Column(name = "EXPERIENCE_START_DATE", nullable = false)),
+        @AttributeOverride(name = "endDate", column = @Column(name = "EXPERIENCE_END_DATE", nullable = false))
     })
+    @Column(nullable = false)
     private CampaignDate experience;
 
     @OneToMany(mappedBy = "campaign", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -85,10 +94,11 @@ public class Campaign {
     private Set<CampaignKeyword> keywords = new HashSet<>();
 
     @CreatedDate
-    @Column(updatable = false)
+    @Column(nullable = false, updatable = false)
     private LocalDateTime createdDate;
 
     @LastModifiedDate
+    @Column(nullable = false, updatable = false)
     private LocalDateTime lastModifiedDate;
 
     @Builder
