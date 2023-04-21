@@ -2,6 +2,7 @@ package com.example.backend.campaign.domain;
 
 import com.example.backend.keyword.domain.Keyword;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -26,9 +27,11 @@ public class CampaignKeyword {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @Column(nullable = false)
     private Campaign campaign;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @Column(nullable = false)
     private Keyword keyword;
 
     public static CampaignKeyword createKeyword(Campaign campaign, Keyword keyword) {
