@@ -35,7 +35,7 @@ interface ICampaignInfo {
   content: string;
   expEndDateTime: string;
   expStartDateTime: string;
-  imageUrls: string[];
+  imageUrls: FileList;
   location: string;
   name: string;
   noticeDateTime: string;
@@ -72,8 +72,8 @@ const Register = () => {
   const [content, onChangeContent] = useInput('');
   const [expEndDateTime, onChangeExpEndDateTime] = useInput('');
   const [expStartDateTime, onChangeExpStartDateTime] = useInput('');
-  const [mainImage, setMainImage] = useState([]);
-  const [detailImage, setDetailImage] = useState([]);
+  const [mainImage, setMainImage] = useState<FileList>();
+  const [detailImage, setDetailImage] = useState<FileList>();
   const [location, , setLocation] = useInput('');
   const [name, onChangeName] = useInput('');
   const [noticeDateTime, onChangeNoticeDateTime] = useInput('');
@@ -82,6 +82,8 @@ const Register = () => {
   const [regEndDateTime, onChangeRegEndDateTime] = useInput('');
   const [searchTags, setSearchTags] = useState([]);
   const [siteUrl, onChangeSiteUrl] = useInput('');
+
+  console.log(detailImage);
 
   const handleBusinessNumberBtn = () => {
     window.alert('시연을 위해 인증코드를 비활성화 해놓았습니다.\n그냥 진행하시면 됩니다.');
@@ -95,7 +97,7 @@ const Register = () => {
   };
 
   const handleSummit = () => {
-    const imageUrls = [...mainImage, ...detailImage];
+    const imageUrls = mainImage;
     const CampaignInfo = {
       campaignDescription,
       campaignType,

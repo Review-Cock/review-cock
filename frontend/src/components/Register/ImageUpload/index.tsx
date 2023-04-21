@@ -1,18 +1,18 @@
 import React, { useRef, useState } from 'react';
 
-import { FileInput, ImageBox } from '@components/Register/ImageUpload/index.style';
+import { FileInput, ImageBox, PreImageBox } from '@components/Register/ImageUpload/index.style';
 
 interface ImageUploadProps {
-  setImage: (data: any) => void;
+  setImage: React.Dispatch<React.SetStateAction<FileList>>;
   type: string;
 }
 
 const ImageUpload = ({ type, setImage }: ImageUploadProps) => {
+  const [fileList, setFileList] = useState<FileList>();
   const [isEmpty, setIsEmpty] = useState(true);
-  const [Base64s, setBase64s] = useState<{ image: File; url: any }[]>([]);
+  const [preImageList, setPreImageList] = useState([]);
 
   const fileInputType = type === 'multiple' ? true : false;
-
   const fileRef = useRef(null);
 
   const handleOpenFinder = () => {
@@ -21,36 +21,52 @@ const ImageUpload = ({ type, setImage }: ImageUploadProps) => {
 
   const handleChangeFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.currentTarget.files;
-    // 최대 등록갯수 제한
-    if (type === 'single' && Base64s.length > 0) return;
-    if (type === 'multiple' && Base64s.length > 3) return;
+    if (files.length === 0) return;
+    if (!fileInputType && preImageList.length + files.length > 1) {
+      alert('대표이미지는 1장만 등록가능합니다.');
+      return;
+    }
+    if (preImageList.length + files.length > 4) {
+      alert('파일은 최대 4장까지 등록가능합니다.');
+      return;
+    }
+    let urlList: string[] = [];
 
-    if (files.length > 4) {
-      window.alert('사진은 최대 4장까지 등록가능합니다.');
-      return;
+    if (preImageList.length === 0) {
+      setFileList(files);
+      setImage(files);
+      urlList = Array.from(files).map((v) => URL.createObjectURL(v));
+    } else {
+      const dataTransfer = new DataTransfer();
+
+      Array.from(fileList).forEach((file) => dataTransfer.items.add(file));
+      Array.from(files).forEach((file) => dataTransfer.items.add(file));
+
+      setFileList(dataTransfer.files);
+      setImage(dataTransfer.files);
+
+      urlList = [...preImageList, Array.from(files).map((v) => URL.createObjectURL(v))];
     }
-    if (files.length === 0) {
-      setIsEmpty(true);
-      return;
-    }
+
+    setPreImageList(urlList);
     setIsEmpty(false);
-    // files가 바뀔때 files Array를 돌면서 base64로 인코딩 후 Base64s에 저장
-    Array.from(files).forEach((image) => {
-      encodeFileToBase64(image).then((data) => {
-        setBase64s((preV) => [...preV, { image: image, url: data }]);
-        setImage((preV: any) => [...preV, data]);
-      });
-    });
   };
 
-  // base64로 인코딩
-  const encodeFileToBase64 = (image: File) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(image);
-      reader.onload = (event: any) => resolve(event.target.result);
-      reader.onerror = (error) => reject(error);
-    });
+  const handleRemoveBtn = (index: number) => {
+    const newPreImageList = preImageList.filter((v, i) => i !== index);
+    const dataTransfer = new DataTransfer();
+
+    Array.from(fileList)
+      .filter((file, i) => i != index)
+      .forEach((file) => dataTransfer.items.add(file));
+
+    setFileList(dataTransfer.files);
+    setImage(dataTransfer.files);
+    setPreImageList(newPreImageList);
+
+    if (newPreImageList.length === 0) {
+      setIsEmpty(true);
+    }
   };
 
   return (
@@ -68,9 +84,14 @@ const ImageUpload = ({ type, setImage }: ImageUploadProps) => {
 
       {!isEmpty && (
         <ImageBox>
-          {Base64s.map((v, i) => (
-            <div key={i}>{v.image.name}</div>
-          ))}
+          <PreImageBox>
+            {preImageList.map((v, i) => (
+              <div key={i}>
+                <img src={v} />
+                <button onClick={() => handleRemoveBtn(i)}>삭제</button>
+              </div>
+            ))}
+          </PreImageBox>
           <p>
             <span onClick={handleOpenFinder}>여기</span>를 클릭하여 등록하세요.
           </p>
