@@ -10,8 +10,6 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import com.example.backend.user.domain.User;
-
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.AttributeOverrides;
 import jakarta.persistence.CascadeType;
@@ -43,12 +41,18 @@ public class Campaign {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @OneToMany(mappedBy = "campaign", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<CampaignUser> participants = new HashSet<>();
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "campaign_category_id", nullable = false)
     private CampaignCategory category;
 
     @Column(nullable = false)
     private String title;
+
+    @Column(nullable = false)
+    private String description;
 
     @Column(nullable = false)
     private String content;
@@ -68,6 +72,7 @@ public class Campaign {
     @Column(nullable = false)
     private CampaignChannelType channelType;
 
+    @Column(nullable = false)
     private String siteUrl;
 
     @Embedded
