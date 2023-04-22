@@ -17,7 +17,7 @@ const ImageUpload = ({ type, setImage }: ImageUploadProps) => {
 
   const changeFile = (files: FileList) => {
     // 드래그 시 파일유형 검사
-    const fileForm = /(.*?)\.(jpg|jpeg|png|gif|bmp|pdf)$/;
+    const fileForm = /(.*?)\.(jpg|jpeg|png|gif|bmp|pdf)$/i;
     for (const file of Array.from(files)) {
       if (!file.name.match(fileForm)) {
         alert('이미지 파일만 업로드 가능합니다.');
