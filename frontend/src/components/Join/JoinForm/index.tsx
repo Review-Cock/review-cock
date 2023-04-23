@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
@@ -12,7 +12,7 @@ import {
   PHONENUMBER_REQUEST_MESSAGE,
 } from '../../../utils/JoinConstants';
 import CheckBoxForAgreement from '../CheckBoxForAgreement';
-import { JoinFormBox, Label, JoinInput, ErrorBox, RedStar, NickNameBox } from './index.styles';
+import { JoinFormBox, Label, JoinInput, ErrorBox, RedStar } from './index.styles';
 
 interface IForm {
   email: string;
@@ -24,15 +24,12 @@ interface IForm {
 
 const JoinForm = () => {
   const navigate = useNavigate();
-  const [nickname, setNickname] = useState('');
-  const [disable, setDisable] = useState(false);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     setError,
-    setFocus,
     setValue,
   } = useForm<IForm>();
 
@@ -63,9 +60,6 @@ const JoinForm = () => {
       setError('passwordConfirm', { message: NOT_CORRECT_PASSWORD_MESSAGE }, { shouldFocus: true });
       setValue('password', '');
       setValue('passwordConfirm', '');
-    } else if (!disable) {
-      alert('닉네임 중복확인 부탁드립니다');
-      setFocus('nickname');
     } else {
       JoinMutation.mutate({
         email,
@@ -75,33 +69,6 @@ const JoinForm = () => {
         phoneNumber,
       });
     }
-  };
-
-  const handleNickNameBtn = (e: React.MouseEvent<HTMLElement>) => {
-    e.preventDefault();
-
-    axios
-      .get('http://localhost:8080/test', {
-        params: {
-          nicknameDuplicateCheck: nickname,
-        },
-      })
-      .then((res) => {
-        // 성공시
-        if (res.status === 200) {
-          alert('중복확인이 완료되었습니다.');
-          setDisable(true);
-        }
-      })
-      .catch((error) => {
-        // 실패시
-        if (error.response.status === 409) {
-          alert('중복된 Nickname 입니다');
-          setNickname('');
-        } else {
-          console.log(error);
-        }
-      });
   };
 
   return (
@@ -125,17 +92,12 @@ const JoinForm = () => {
       <Label htmlFor="nickname">
         닉네임 <RedStar>*</RedStar>
       </Label>
-      <NickNameBox>
-        <JoinInput
-          id="nickname"
-          {...register('nickname', { required: NICKNAME_REQUEST_MESSAGE })}
-          placeholder={NICKNAME_REQUEST_MESSAGE}
-          onChange={(e: React.FormEvent<HTMLInputElement>) => setNickname(e.currentTarget.value)}
-          disabled={disable}
-          value={nickname}
-        />
-        <button onClick={handleNickNameBtn}>중복확인</button>
-      </NickNameBox>
+      <JoinInput
+        id="nickname"
+        {...register('nickname', { required: NICKNAME_REQUEST_MESSAGE })}
+        placeholder={NICKNAME_REQUEST_MESSAGE}
+      />
+      <ErrorBox>{errors?.nickname?.message}</ErrorBox>
 
       <Label htmlFor="password">
         비밀번호 <RedStar>*</RedStar>
