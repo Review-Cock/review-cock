@@ -56,9 +56,9 @@ const NavigationBar = () => {
           />
         </KeywordInputBox>
         <LoginMenu>
-          <LoginLinkItem to="/login">로그인</LoginLinkItem>
+          <LoginLinkItem to="/users/login">로그인</LoginLinkItem>
           <span>|</span>
-          <LoginLinkItem to="/join">회원가입</LoginLinkItem>
+          <LoginLinkItem to="/users/join">회원가입</LoginLinkItem>
         </LoginMenu>
       </MenuWrapper>
       <CategoryWrapper>

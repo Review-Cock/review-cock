@@ -9,7 +9,7 @@ import { LoginBox, Title, SnSLoginBox, NaverLogin, KaKaoLogin, JoinBox } from '.
 
 const Login = () => {
   const navigate = useNavigate();
-  const toLoginHandle = () => navigate('/join');
+  const toLoginHandle = () => navigate('/users/join');
 
   return (
     <MainPage>

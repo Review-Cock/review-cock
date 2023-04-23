@@ -12,12 +12,12 @@ const Router = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/users/join" element={<Join />} />
+        <Route path="/users/login" element={<Login />} />
         <Route path="/oauth/kakao/callback" element={<Oauth apiUrl="" />} />
         <Route path="/oauth/naver/callback" element={<Oauth apiUrl="" />} />
-        <Route path="/join" element={<Join />} />;
-        <Route path="/register" element={<Register />} />;
-        <Route path="/detail" element={<Detail />} />;
+        <Route path="/register" element={<Register />} />
+        <Route path="/detail" element={<Detail />} />
       </Routes>
     </BrowserRouter>
   );
