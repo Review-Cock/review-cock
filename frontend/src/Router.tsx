@@ -7,6 +7,7 @@ import Register from '@pages/Register';
 import Detail from '@pages/Detail';
 import Oauth from '@components/Login/Oauth/Oauth';
 import FindId from '@pages/FindId';
+import FindPwd from '@pages/FindPwd';
 
 const Router = () => {
   return (
@@ -16,6 +17,7 @@ const Router = () => {
         <Route path="/users/join" element={<Join />} />
         <Route path="/users/login" element={<Login />} />
         <Route path="/users/help/id" element={<FindId />} />
+        <Route path="/users/help/pwd" element={<FindPwd />} />
         <Route path="/oauth/kakao/callback" element={<Oauth apiUrl="" />} />
         <Route path="/oauth/naver/callback" element={<Oauth apiUrl="" />} />
         <Route path="/register" element={<Register />} />
