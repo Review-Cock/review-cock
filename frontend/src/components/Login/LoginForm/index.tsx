@@ -25,7 +25,7 @@ const LoginForm = () => {
       console.log(response);
 
       // 성공시 쿠키 저장
-      setCookie('rememberUserId', 'hi');
+      setCookie('rememberUserId', email);
 
       navigate('/');
     },
@@ -89,9 +89,9 @@ const LoginForm = () => {
           </CheckBoxLabel>
         </div>
         <FindIdBox>
-          <Link to={''}>아이디 찾기</Link>
+          <Link to={'/users/help/id'}>아이디 찾기</Link>
           <div> | </div>
-          <Link to={''}>비밀번호 찾기</Link>
+          <Link to={'/users/help/pwd'}>비밀번호 찾기</Link>
         </FindIdBox>
       </IDManagementBox>
       <LoginInput type="submit" value={LOGIN_BUTTON} />
