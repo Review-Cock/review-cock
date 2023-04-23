@@ -5,7 +5,7 @@ export const FindIdBox = styled.div`
   height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  margin-top: 40px;
   align-items: center;
 `;
 
