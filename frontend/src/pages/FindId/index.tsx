@@ -28,6 +28,11 @@ const FindId = () => {
 
   const handleFindIdSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!/^\d{11}$/.test(phoneNumber)) {
+      alert('핸드폰 번호는 숫자로 11자리를 입력해주세요');
+      setPhoneNumber('');
+      return;
+    }
     loginMutation.mutate({ phoneNumber });
   };
 
@@ -48,6 +53,7 @@ const FindId = () => {
             type="phoneNumber"
             placeholder={'핸드폰 번호를 입력해주세요'}
             onChange={handlePhoneNumber}
+            value={phoneNumber}
             required
           />
           <FindIdInput type="submit" value={'아이디 찾기'} />

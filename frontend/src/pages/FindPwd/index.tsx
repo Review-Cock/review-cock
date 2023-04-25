@@ -28,6 +28,13 @@ const FindPwd = () => {
 
   const handleFindPwdSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const regexEmail = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/;
+
+    if (!regexEmail.test(email)) {
+      alert('이메일 형식에 맞게 입력해주세요');
+      setEmail('');
+      return;
+    }
     loginMutation.mutate({ email });
   };
 
@@ -49,6 +56,7 @@ const FindPwd = () => {
             type="email"
             placeholder={'이메일을 입력해주세요'}
             onChange={handleEmail}
+            value={email}
             required
           />
           <FindPwdInput type="submit" value={'비밀번호 찾기'} />

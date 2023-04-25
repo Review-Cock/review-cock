@@ -51,6 +51,19 @@ const LoginForm = () => {
 
   const handleLoginSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const regexEmail = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/;
+
+    if (!regexEmail.test(email)) {
+      alert('이메일 형식에 맞게 입력해주세요');
+      setEmail('');
+      return;
+    }
+
+    if (password.length < 8 || password.length > 16) {
+      alert('비밀번호는 8~16자를 입력해주세요');
+      setPassword('');
+      return;
+    }
     loginMutation.mutate({ email, password });
   };
 
@@ -70,16 +83,16 @@ const LoginForm = () => {
 
   return (
     <LoginFormBox onSubmit={handleLoginSubmit}>
+      <LoginInput name="email" type="email" placeholder={EMAIL_REQUEST} onChange={handleEmail} value={email} required />
       <LoginInput
-        name="email"
-        type="email"
-        placeholder={EMAIL_REQUEST}
-        onChange={handleEmail}
-        required
-        id="userid"
+        name="password"
+        type="password"
+        placeholder={PASSWORD_REQUEST}
+        onChange={handlePassword}
+        value={password}
         defaultValue={userid}
+        required
       />
-      <LoginInput name="password" type="password" placeholder={PASSWORD_REQUEST} onChange={handlePassword} required />
 
       <IDManagementBox>
         <div>
