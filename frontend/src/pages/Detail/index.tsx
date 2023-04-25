@@ -163,7 +163,7 @@ const Detail = () => {
             <SnsLinkText htmlFor="snsLink">나의 SNS 링크</SnsLinkText>
             <input type="text" id="snsLink" />
             <button>배송체험 신청하기</button>
-            <KakaoMap />
+            <KakaoMap campaignAddress="경기 성남시 분당구 정자일로 95" />
           </SubmitBox>
         </RightCotainer>
       </Container>
