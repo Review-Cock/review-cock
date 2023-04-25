@@ -156,6 +156,9 @@ export const CampaignInfoBox = styled.div`
   & p {
     margin-bottom: 20px;
   }
+  :last-child {
+    border: none;
+  }
 `;
 
 export const CampaignInfoBoxItem = styled.div`

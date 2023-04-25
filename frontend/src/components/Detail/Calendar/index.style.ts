@@ -13,7 +13,6 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   width: 400px;
-  height: 350px;
 `;
 export const Month = styled.div`
   margin-bottom: 25px;
