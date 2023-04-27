@@ -104,17 +104,29 @@ const JoinForm = () => {
       </Label>
       <JoinInput
         id="password"
-        {...register('password', { required: PASSWORD_REQUEST_MESSAGE })}
+        {...register('password', {
+          required: PASSWORD_REQUEST_MESSAGE,
+          pattern: {
+            value: /^(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&*()_+~|<>?]).{8,20}$/,
+            message: '영문, 숫자, 특수문자가 혼합된 8에서 20자리의 비밀번호를 입력해주세요',
+          },
+        })}
         placeholder={PASSWORD_REQUEST_MESSAGE}
         type="password"
       />
-
+      <ErrorBox>{errors?.password?.message}</ErrorBox>
       <Label htmlFor="passwordConfirm">
         비밀번호 확인 <RedStar>*</RedStar>
       </Label>
       <JoinInput
         id="passwordConfirm"
-        {...register('passwordConfirm', { required: PASSWORD_RE_REQUEST_MESSAGE })}
+        {...register('passwordConfirm', {
+          required: PASSWORD_RE_REQUEST_MESSAGE,
+          pattern: {
+            value: /^(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&*()_+~|<>?]).{8,20}$/,
+            message: '영문, 숫자, 특수문자가 혼합된 8에서 20자리의 비밀번호를 입력해주세요',
+          },
+        })}
         placeholder={PASSWORD_RE_REQUEST_MESSAGE}
         type="password"
       />
