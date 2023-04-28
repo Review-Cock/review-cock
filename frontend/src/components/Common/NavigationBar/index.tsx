@@ -21,7 +21,7 @@ const NavigationBar = () => {
   const [showDelivery, setShowDelivery] = useState(false);
   const [showRegion, setShowRegion] = useState(false);
   const [keyword, setKeyword] = useState('');
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(false);
 
   const handleDropBox = useCallback((target: string, type: boolean) => {
     if (target === 'delivery') {
@@ -57,11 +57,18 @@ const NavigationBar = () => {
             onKeyDown={handleKeywordEnter}
           />
         </KeywordInputBox>
-        <LoginMenu>
-          <LoginLinkItem to="/login">로그인</LoginLinkItem>
-          <span>|</span>
-          <LoginLinkItem to="/join">회원가입</LoginLinkItem>
-        </LoginMenu>
+
+        {isLogin && (
+          <LoginMenu>
+            <LoginLinkItem to="/profile">마이페이지</LoginLinkItem>
+          </LoginMenu>
+        )}
+        {!isLogin && (
+          <LoginMenu>
+            <LoginLinkItem to="/login">로그인</LoginLinkItem>
+            <LoginLinkItem to="/join">회원가입</LoginLinkItem>
+          </LoginMenu>
+        )}
       </MenuWrapper>
       <CategoryWrapper>
         <DropBoxItem
