@@ -36,17 +36,21 @@ public class User {
 	private String phoneNumber;
 
 	@CreatedDate
-	@Column(updatable = false)
+	@Column(updatable = false, nullable = false)
 	private LocalDateTime createdDate;
 
 	@LastModifiedDate
+	@Column(updatable = false, nullable = false)
 	private LocalDateTime lastModifiedDate;
 
 	@Builder
-	public User(String email, String nickname, String password, String phoneNumber) {
+	public User(String email, String nickname, String password, String phoneNumber,
+		LocalDateTime createdDate, LocalDateTime lastModifiedDate) {
 		this.email = email;
 		this.nickname = nickname;
 		this.password = password;
 		this.phoneNumber = phoneNumber;
+		this.createdDate = createdDate;
+		this.lastModifiedDate = lastModifiedDate;
 	}
 }
