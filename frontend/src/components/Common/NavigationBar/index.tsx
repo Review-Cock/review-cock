@@ -1,25 +1,27 @@
 import React, { useCallback, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
   Container,
+  LogoLink,
   MenuWrapper,
-  LogoBox,
   KeywordInputBox,
   KeywordInput,
   LoginMenu,
   LoginLinkItem,
+  CategoryLinkItem,
   CategoryWrapper,
   DropBoxItem,
-  CategoryLinkItem,
 } from './index.style';
 
 import DropDownMenu from '././DropDownMenu';
+import mainLogo from '@assets/mainLogo.png';
 
 const NavigationBar = () => {
   const navigate = useNavigate();
   const [showDelivery, setShowDelivery] = useState(false);
   const [showRegion, setShowRegion] = useState(false);
   const [keyword, setKeyword] = useState('');
+  const [isLogin, setIsLogin] = useState(false);
 
   const handleDropBox = useCallback((target: string, type: boolean) => {
     if (target === 'delivery') {
@@ -43,9 +45,9 @@ const NavigationBar = () => {
   return (
     <Container>
       <MenuWrapper>
-        <LogoBox>
-          <Link to="/">로고</Link>
-        </LogoBox>
+        <LogoLink to="/">
+          <img src={mainLogo} alt="메인 로고" />
+        </LogoLink>
         <KeywordInputBox>
           <KeywordInput
             type="text"
@@ -55,11 +57,18 @@ const NavigationBar = () => {
             onKeyDown={handleKeywordEnter}
           />
         </KeywordInputBox>
-        <LoginMenu>
-          <LoginLinkItem to="/login">로그인</LoginLinkItem>
-          <span>|</span>
-          <LoginLinkItem to="/join">회원가입</LoginLinkItem>
-        </LoginMenu>
+
+        {isLogin && (
+          <LoginMenu>
+            <LoginLinkItem to="/profile">마이페이지</LoginLinkItem>
+          </LoginMenu>
+        )}
+        {!isLogin && (
+          <LoginMenu>
+            <LoginLinkItem to="/login">로그인</LoginLinkItem>
+            <LoginLinkItem to="/join">회원가입</LoginLinkItem>
+          </LoginMenu>
+        )}
       </MenuWrapper>
       <CategoryWrapper>
         <DropBoxItem
@@ -70,7 +79,7 @@ const NavigationBar = () => {
             handleDropBox('delivery', false);
           }}
         >
-          배송전체
+          배송
           <DropDownMenu type="delivery" show={showDelivery} />
         </DropBoxItem>
         <DropBoxItem
@@ -81,11 +90,10 @@ const NavigationBar = () => {
             handleDropBox('region', false);
           }}
         >
-          지역전체
+          지역
           <DropDownMenu type="region" show={showRegion} />
         </DropBoxItem>
-        <CategoryLinkItem to="/category/배송">배송</CategoryLinkItem>
-        <CategoryLinkItem to="/category/지역">지역</CategoryLinkItem>
+        {isLogin && <CategoryLinkItem to="/register">캠페인 등록</CategoryLinkItem>}
       </CategoryWrapper>
     </Container>
   );

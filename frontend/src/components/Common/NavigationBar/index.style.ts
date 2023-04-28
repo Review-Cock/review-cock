@@ -8,6 +8,7 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   height: 150px;
+  min-width: 650px;
   background: #ffffff 0% 0% no-repeat padding-box;
   opacity: 1;
 `;
@@ -22,14 +23,10 @@ export const MenuWrapper = styled.div`
   opacity: 1;
 `;
 
-export const LogoBox = styled.div`
-  width: 200px;
-  height: 50px;
-  background: #f1f1f1 0% 0% no-repeat padding-box;
-  opacity: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+export const LogoLink = styled(Link)`
+  & > img {
+    width: 110px;
+  }
 `;
 
 export const KeywordInputBox = styled.div`
@@ -62,12 +59,9 @@ export const KeywordInput = styled.input`
 
 export const LoginMenu = styled.div`
   width: 130px;
-  height: 32px;
-  background: #f1f1f1 0% 0% no-repeat padding-box;
-  border-radius: 500px;
-  opacity: 1;
+  margin-top: 10px;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-around;
   align-items: center;
   & > span {
     color: #aaaaaa;
@@ -77,13 +71,12 @@ export const LoginMenu = styled.div`
 export const LoginLinkItem = styled(Link)`
   text-decoration: none;
   cursor: pointer;
-  text-align: left;
-  font: normal normal normal 14px/16px Pretendard;
-  letter-spacing: 0px;
-  color: #aaaaaa;
+  font: normal normal normal 15px/16px Pretendard;
+  line-height: 0px;
+  color: #222222;
   opacity: 1;
   :hover {
-    color: #222222;
+    color: #e76969;
   }
 `;
 
@@ -105,7 +98,7 @@ export const CategoryItemCss = css`
   align-items: center;
   width: 120px;
   height: 50px;
-  border: 1px solid #eaeaea;
+  border-right: 1px solid #eaeaea;
 `;
 
 export const CategoryWrapper = styled.div`
