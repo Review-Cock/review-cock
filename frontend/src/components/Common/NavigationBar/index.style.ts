@@ -101,7 +101,7 @@ export const CategoryItemCss = css`
   align-items: center;
   width: 120px;
   height: 50px;
-  border: 1px solid #eaeaea;
+  border-right: 1px solid #eaeaea;
 `;
 
 export const CategoryWrapper = styled.div`

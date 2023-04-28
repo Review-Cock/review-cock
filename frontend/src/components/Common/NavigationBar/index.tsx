@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
   Container,
   LogoLink,
@@ -8,9 +8,9 @@ import {
   KeywordInput,
   LoginMenu,
   LoginLinkItem,
+  CategoryLinkItem,
   CategoryWrapper,
   DropBoxItem,
-  CategoryLinkItem,
 } from './index.style';
 
 import DropDownMenu from '././DropDownMenu';
@@ -21,6 +21,7 @@ const NavigationBar = () => {
   const [showDelivery, setShowDelivery] = useState(false);
   const [showRegion, setShowRegion] = useState(false);
   const [keyword, setKeyword] = useState('');
+  const [isLogin, setIsLogin] = useState(true);
 
   const handleDropBox = useCallback((target: string, type: boolean) => {
     if (target === 'delivery') {
@@ -71,7 +72,7 @@ const NavigationBar = () => {
             handleDropBox('delivery', false);
           }}
         >
-          배송전체
+          배송
           <DropDownMenu type="delivery" show={showDelivery} />
         </DropBoxItem>
         <DropBoxItem
@@ -82,11 +83,10 @@ const NavigationBar = () => {
             handleDropBox('region', false);
           }}
         >
-          지역전체
+          지역
           <DropDownMenu type="region" show={showRegion} />
         </DropBoxItem>
-        <CategoryLinkItem to="/category/배송">배송</CategoryLinkItem>
-        <CategoryLinkItem to="/category/지역">지역</CategoryLinkItem>
+        {isLogin && <CategoryLinkItem to="/register">캠페인 등록</CategoryLinkItem>}
       </CategoryWrapper>
     </Container>
   );
