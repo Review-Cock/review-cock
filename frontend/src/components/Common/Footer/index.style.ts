@@ -43,17 +43,9 @@ export const BottomInfoContainer = styled.div`
   padding: 20px;
   display: flex;
   justify-content: space-around;
-`;
-
-export const LogoBox = styled.div`
-  margin-left: 30px;
-  margin-right: 50px;
-  width: 200px;
-  height: 50px;
-  background-color: #f1f1f1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  & > img {
+    height: 70%;
+  }
 `;
 
 export const MainInfoBox = styled.div`

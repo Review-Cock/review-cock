@@ -2,8 +2,8 @@ import React, { useCallback, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   Container,
+  LogoLink,
   MenuWrapper,
-  LogoBox,
   KeywordInputBox,
   KeywordInput,
   LoginMenu,
@@ -14,6 +14,7 @@ import {
 } from './index.style';
 
 import DropDownMenu from '././DropDownMenu';
+import mainLogo from '@assets/mainLogo.png';
 
 const NavigationBar = () => {
   const navigate = useNavigate();
@@ -43,9 +44,9 @@ const NavigationBar = () => {
   return (
     <Container>
       <MenuWrapper>
-        <LogoBox>
-          <Link to="/">로고</Link>
-        </LogoBox>
+        <LogoLink to="/">
+          <img src={mainLogo} alt="메인 로고" />
+        </LogoLink>
         <KeywordInputBox>
           <KeywordInput
             type="text"

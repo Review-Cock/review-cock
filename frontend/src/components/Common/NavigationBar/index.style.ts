@@ -22,14 +22,10 @@ export const MenuWrapper = styled.div`
   opacity: 1;
 `;
 
-export const LogoBox = styled.div`
-  width: 200px;
-  height: 50px;
-  background: #f1f1f1 0% 0% no-repeat padding-box;
-  opacity: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+export const LogoLink = styled(Link)`
+  & > img {
+    width: 110px;
+  }
 `;
 
 export const KeywordInputBox = styled.div`

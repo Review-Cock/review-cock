@@ -3,11 +3,12 @@ import {
   Container,
   TopInfoContainer,
   BottomInfoContainer,
-  LogoBox,
   MainInfoBox,
   TextBox,
   CommunicationInfoBox,
 } from './index.style';
+
+import footerLogo from '@assets/footerLogo.png';
 
 const Footer = () => {
   return (
@@ -18,7 +19,7 @@ const Footer = () => {
         </p>
       </TopInfoContainer>
       <BottomInfoContainer>
-        <LogoBox>로고</LogoBox>
+        <img src={footerLogo} alt="하단로고" />
         <MainInfoBox>
           <TextBox>
             <p>
