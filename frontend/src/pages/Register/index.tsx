@@ -17,13 +17,11 @@ import {
   CampainInfoBox,
   InputBox,
   ButtonBox,
-  BusinessNumberInput,
   InputLabel,
   TextInput,
   DateInput,
   RedStar,
   Tilde,
-  Button,
   SubmitButton,
 } from '@pages/Register/index.styles';
 
@@ -35,7 +33,7 @@ interface ICampaignInfo {
   content: string;
   expEndDateTime: string;
   expStartDateTime: string;
-  imageUrls: string[];
+  imageUrls: FileList;
   location: string;
   name: string;
   noticeDateTime: string;
@@ -47,8 +45,14 @@ interface ICampaignInfo {
 }
 
 const Register = () => {
+  const config = {
+    headers: {
+      'content-type': 'multipart/form-data',
+    },
+  };
+
   const RegisterMutation = useMutation(
-    (CampaignInfo: ICampaignInfo) => axios.post('118.67.133.214:8080/api/campaign', CampaignInfo),
+    (CampaignInfo: FormData) => axios.post('118.67.133.214:8080/api/campaign', CampaignInfo, config),
     {
       onSuccess: (res) => {
         console.log(res);
@@ -62,7 +66,6 @@ const Register = () => {
   );
 
   const navigate = useNavigate();
-  const [businessNumber, onChangeBusinessNumber] = useInput('');
   const [hashTag, onChangeHashTag, setHashTag] = useInput('');
 
   const [campaignDescription, onChangeCampaignDescription] = useInput('');
@@ -72,8 +75,8 @@ const Register = () => {
   const [content, onChangeContent] = useInput('');
   const [expEndDateTime, onChangeExpEndDateTime] = useInput('');
   const [expStartDateTime, onChangeExpStartDateTime] = useInput('');
-  const [mainImage, setMainImage] = useState([]);
-  const [detailImage, setDetailImage] = useState([]);
+  const [mainImage, setMainImage] = useState<FileList>();
+  const [detailImage, setDetailImage] = useState<FileList>();
   const [location, , setLocation] = useInput('');
   const [name, onChangeName] = useInput('');
   const [noticeDateTime, onChangeNoticeDateTime] = useInput('');
@@ -83,10 +86,6 @@ const Register = () => {
   const [searchTags, setSearchTags] = useState([]);
   const [siteUrl, onChangeSiteUrl] = useInput('');
 
-  const handleBusinessNumberBtn = () => {
-    window.alert('시연을 위해 인증코드를 비활성화 해놓았습니다.\n그냥 진행하시면 됩니다.');
-  };
-
   const handleHashTagKeydown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && hashTag !== '') {
       setSearchTags((v) => [...v, hashTag]);
@@ -95,7 +94,12 @@ const Register = () => {
   };
 
   const handleSummit = () => {
-    const imageUrls = [...mainImage, ...detailImage];
+    const dataTransfer = new DataTransfer();
+
+    Array.from(mainImage).forEach((file) => dataTransfer.items.add(file));
+    Array.from(detailImage).forEach((file) => dataTransfer.items.add(file));
+
+    const imageUrls = dataTransfer.files;
     const CampaignInfo = {
       campaignDescription,
       campaignType,
@@ -104,17 +108,30 @@ const Register = () => {
       content,
       expEndDateTime,
       expStartDateTime,
-      imageUrls,
       location,
       name,
       noticeDateTime,
       recruitNumber,
       regStartDateTime,
       regEndDateTime,
-      searchTags,
       siteUrl,
     };
-    RegisterMutation.mutate(CampaignInfo);
+
+    const CampaignInfoFormData = new FormData();
+
+    for (const [key, value] of Object.entries(CampaignInfo)) {
+      CampaignInfoFormData.append(key, value);
+    }
+
+    for (const tag of searchTags) {
+      CampaignInfoFormData.append('searchTags', tag);
+    }
+
+    for (const image of Array.from(imageUrls)) {
+      CampaignInfoFormData.append('imageUrls', image);
+    }
+
+    RegisterMutation.mutate(CampaignInfoFormData);
   };
 
   return (
@@ -122,25 +139,8 @@ const Register = () => {
       <Container>
         <TitleBox>
           <h1>캠페인 등록하기</h1>
-          <p>사업자등록번호 인증 후 양식을 작성해 주세요.</p>
+          <p>캠페인 정보를 작성해주세요.</p>
         </TitleBox>
-
-        <CampainInfoBox>
-          <InputBox>
-            <InputLabel htmlFor="businessNumber">사업자등록번호 인증하기</InputLabel>
-            <RedStar>*</RedStar>
-
-            <BusinessNumberInput
-              value={businessNumber}
-              onChange={onChangeBusinessNumber}
-              type="text"
-              name="businessNumber"
-              id="businessNumber"
-              placeholder="1234-5678 을 입력해주세요."
-            />
-            <Button onClick={handleBusinessNumberBtn}>인증하기</Button>
-          </InputBox>
-        </CampainInfoBox>
 
         <CampainInfoBox>
           <InputBox>
