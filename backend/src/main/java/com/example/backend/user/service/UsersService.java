@@ -58,6 +58,6 @@ public class UsersService {
 			throw new UsersException(UsersError.USERS_PASSWORD_NOT_SAME);
 		}
 
-		return tokenProvider.generatedToken(parameter.getEmail(), "USER");
+		return tokenProvider.generatedToken(parameter.getEmail(), "ROLE_USER");
 	}
 }
