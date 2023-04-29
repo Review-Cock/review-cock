@@ -1,9 +1,22 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState, useRef } from 'react';
 import { format, startOfMonth, endOfMonth, startOfWeek, endOfWeek, addDays, isSameMonth } from 'date-fns';
 import { Container, Month, Week, Days, OneWeek, Day } from './index.style';
+import { GrFormPrevious, GrFormNext } from 'react-icons/gr';
 
-const Calendar = () => {
-  const curDate = new Date();
+interface dates {
+  regStart: Date;
+  regEnd: Date;
+  notice: Date;
+  expStart: Date;
+  expEnd: Date;
+}
+
+interface CalendarProps {
+  dates: dates;
+}
+
+const Calendar = ({ dates }: CalendarProps) => {
+  const [curDate, setCurDate] = useState(new Date());
   const week = ['일', '월', '화', '수', '목', '금', '토'];
 
   const days = useCallback(() => {
@@ -29,10 +42,29 @@ const Calendar = () => {
     return days;
   }, [curDate])();
 
+  const handleChangeMonthBtn = (v: number) => {
+    const preMonth = new Date(curDate.getFullYear(), curDate.getMonth() + v);
+    setCurDate(preMonth);
+  };
+
   return (
     <Container>
       <Month>
         <span>{format(curDate, 'Y년 M월')}</span>
+        <div>
+          <GrFormPrevious
+            size={'1.5rem'}
+            onClick={() => {
+              handleChangeMonthBtn(-1);
+            }}
+          />
+          <GrFormNext
+            size={'1.5rem'}
+            onClick={() => {
+              handleChangeMonthBtn(1);
+            }}
+          />
+        </div>
       </Month>
       <Week>
         {week.map((v, i) => (

@@ -15,10 +15,18 @@ export const Container = styled.div`
   width: 400px;
 `;
 export const Month = styled.div`
+  display: flex;
+  position: relative;
   margin-bottom: 25px;
   font-size: 20px;
   line-height: 26px;
   color: #222222;
+  & > div {
+    position: absolute;
+    right: 30px;
+    margin-left: 100px;
+    cursor: pointer;
+  }
 `;
 
 export const Week = styled.div`

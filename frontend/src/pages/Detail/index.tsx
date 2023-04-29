@@ -230,7 +230,7 @@ const Detail = () => {
               {dates.expStart.toLocaleDateString()} ~ {dates.expEnd.toLocaleDateString()}
             </div>
           </TimeInfoWrapper>
-          <Calendar />
+          <Calendar dates={dates} />
           <SubmitBox>
             {calDay > 0 && (
               <div>
