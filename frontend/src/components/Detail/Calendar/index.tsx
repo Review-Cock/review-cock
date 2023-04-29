@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useRef } from 'react';
+import React, { useCallback, useState } from 'react';
 import { format, startOfMonth, endOfMonth, startOfWeek, endOfWeek, addDays, isSameMonth } from 'date-fns';
 import { Container, Month, Week, Days, OneWeek, Day } from './index.style';
 import { GrFormPrevious, GrFormNext } from 'react-icons/gr';

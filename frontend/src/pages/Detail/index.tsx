@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import DefaultImage from '@assets/defaultImage.png';
 
 import {
@@ -33,6 +33,7 @@ import Calendar from '@components/Detail/Calendar';
 import blogIcon from '@assets/blogIcon.png';
 import instaIcon from '@assets/instaIcon.png';
 import useInput from '@hooks/useInput';
+import { useNavigate } from 'react-router-dom';
 
 const data = {
   campaignDescription: '우리집으로 모여!!!!!!!!!!!',
@@ -55,7 +56,9 @@ const data = {
 };
 
 const Detail = () => {
+  const navigate = useNavigate();
   const [userSnsLink, onChangeUserSnsLink] = useInput('');
+  const [isLogin, setIsLogin] = useState(false);
 
   const dates = {
     regStart: new Date(data.regStartDateTime),
@@ -79,6 +82,10 @@ const Detail = () => {
       return;
     }
     alert('신청성공!!');
+  };
+
+  const handleLoginBtn = () => {
+    navigate('/login');
   };
 
   return (
@@ -232,11 +239,16 @@ const Detail = () => {
           </TimeInfoWrapper>
           <Calendar dates={dates} />
           <SubmitBox>
-            {calDay > 0 && (
+            {calDay > 0 && isLogin && (
               <div>
                 <SnsLinkText htmlFor="snsLink">나의 SNS 링크</SnsLinkText>
                 <input value={userSnsLink} onChange={onChangeUserSnsLink} type="text" id="snsLink" />
                 <button onClick={handleApplyBtn}>배송체험 신청하기</button>
+              </div>
+            )}
+            {calDay > 0 && !isLogin && (
+              <div>
+                <button onClick={handleLoginBtn}>로그인하고 신청하기</button>
               </div>
             )}
             <KakaoMap campaignAddress={data.location} />
