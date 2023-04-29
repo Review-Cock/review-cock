@@ -259,16 +259,18 @@ export const TimeInfoWrapper = styled.div`
 
 export const SubmitBox = styled.div`
   ${FontCss}
-  display: flex;
-  flex-direction: column;
-  & > input {
+  div {
+    display: flex;
+    flex-direction: column;
+  }
+  & input {
     height: 41px;
     border: 3px solid #f58e8e;
     border-radius: 5px;
     outline: none;
     margin-bottom: 30px;
   }
-  & > button {
+  & button {
     height: 64px;
     background: #f58e8e 0% 0% no-repeat padding-box;
     border-radius: 10px;
@@ -281,9 +283,22 @@ export const SubmitBox = styled.div`
     color: #ffffff;
     opacity: 1;
     margin-bottom: 30px;
+    cursor: pointer;
+    :hover {
+      background-color: #e76969;
+    }
+  }
+
+  & > p {
+    font-size: 20px;
+    margin-top: 30px;
   }
 `;
 
 export const SnsLinkText = styled.label`
   ${SubTitleCss}
+`;
+
+export const IconImage = styled.img`
+  width: 20px;
 `;
