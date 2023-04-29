@@ -14,6 +14,7 @@ export const Container = styled.div`
   flex-direction: column;
   width: 400px;
 `;
+
 export const Month = styled.div`
   display: flex;
   position: relative;
@@ -53,6 +54,26 @@ export const Days = styled.div`
   flex-direction: column;
 `;
 
+export const Day = styled.div`
+  width: 100%;
+  &.same {
+    color: black;
+  }
+  & > div {
+    width: 55px;
+    height: 20px;
+    &.reg {
+      background-color: #f1d8d8;
+    }
+    &.notice {
+      background-color: #e76969;
+    }
+    &.exp {
+      background-color: #eaeaea;
+    }
+  }
+`;
+
 export const OneWeek = styled.div`
   display: flex;
   margin-bottom: 30px;
@@ -68,6 +89,23 @@ export const OneWeek = styled.div`
   }
 `;
 
-export const Day = styled.div`
-  width: 100%;
+export const Types = styled.div`
+  display: flex;
+  align-items: center;
+  & > p {
+    margin: 0 10px;
+  }
+  & > div {
+    width: 55px;
+    height: 20px;
+    &.reg {
+      background-color: #f1d8d8;
+    }
+    &.notice {
+      background-color: #e76969;
+    }
+    &.exp {
+      background-color: #eaeaea;
+    }
+  }
 `;
