@@ -54,10 +54,25 @@ export const Days = styled.div`
   flex-direction: column;
 `;
 
+export const OneWeek = styled.div`
+  display: flex;
+  margin-bottom: 30px;
+  ${FontCss}
+  font-size: 14px;
+  line-height: 26px;
+  color: black;
+  & > :first-child {
+    color: #e14d4d;
+  }
+  & > :last-child {
+    color: #372cdf;
+  }
+`;
+
 export const Day = styled.div`
   width: 100%;
-  &.same {
-    color: black;
+  &.different {
+    color: #888888;
   }
   & > div {
     width: 55px;
@@ -74,26 +89,12 @@ export const Day = styled.div`
   }
 `;
 
-export const OneWeek = styled.div`
-  display: flex;
-  margin-bottom: 30px;
-  ${FontCss}
-  font-size: 14px;
-  line-height: 26px;
-  color: #888888;
-  & > :first-child {
-    color: #e14d4d;
-  }
-  & > :last-child {
-    color: #372cdf;
-  }
-`;
-
 export const Types = styled.div`
   display: flex;
   align-items: center;
   & > p {
     margin: 0 10px;
+    font-size: 14px;
   }
   & > div {
     width: 55px;
