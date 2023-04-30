@@ -3,8 +3,12 @@ import { Link } from 'react-router-dom';
 import Carousel from '../../components/Common/Carousel';
 import CampaignItemLayout from '../../Layouts/CampaignItemLayout';
 import MainPage from '../../Layouts/MainPage';
+import CarouselTopTimg1 from '../../assets/CarouselTopTimg1.png';
+import CarouselTopTimg2 from '../../assets/CarouselTopTimg2.png';
 import slippersImg from '../../assets/슬리퍼.jpg';
 import coffeeImg from '../../assets/커피.jpg';
+import bannerImg from '../../assets/배너.jpg';
+
 import {
   Wrapper,
   Banner,
@@ -25,7 +29,12 @@ import {
   FixedIconBox,
 } from './index.styles';
 
-const CarouselTopImgs = [{ img: slippersImg }, { img: slippersImg }, { img: slippersImg }, { img: slippersImg }];
+const CarouselTopImgs = [
+  { img: CarouselTopTimg1 },
+  { img: CarouselTopTimg2 },
+  { img: CarouselTopTimg1 },
+  { img: CarouselTopTimg2 },
+];
 
 const HotCampaignContents = [
   {
@@ -221,7 +230,7 @@ const Home = () => {
           </Carousel>
         </HotCampaignList>
 
-        <BannerMiddle></BannerMiddle>
+        <BannerMiddle src={`${bannerImg}`}></BannerMiddle>
 
         <LastMinuteBox>
           <Title>마감 임박!!! 놓치지 마세요</Title>

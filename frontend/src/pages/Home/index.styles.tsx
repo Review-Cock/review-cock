@@ -40,11 +40,10 @@ export const Title = styled.div`
   font-family: Pretendard;
 `;
 
-export const BannerMiddle = styled.div`
+export const BannerMiddle = styled.img`
   width: 100%;
   height: 200px;
   margin: 60px 0px;
-  background-color: #b997f9;
 `;
 
 export const LastMinuteBox = styled.div`
