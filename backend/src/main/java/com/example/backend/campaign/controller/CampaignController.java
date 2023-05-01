@@ -28,11 +28,4 @@ public class CampaignController {
 
         return ResponseEntity.ok(response);
     }
-
-    @GetMapping("/popular")
-    public ResponseEntity<List<PopularCampaign.Response>> popular() {
-        List<PopularCampaign.Response> responses = campaignService.popular();
-
-        return ResponseEntity.ok(responses);
-    }
 }
