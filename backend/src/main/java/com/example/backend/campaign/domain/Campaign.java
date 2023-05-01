@@ -19,12 +19,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -44,8 +41,6 @@ public class Campaign {
     @OneToMany(mappedBy = "campaign", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<CampaignUser> participants = new HashSet<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "campaign_category_id", nullable = false)
     private CampaignCategory category;
 
     @Column(nullable = false)
@@ -91,7 +86,7 @@ public class Campaign {
         @AttributeOverride(name = "endDate", column = @Column(name = "EXPERIENCE_END_DATE", nullable = false))
     })
     @Column(nullable = false)
-    private CampaignDate experience;
+    private CampaignDate experienceDate;
 
     @OneToMany(mappedBy = "campaign", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<CampaignImage> images = new HashSet<>();
@@ -109,13 +104,14 @@ public class Campaign {
 
     @Builder
     public Campaign(
-        CampaignCategory category, String title, String content,
+        CampaignCategory category, String title, String description, String content,
         int recruitNumber, int applyNumber, CampaignAddress address,
         CampaignType type, CampaignChannelType channelType,
         String siteUrl, CampaignDate registrationDate,
-        LocalDate presentationDate, CampaignDate experience) {
-        setCategory(category);
+        LocalDate presentationDate, CampaignDate experienceDate) {
+        this.category = category;
         this.title = title;
+        this.description = description;
         this.content = content;
         this.recruitNumber = recruitNumber;
         this.applyNumber = applyNumber;
@@ -125,14 +121,7 @@ public class Campaign {
         this.siteUrl = siteUrl;
         this.registrationDate = registrationDate;
         this.presentationDate = presentationDate;
-        this.experience = experience;
-    }
-
-    private void setCategory(CampaignCategory category) {
-        if (Objects.nonNull(this.category)) {
-            this.category = category;
-            this.category.addCampaign(this);
-        }
+        this.experienceDate = experienceDate;
     }
 
     public void addImage(CampaignImage image) {
