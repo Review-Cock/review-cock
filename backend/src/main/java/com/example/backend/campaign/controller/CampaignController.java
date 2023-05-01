@@ -33,7 +33,7 @@ public class CampaignController {
         @RequestPart @Validated RegisterCampaign.Request request,
         @RequestPart MultipartFile coverImage,
         @RequestPart List<MultipartFile> detailImages) {
-        RegisterCampaign.Response response = campaignService.register(request);
+        RegisterCampaign.Response response = campaignService.register(request, coverImage, detailImages);
 
         return ResponseEntity.ok(response);
     }
