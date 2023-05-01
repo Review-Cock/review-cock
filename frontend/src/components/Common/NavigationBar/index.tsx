@@ -14,12 +14,15 @@ import {
 } from './index.style';
 
 import DropDownMenu from '././DropDownMenu';
+import { useRecoilValue } from 'recoil';
+import { userState } from '@recoil/login';
 
 const NavigationBar = () => {
   const navigate = useNavigate();
   const [showDelivery, setShowDelivery] = useState(false);
   const [showRegion, setShowRegion] = useState(false);
   const [keyword, setKeyword] = useState('');
+  const isUser = useRecoilValue(userState);
 
   const handleDropBox = useCallback((target: string, type: boolean) => {
     if (target === 'delivery') {
@@ -55,11 +58,17 @@ const NavigationBar = () => {
             onKeyDown={handleKeywordEnter}
           />
         </KeywordInputBox>
-        <LoginMenu>
-          <LoginLinkItem to="/users/login">로그인</LoginLinkItem>
-          <span>|</span>
-          <LoginLinkItem to="/users/join">회원가입</LoginLinkItem>
-        </LoginMenu>
+        {isUser ? (
+          <LoginMenu>
+            <LoginLinkItem to="/users/logout">로그아웃</LoginLinkItem>
+          </LoginMenu>
+        ) : (
+          <LoginMenu>
+            <LoginLinkItem to="/users/login">로그인</LoginLinkItem>
+            <span>|</span>
+            <LoginLinkItem to="/users/join">회원가입</LoginLinkItem>
+          </LoginMenu>
+        )}
       </MenuWrapper>
       <CategoryWrapper>
         <DropBoxItem

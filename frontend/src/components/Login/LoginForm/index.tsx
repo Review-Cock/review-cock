@@ -1,12 +1,17 @@
-import axios from 'axios';
 import React, { useCallback, useEffect, useState } from 'react';
-import { useMutation } from 'react-query';
 import { Link, useNavigate } from 'react-router-dom';
 import { EMAIL_REQUEST, LOGIN_BUTTON, PASSWORD_REQUEST } from '../../../utils/LoginConstants';
 import { useCookies } from 'react-cookie';
 import { LoginFormBox, LoginInput, CheckBoxLabel, CheckBox, IDManagementBox, FindIdBox } from './index.styles';
+import axios from 'axios';
+import { useRecoilState } from 'recoil';
+import { userState } from '@recoil/login';
+import api from '../../../api/api';
 
-export interface IUser {
+const JWT_EXPIRY_TIME = 24 * 3600 * 1000; // 만료 시간 (24시간 밀리 초로 표현)
+const REGEX_EMAIL = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/;
+
+export interface SignInForm {
   email: string;
   password: string;
 }
@@ -14,30 +19,56 @@ export interface IUser {
 const LoginForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
-  const navigate = useNavigate();
-  const [userid, setUserid] = useState('');
-  const [cookies, setCookie, removeCookie] = useCookies(['rememberUserId']);
   const [isRemember, setIsRemember] = useState(false);
 
-  const loginMutation = useMutation(({ email, password }: IUser) => axios.post('', { email, password }), {
-    onSuccess: (response) => {
-      console.log(response);
+  const [user, setUser] = useRecoilState(userState);
 
-      // 성공시 쿠키 저장
-      setCookie('rememberUserId', email);
+  const navigate = useNavigate();
+  const [cookies, setCookie, removeCookie] = useCookies(['rememberEmail']);
 
-      navigate('/');
-    },
-    onError: (error) => {
-      console.log(error);
-    },
-  });
+  const onLogin = ({ email, password }: SignInForm) => {
+    api
+      .post('/users/login', {
+        email,
+        password,
+      })
+      .then(onLoginSuccess)
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const onSilentRefresh = () => {
+    api
+      .post('/silent-refresh', {
+        email,
+        password,
+      })
+      .then(onLoginSuccess)
+      .catch((error) => {
+        if (error?.response?.status === 401) {
+          setUser(false);
+          alert('세션이 만료되어 다시 로그인 해주세요');
+          navigate('/users/login');
+        }
+      });
+  };
+
+  const onLoginSuccess = (response: any) => {
+    const { accessToken } = response.data;
+    setUser(true);
+
+    setCookie('rememberEmail', email);
+    // accessToken 설정
+    axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+    navigate('/');
+
+    setTimeout(onSilentRefresh, JWT_EXPIRY_TIME - 60000);
+  };
 
   const handleEmail = useCallback(
     (e: React.FormEvent<HTMLInputElement>) => {
       setEmail(e.currentTarget.value);
-      setUserid(e.currentTarget.value);
     },
     [email],
   );
@@ -51,9 +82,8 @@ const LoginForm = () => {
 
   const handleLoginSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const regexEmail = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/;
 
-    if (!regexEmail.test(email)) {
+    if (!REGEX_EMAIL.test(email)) {
       alert('이메일 형식에 맞게 입력해주세요');
       setEmail('');
       return;
@@ -64,19 +94,22 @@ const LoginForm = () => {
       setPassword('');
       return;
     }
-    loginMutation.mutate({ email, password });
+
+    onLogin({ email, password });
   };
 
   const handleOnChange = (e: React.FormEvent<HTMLInputElement>) => {
     setIsRemember(e.currentTarget.checked);
-    if (!e.currentTarget.checked) {
-      removeCookie('rememberUserId');
+    if (e.currentTarget.checked) {
+      setCookie('rememberEmail', email, { maxAge: 2000 });
+    } else {
+      removeCookie('rememberEmail');
     }
   };
 
   useEffect(() => {
-    if (cookies.rememberUserId !== undefined) {
-      setUserid(cookies.rememberUserId);
+    if (cookies.rememberEmail !== undefined) {
+      setEmail(cookies.rememberEmail);
       setIsRemember(true);
     }
   }, []);
@@ -90,7 +123,6 @@ const LoginForm = () => {
         placeholder={PASSWORD_REQUEST}
         onChange={handlePassword}
         value={password}
-        defaultValue={userid}
         required
       />
 
