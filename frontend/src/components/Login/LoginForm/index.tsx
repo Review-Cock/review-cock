@@ -6,7 +6,6 @@ import { LoginFormBox, LoginInput, CheckBoxLabel, CheckBox, IDManagementBox, Fin
 import axios from 'axios';
 import { useRecoilState } from 'recoil';
 import { userState } from '@recoil/login';
-import api from '../../../api/api';
 
 const JWT_EXPIRY_TIME = 24 * 3600 * 1000; // 만료 시간 (24시간 밀리 초로 표현)
 const REGEX_EMAIL = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/;
@@ -27,7 +26,7 @@ const LoginForm = () => {
   const [cookies, setCookie, removeCookie] = useCookies(['rememberEmail']);
 
   const onLogin = ({ email, password }: SignInForm) => {
-    api
+    axios
       .post('/users/login', {
         email,
         password,
@@ -39,7 +38,7 @@ const LoginForm = () => {
   };
 
   const onSilentRefresh = () => {
-    api
+    axios
       .post('/silent-refresh', {
         email,
         password,
