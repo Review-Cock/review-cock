@@ -43,7 +43,7 @@ const data = {
   content: '얼마 이용권',
   expEndDateTime: '2023-04-15T23:59:59',
   expStartDateTime: '2023-04-10T00:00:00',
-  imageUrls: [1, 2, 3],
+  imageUrls: [DefaultImage, DefaultImage, DefaultImage],
   location: '전북 전주시 완산구 선너머로 40',
   name: '우리집',
   noticeDateTime: '2023-04-09T23:59:59',
@@ -59,6 +59,7 @@ const Detail = () => {
   const navigate = useNavigate();
   const [userSnsLink, onChangeUserSnsLink] = useInput('');
   const [isLogin, setIsLogin] = useState(false);
+  const [isMoreImage, setIsMoreImage] = useState(false);
 
   const dates = {
     regStart: new Date(data.regStartDateTime),
@@ -114,8 +115,15 @@ const Detail = () => {
               </div>
             </TitleTextBox>
           </TitleWrapper>
-          <MainImage src={DefaultImage} alt="캠페인 이미지" />
-          <SlideBtn>상세페이지 펼쳐보기</SlideBtn>
+          <MainImage src={data.imageUrls[0]} alt="캠페인 이미지" />
+          {isMoreImage && data.imageUrls.map((url, index) => <MainImage key={index} src={url} />)}
+          <SlideBtn
+            onClick={() => {
+              setIsMoreImage((v) => !v);
+            }}
+          >
+            {isMoreImage ? '접기' : '상세이미지 더보기'}
+          </SlideBtn>
 
           {data.campaignType === 'region' ? (
             <CampaignTypeBox>

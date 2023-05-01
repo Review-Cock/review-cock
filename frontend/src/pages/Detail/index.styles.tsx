@@ -93,6 +93,8 @@ export const TitleText = styled.span`
 export const MainImage = styled.img`
   border-radius: 20px;
   margin-bottom: 60px;
+  height: 17%;
+  object-fit: contain;
 `;
 
 export const SlideBtn = styled.button`
@@ -107,6 +109,10 @@ export const SlideBtn = styled.button`
   border-radius: 10px;
   opacity: 1;
   margin-bottom: 40px;
+  cursor: pointer;
+  :hover {
+    background-color: #f9f9f9;
+  }
 `;
 
 export const CampaignTypeBox = styled.div`
