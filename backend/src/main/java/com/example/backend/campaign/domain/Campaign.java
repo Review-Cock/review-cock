@@ -41,6 +41,8 @@ public class Campaign {
     @OneToMany(mappedBy = "campaign", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<CampaignUser> participants = new HashSet<>();
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private CampaignCategory category;
 
     @Column(nullable = false)
