@@ -14,6 +14,8 @@ import {
 } from './index.style';
 
 import DropDownMenu from '././DropDownMenu';
+import { useRecoilValue } from 'recoil';
+import { userState } from '@recoil/login';
 import mainLogo from '@assets/mainLogo.png';
 
 const NavigationBar = () => {
@@ -21,7 +23,8 @@ const NavigationBar = () => {
   const [showDelivery, setShowDelivery] = useState(false);
   const [showRegion, setShowRegion] = useState(false);
   const [keyword, setKeyword] = useState('');
-  const [isLogin, setIsLogin] = useState(false);
+
+  const isUser = useRecoilValue(userState);
 
   const handleDropBox = useCallback((target: string, type: boolean) => {
     if (target === 'delivery') {
@@ -58,15 +61,16 @@ const NavigationBar = () => {
           />
         </KeywordInputBox>
 
-        {isLogin && (
+        {isUser ? (
           <LoginMenu>
+            <LoginLinkItem to="/users/logout">로그아웃</LoginLinkItem>
             <LoginLinkItem to="/profile">마이페이지</LoginLinkItem>
           </LoginMenu>
-        )}
-        {!isLogin && (
+        ) : (
           <LoginMenu>
-            <LoginLinkItem to="/login">로그인</LoginLinkItem>
-            <LoginLinkItem to="/join">회원가입</LoginLinkItem>
+            <LoginLinkItem to="/users/login">로그인</LoginLinkItem>
+            <span>|</span>
+            <LoginLinkItem to="/users/join">회원가입</LoginLinkItem>
           </LoginMenu>
         )}
       </MenuWrapper>
@@ -93,7 +97,7 @@ const NavigationBar = () => {
           지역
           <DropDownMenu type="region" show={showRegion} />
         </DropBoxItem>
-        {isLogin && <CategoryLinkItem to="/register">캠페인 등록</CategoryLinkItem>}
+        {isUser && <CategoryLinkItem to="/register">캠페인 등록</CategoryLinkItem>}
       </CategoryWrapper>
     </Container>
   );
