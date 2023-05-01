@@ -88,10 +88,9 @@ export const FindIdBox = styled.div`
       margin: 0px 5px;
     }
   }
+
   a {
+    color: #888888;
     text-decoration: none;
-    &:visited {
-      color: #888888;
-    }
   }
 `;
