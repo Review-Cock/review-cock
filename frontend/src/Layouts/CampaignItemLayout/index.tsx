@@ -1,77 +1,60 @@
 import React from 'react';
 import CampaignItem from '../../components/Common/CampaignItem';
-import {
-  Container,
-  LinkBox,
-  UpAndBottomWrapper,
-  LeftAndRightWrapper,
-  InSideWrapper,
-  ParticipationBox,
-  LastMinuteMark,
-} from './index.styles';
+import { Container, LinkBox, UpAndBottomWrapper, LeftAndRightWrapper } from './index.styles';
 
 interface CampaignItemLayoutProps {
   containerWidth: number;
   itemWidth: number;
-  imgUrl: string;
-  region: string;
-  storeName: string;
-  priceName: string;
-  application: number;
-  total: number;
+  campaignType: string; // 참가형 or 방문
+  content: string; //이용권
+  imageUrls: string[];
+  name: string; // 상점
+  recruitNumber: string; // 총인원
   direction: string;
-  mark: boolean;
+  application: string;
   link: string;
 }
 
 const CampaignItemLayout = (props: CampaignItemLayoutProps) => {
-  const { containerWidth, itemWidth, imgUrl, region, storeName, priceName, application, total, direction, mark, link } =
-    props;
+  const {
+    containerWidth,
+    itemWidth,
+    imageUrls,
+    campaignType,
+    name,
+    content,
+    application,
+    recruitNumber,
+    direction,
+    link,
+  } = props;
   return (
     <Container containerWidth={containerWidth}>
       <LinkBox to={link}>
         {direction === 'topAndBottom' && (
           <UpAndBottomWrapper itemWidth={itemWidth}>
-            <img src={imgUrl} alt="가게이미지" />
-            {mark && <LastMinuteMark>마감임박</LastMinuteMark>}
+            <img src={imageUrls[0]} alt="가게이미지" />
             <CampaignItem
-              region={region}
-              storeName={storeName}
-              priceName={priceName}
+              campaignType={campaignType}
+              name={name}
+              content={content}
               application={application}
-              total={total}
+              recruitNumber={recruitNumber}
             />
           </UpAndBottomWrapper>
         )}
 
         {direction === 'leftAndRight' && (
           <LeftAndRightWrapper itemWidth={itemWidth}>
-            <img src={imgUrl} alt="가게이미지" />
-            {mark && <LastMinuteMark>마감임박</LastMinuteMark>}
+            <img src={imageUrls[0]} alt="가게이미지" />
             <CampaignItem
-              region={region}
-              storeName={storeName}
-              priceName={priceName}
+              campaignType={campaignType}
+              name={name}
+              content={content}
               application={application}
-              total={total}
+              recruitNumber={recruitNumber}
             />
           </LeftAndRightWrapper>
-        )}
-
-        {direction === 'inSide' && (
-          <InSideWrapper>
-            <img src={imgUrl} alt="가게이미지" />
-            <LastMinuteMark>마감임박</LastMinuteMark>
-            <ParticipationBox>
-              <CampaignItem
-                region={region}
-                storeName={storeName}
-                priceName={priceName}
-                application={application}
-                total={total}
-              />
-            </ParticipationBox>
-          </InSideWrapper>
         )}
       </LinkBox>
     </Container>
