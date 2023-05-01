@@ -4,7 +4,7 @@ export const fontCss = css`
   font-style: normal;
   font-variant: normal;
   font-weight: medium;
-  font-size: 16px;
+  font-size: 12px;
   line-height: 19px;
   font-family: Pretendard;
 `;
@@ -15,6 +15,9 @@ export const Container = styled.div`
   background: #333333 0% 0% no-repeat padding-box;
   opacity: 1;
   min-width: 1130px;
+  p {
+    font-size: 13px;
+  }
 `;
 
 export const TopInfoContainer = styled.div`
@@ -39,28 +42,20 @@ export const TopInfoContainer = styled.div`
 
 export const BottomInfoContainer = styled.div`
   width: 100%;
-  height: 220px;
+  height: 180px;
   padding: 20px;
   display: flex;
   justify-content: space-around;
-`;
-
-export const LogoBox = styled.div`
-  margin-left: 30px;
-  margin-right: 50px;
-  width: 200px;
-  height: 50px;
-  background-color: #f1f1f1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  & > img {
+    height: 100%;
+  }
 `;
 
 export const MainInfoBox = styled.div`
   & > p {
     text-align: left;
     ${fontCss}
-    font-size: 14px;
+    font-size: 13px;
     line-height: 16px;
     letter-spacing: 0px;
     color: #555555;
@@ -91,7 +86,7 @@ export const CommunicationInfoBox = styled.div`
   .call-number {
     text-align: left;
     ${fontCss}
-    font-size: 30px;
+    font-size: 20px;
     line-height: 36px;
     letter-spacing: 0px;
     color: #ffffff;

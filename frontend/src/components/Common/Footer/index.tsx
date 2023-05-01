@@ -3,11 +3,12 @@ import {
   Container,
   TopInfoContainer,
   BottomInfoContainer,
-  LogoBox,
   MainInfoBox,
   TextBox,
   CommunicationInfoBox,
 } from './index.style';
+
+import footerLogo from '@assets/footerLogo.png';
 
 const Footer = () => {
   return (
@@ -18,7 +19,7 @@ const Footer = () => {
         </p>
       </TopInfoContainer>
       <BottomInfoContainer>
-        <LogoBox>로고</LogoBox>
+        <img src={footerLogo} alt="하단로고" />
         <MainInfoBox>
           <TextBox>
             <p>
@@ -46,7 +47,7 @@ const Footer = () => {
 
           <TextBox>
             <p>
-              <span>메일</span>업체명@gmail.com
+              <span>메일</span>ReviewCock@ABC.com
             </p>
             <p>
               <span>전화</span>02)1234-5678
@@ -56,7 +57,7 @@ const Footer = () => {
             </p>
           </TextBox>
 
-          <p>@업체명.All Rights Reserved</p>
+          <p>@ReviewCock.All Rights Reserved</p>
         </MainInfoBox>
         <CommunicationInfoBox>
           <p>문의번호</p>
