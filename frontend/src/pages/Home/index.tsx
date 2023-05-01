@@ -15,19 +15,16 @@ import {
   CarouselTopLink,
   CarouselTopBox,
   HotCampaignList,
-  Title,
   BannerMiddle,
-  LastMinuteBox,
-  LastMinuteTop,
-  LastMinuteTopItem,
   LastMinuteTitle,
   LastMinuteReword,
-  LastMinuteBottom,
-  LastMinuteBottomLeft,
-  LastMinuteBottomRight,
-  LastMinuteBottomRightItem,
   FixedIconBox,
+  LastMinuteWrapper,
+  LastMinuteSub,
+  LastMinuteSubContents,
+  LastMinuteContainer,
 } from './index.styles';
+import { useQuery } from 'react-query';
 
 const CarouselTopImgs = [
   { img: CarouselTopTimg1 },
@@ -38,159 +35,323 @@ const CarouselTopImgs = [
 
 const HotCampaignContents = [
   {
-    imgUrl: slippersImg,
-    deadLine: '6일남음',
-    region: '참가형',
-    storeName: '슬리퍼 상점',
-    priceName: '4만원 이용권',
-    application: 3,
-    total: 10,
-    mark: true,
+    imageUrls: [slippersImg],
+    deadLine: '6일남음', // 처리해야함
+    campaignType: '참가형',
+    name: '슬리퍼 상점',
+    content: '4만원 이용권',
+    application: '3', // 처리해야함
+    recruitNumber: '10',
     link: '/',
   },
   {
-    imgUrl: slippersImg,
-    deadLine: '6일남음',
-    region: '참가형',
-    storeName: '슬리퍼 상점',
-    priceName: '4만원 이용권',
-    application: 3,
-    total: 10,
-    mark: true,
+    imageUrls: [slippersImg],
+    deadLine: '6일남음', // 처리해야함
+    campaignType: '참가형',
+    name: '슬리퍼 상점',
+    content: '4만원 이용권',
+    application: '3', // 처리해야함
+    recruitNumber: '10',
     link: '/',
   },
   {
-    imgUrl: slippersImg,
-    deadLine: '6일남음',
-    region: '참가형',
-    storeName: '슬리퍼 상점',
-    priceName: '4만원 이용권',
-    application: 3,
-    total: 10,
-    mark: false,
+    imageUrls: [slippersImg],
+    deadLine: '6일남음', // 처리해야함
+    campaignType: '참가형',
+    name: '슬리퍼 상점',
+    content: '4만원 이용권',
+    application: '3', // 처리해야함
+    recruitNumber: '10',
     link: '/',
   },
   {
-    imgUrl: slippersImg,
-    deadLine: '6일남음',
-    region: '참가형',
-    storeName: '슬리퍼 상점',
-    priceName: '4만원 이용권',
-    application: 3,
-    total: 10,
-    mark: false,
+    imageUrls: [slippersImg],
+    deadLine: '6일남음', // 처리해야함
+    campaignType: '참가형',
+    name: '슬리퍼 상점',
+    content: '4만원 이용권',
+    application: '3', // 처리해야함
+    recruitNumber: '10',
     link: '/',
   },
   {
-    imgUrl: slippersImg,
-    deadLine: '6일남음',
-    region: '참가형',
-    storeName: '슬리퍼 상점',
-    priceName: '4만원 이용권',
-    application: 3,
-    total: 10,
-    mark: false,
+    imageUrls: [slippersImg],
+    deadLine: '6일남음', // 처리해야함
+    campaignType: '참가형',
+    name: '슬리퍼 상점',
+    content: '4만원 이용권',
+    application: '3', // 처리해야함
+    recruitNumber: '10',
     link: '/',
   },
   {
-    imgUrl: slippersImg,
-    deadLine: '6일남음',
-    region: '참가형',
-    storeName: '슬리퍼 상점',
-    priceName: '4만원 이용권',
-    application: 3,
-    total: 10,
-    mark: false,
+    imageUrls: [slippersImg],
+    deadLine: '6일남음', // 처리해야함
+    campaignType: '참가형',
+    name: '슬리퍼 상점',
+    content: '4만원 이용권',
+    application: '3', // 처리해야함
+    recruitNumber: '10',
     link: '/',
   },
   {
-    imgUrl: slippersImg,
-    deadLine: '6일남음',
-    region: '참가형',
-    storeName: '슬리퍼 상점',
-    priceName: '4만원 이용권',
-    application: 3,
-    total: 10,
-    mark: false,
+    imageUrls: [slippersImg],
+    deadLine: '6일남음', // 처리해야함
+    campaignType: '참가형',
+    name: '슬리퍼 상점',
+    content: '4만원 이용권',
+    application: '3', // 처리해야함
+    recruitNumber: '10',
     link: '/',
   },
   {
-    imgUrl: slippersImg,
-    deadLine: '6일남음',
-    region: '참가형',
-    storeName: '슬리퍼 상점',
-    priceName: '4만원 이용권',
-    application: 3,
-    total: 10,
-    mark: false,
+    imageUrls: [slippersImg],
+    deadLine: '6일남음', // 처리해야함
+    campaignType: '참가형',
+    name: '슬리퍼 상점',
+    content: '4만원 이용권',
+    application: '3', // 처리해야함
+    recruitNumber: '10',
+    link: '/',
+  },
+  {
+    imageUrls: [slippersImg],
+    deadLine: '6일남음', // 처리해야함
+    campaignType: '참가형',
+    name: '슬리퍼 상점',
+    content: '4만원 이용권',
+    application: '3', // 처리해야함
+    recruitNumber: '10',
     link: '/',
   },
 ];
 
 const LastMinuteContents = [
   {
-    imgUrl: slippersImg,
-    deadLine: '6일남음',
-    region: '참가형',
-    storeName: '슬리퍼 상점',
-    priceName: '4만원 이용권',
-    application: 3,
-    total: 10,
-    mark: true,
-    link: '/',
+    subImg: slippersImg,
+    subContents: ['여행 숙박 캠페인', '여행을 통해서 얻는 깨달음의 재미'],
+    contents: [
+      {
+        imageUrls: [slippersImg, slippersImg, slippersImg],
+        deadLine: '6일남음', // 처리해야함
+        campaignType: '참가형',
+        name: '슬리퍼 상점',
+        content: '4만원 이용권',
+        application: '3', // 처리해야함
+        recruitNumber: '10',
+        link: '/detail/qwe213123123123',
+        title: '여행을 통해서 얻는 깨달음의 재미',
+        reword: '여행 숙박 캠페인',
+      },
+      {
+        imageUrls: [coffeeImg, slippersImg, slippersImg],
+        deadLine: '6일남음', // 처리해야함
+        campaignType: '참가형',
+        name: '슬리퍼 상점',
+        content: '4만원 이용권',
+        application: '3', // 처리해야함
+        recruitNumber: '10',
+        link: '/',
+        title: '여행을 통해서 얻는 깨달음의 재미',
+        reword: '여행 숙박 캠페인',
+      },
+      {
+        imageUrls: [slippersImg, slippersImg, slippersImg],
+        deadLine: '6일남음', // 처리해야함
+        campaignType: '참가형',
+        name: '슬리퍼 상점',
+        content: '4만원 이용권',
+        application: '3', // 처리해야함
+        recruitNumber: '10',
+        link: '/',
+        title: '여행을 통해서 얻는 깨달음의 재미',
+        reword: '여행 숙박 캠페인',
+      },
+      {
+        imageUrls: [coffeeImg, slippersImg, slippersImg],
+        deadLine: '6일남음', // 처리해야함
+        campaignType: '참가형',
+        name: '슬리퍼 상점',
+        content: '4만원 이용권',
+        application: '3', // 처리해야함
+        recruitNumber: '10',
+        link: '/',
+        title: '여행을 통해서 얻는 깨달음의 재미',
+        reword: '여행 숙박 캠페인',
+      },
+    ],
   },
   {
-    imgUrl: slippersImg,
-    deadLine: '6일남음',
-    region: '참가형',
-    storeName: '슬리퍼 상점',
-    priceName: '4만원 이용권',
-    application: 3,
-    total: 10,
-    mark: false,
-    link: '/',
+    subImg: coffeeImg,
+    subContents: ['여행 숙박 캠페인', '여행을 통해서 얻는 깨달음의 재미'],
+    contents: [
+      {
+        imageUrls: [slippersImg, slippersImg, slippersImg],
+        deadLine: '6일남음', // 처리해야함
+        campaignType: '참가형',
+        name: '슬리퍼 상점',
+        content: '4만원 이용권',
+        application: '3', // 처리해야함
+        recruitNumber: '10',
+        link: '/',
+        title: '여행을 통해서 얻는 깨달음의 재미',
+        reword: '여행 숙박 캠페인',
+      },
+      {
+        imageUrls: [coffeeImg, slippersImg, slippersImg],
+        deadLine: '6일남음', // 처리해야함
+        campaignType: '참가형',
+        name: '슬리퍼 상점',
+        content: '4만원 이용권',
+        application: '3', // 처리해야함
+        recruitNumber: '10',
+        link: '/',
+        title: '여행을 통해서 얻는 깨달음의 재미',
+        reword: '여행 숙박 캠페인',
+      },
+      {
+        imageUrls: [slippersImg, slippersImg, slippersImg],
+        deadLine: '6일남음', // 처리해야함
+        campaignType: '참가형',
+        name: '슬리퍼 상점',
+        content: '4만원 이용권',
+        application: '3', // 처리해야함
+        recruitNumber: '10',
+        link: '/',
+        title: '여행을 통해서 얻는 깨달음의 재미',
+        reword: '여행 숙박 캠페인',
+      },
+      {
+        imageUrls: [coffeeImg, slippersImg, slippersImg],
+        deadLine: '6일남음', // 처리해야함
+        campaignType: '참가형',
+        name: '슬리퍼 상점',
+        content: '4만원 이용권',
+        application: '3', // 처리해야함
+        recruitNumber: '10',
+        link: '/',
+        title: '여행을 통해서 얻는 깨달음의 재미',
+        reword: '여행 숙박 캠페인',
+      },
+    ],
   },
   {
-    imgUrl: slippersImg,
-    deadLine: '6일남음',
-    region: '참가형',
-    storeName: '슬리퍼 상점',
-    priceName: '4만원 이용권',
-    application: 3,
-    total: 10,
-    mark: true,
-    link: '/',
+    subImg: slippersImg,
+    subContents: ['여행 숙박 캠페인', '여행을 통해서 얻는 깨달음의 재미'],
+    contents: [
+      {
+        imageUrls: [slippersImg, slippersImg, slippersImg],
+        deadLine: '6일남음', // 처리해야함
+        campaignType: '참가형',
+        name: '슬리퍼 상점',
+        content: '4만원 이용권',
+        application: '3', // 처리해야함
+        recruitNumber: '10',
+        link: '/',
+        title: '여행을 통해서 얻는 깨달음의 재미',
+        reword: '여행 숙박 캠페인',
+      },
+      {
+        imageUrls: [coffeeImg, slippersImg, slippersImg],
+        deadLine: '6일남음', // 처리해야함
+        campaignType: '참가형',
+        name: '슬리퍼 상점',
+        content: '4만원 이용권',
+        application: '3', // 처리해야함
+        recruitNumber: '10',
+        link: '/',
+        title: '여행을 통해서 얻는 깨달음의 재미',
+        reword: '여행 숙박 캠페인',
+      },
+      {
+        imageUrls: [slippersImg, slippersImg, slippersImg],
+        deadLine: '6일남음', // 처리해야함
+        campaignType: '참가형',
+        name: '슬리퍼 상점',
+        content: '4만원 이용권',
+        application: '3', // 처리해야함
+        recruitNumber: '10',
+        link: '/',
+        title: '여행을 통해서 얻는 깨달음의 재미',
+        reword: '여행 숙박 캠페인',
+      },
+      {
+        imageUrls: [coffeeImg, slippersImg, slippersImg],
+        deadLine: '6일남음', // 처리해야함
+        campaignType: '참가형',
+        name: '슬리퍼 상점',
+        content: '4만원 이용권',
+        application: '3', // 처리해야함
+        recruitNumber: '10',
+        link: '/',
+        title: '여행을 통해서 얻는 깨달음의 재미',
+        reword: '여행 숙박 캠페인',
+      },
+    ],
   },
-];
-
-const LastMinuteTopItemContents = [
   {
-    img: coffeeImg,
-    title: '여행을 통해서 얻는 깨달음의 재미',
-    reword: '여행 숙박 캠페인',
-    link: '/',
-  },
-  {
-    img: coffeeImg,
-    title: '여행을 통해서 얻는 깨달음의 재미',
-    reword: '여행 숙박 캠페인',
-    link: '/',
-  },
-  {
-    img: coffeeImg,
-    title: '여행을 통해서 얻는 깨달음의 재미',
-    reword: '여행 숙박 캠페인',
-    link: '/',
-  },
-  {
-    img: coffeeImg,
-    title: '여행을 통해서 얻는 깨달음의 재미',
-    reword: '여행 숙박 캠페인',
-    link: '/',
+    subImg: coffeeImg,
+    subContents: ['여행 숙박 캠페인', '여행을 통해서 얻는 깨달음의 재미'],
+    contents: [
+      {
+        imageUrls: [slippersImg, slippersImg, slippersImg],
+        deadLine: '6일남음', // 처리해야함
+        campaignType: '참가형',
+        name: '슬리퍼 상점',
+        content: '4만원 이용권',
+        application: '3', // 처리해야함
+        recruitNumber: '10',
+        link: '/',
+        title: '여행을 통해서 얻는 깨달음의 재미',
+        reword: '여행 숙박 캠페인',
+      },
+      {
+        imageUrls: [coffeeImg, slippersImg, slippersImg],
+        deadLine: '6일남음', // 처리해야함
+        campaignType: '참가형',
+        name: '슬리퍼 상점',
+        content: '4만원 이용권',
+        application: '3', // 처리해야함
+        recruitNumber: '10',
+        link: '/',
+        title: '여행을 통해서 얻는 깨달음의 재미',
+        reword: '여행 숙박 캠페인',
+      },
+      {
+        imageUrls: [slippersImg, slippersImg, slippersImg],
+        deadLine: '6일남음', // 처리해야함
+        campaignType: '참가형',
+        name: '슬리퍼 상점',
+        content: '4만원 이용권',
+        application: '3', // 처리해야함
+        recruitNumber: '10',
+        link: '/',
+        title: '여행을 통해서 얻는 깨달음의 재미',
+        reword: '여행 숙박 캠페인',
+      },
+      {
+        imageUrls: [coffeeImg, slippersImg, slippersImg],
+        deadLine: '6일남음', // 처리해야함
+        campaignType: '참가형',
+        name: '슬리퍼 상점',
+        content: '4만원 이용권',
+        application: '3', // 처리해야함
+        recruitNumber: '10',
+        link: '/',
+        title: '여행을 통해서 얻는 깨달음의 재미',
+        reword: '여행 숙박 캠페인',
+      },
+    ],
   },
 ];
 
 const Home = () => {
+  // const { isLoading: hotCampaignLoading, data: hotCampaignData } = useQuery('hotCampaign', getHotCampaigns);
+  // const { isLoading: LastMinuteCampaignLoading, data: LastMinuteCampaignData } = useQuery(
+  //   'LastMinuteCampaign',
+  //   getHotCampaigns,
+  // );
+
   return (
     <MainPage>
       <Wrapper>
@@ -207,7 +368,7 @@ const Home = () => {
         </Banner>
 
         <HotCampaignList>
-          <Title>가장 핫한!! 캠페인</Title>
+          <h2>가장 핫한!! 캠페인</h2>
           <Carousel containerWidth={1000} itemWidth={250}>
             {HotCampaignContents.map((item, i) => {
               return (
@@ -215,14 +376,13 @@ const Home = () => {
                   key={i}
                   containerWidth={1000}
                   itemWidth={240}
-                  imgUrl={item.imgUrl}
-                  region={item.region}
-                  storeName={item.storeName}
-                  priceName={item.priceName}
+                  imageUrls={item.imageUrls}
+                  campaignType={item.campaignType}
+                  name={item.name}
+                  content={item.content}
                   application={item.application}
-                  total={item.total}
+                  recruitNumber={item.recruitNumber}
                   direction="topAndBottom"
-                  mark={item.mark}
                   link={item.link}
                 />
               );
@@ -232,65 +392,45 @@ const Home = () => {
 
         <BannerMiddle src={`${bannerImg}`}></BannerMiddle>
 
-        <LastMinuteBox>
-          <Title>마감 임박!!! 놓치지 마세요</Title>
-          <LastMinuteTop>
-            {LastMinuteTopItemContents.map((item, i) => {
+        <LastMinuteContainer>
+          <h2>마감 임박!!! 놓치지 마세요</h2>
+          <LastMinuteWrapper>
+            {LastMinuteContents.map((item, i) => {
               return (
-                <LastMinuteTopItem key={i}>
-                  <Link to={item.link}>
-                    <img src={item.img}></img>
-                    <div>
-                      <LastMinuteTitle>{item.title}</LastMinuteTitle>
-                      <LastMinuteReword>{item.reword}</LastMinuteReword>
-                    </div>
-                  </Link>
-                </LastMinuteTopItem>
+                <ul key={i}>
+                  <LastMinuteSub>
+                    <img src={item.subImg}></img>
+                    <LastMinuteSubContents>
+                      <LastMinuteTitle>{item.subContents[0]}</LastMinuteTitle>
+                      <LastMinuteReword>{item.subContents[1]}</LastMinuteReword>
+                    </LastMinuteSubContents>
+                  </LastMinuteSub>
+
+                  {item.contents.map((campaignContents, j) => {
+                    return (
+                      <li key={j}>
+                        <CampaignItemLayout
+                          key={i}
+                          containerWidth={250}
+                          itemWidth={250}
+                          imageUrls={campaignContents.imageUrls}
+                          campaignType={campaignContents.campaignType}
+                          name={campaignContents.name}
+                          content={campaignContents.content}
+                          application={campaignContents.application}
+                          recruitNumber={campaignContents.recruitNumber}
+                          direction="leftAndRight"
+                          link={campaignContents.link}
+                        />
+                      </li>
+                    );
+                  })}
+                </ul>
               );
             })}
-          </LastMinuteTop>
+          </LastMinuteWrapper>
+        </LastMinuteContainer>
 
-          <LastMinuteBottom>
-            <LastMinuteBottomLeft>
-              <CampaignItemLayout
-                containerWidth={500}
-                itemWidth={500}
-                imgUrl={slippersImg}
-                region={'참가형'}
-                storeName={'슬리퍼 상점'}
-                priceName={'4만원 이용권'}
-                application={3}
-                total={10}
-                direction="inSide"
-                mark={true}
-                link={'/'}
-              />
-            </LastMinuteBottomLeft>
-
-            <LastMinuteBottomRight>
-              {LastMinuteContents.map((item, i) => {
-                return (
-                  <LastMinuteBottomRightItem key={i}>
-                    <CampaignItemLayout
-                      key={i}
-                      containerWidth={500}
-                      itemWidth={500}
-                      imgUrl={item.imgUrl}
-                      region={item.region}
-                      storeName={item.storeName}
-                      priceName={item.priceName}
-                      application={item.application}
-                      total={item.total}
-                      direction="leftAndRight"
-                      mark={item.mark}
-                      link={item.link}
-                    />
-                  </LastMinuteBottomRightItem>
-                );
-              })}
-            </LastMinuteBottomRight>
-          </LastMinuteBottom>
-        </LastMinuteBox>
         <FixedIconBox>
           <Link to="/register">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
@@ -309,3 +449,7 @@ const Home = () => {
 };
 
 export default Home;
+
+// 1. 변수명 바꾸기
+// 2. 리팩토링
+// 3. 고정 된 부분 수정

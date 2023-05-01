@@ -22,35 +22,26 @@ export const UpAndBottomWrapper = styled.div<{ itemWidth: number }>`
     width: inherit;
     height: 50%;
   }
+  div {
+    border-radius: 0px 0px 20px 20px;
+  }
 `;
 
 export const LeftAndRightWrapper = styled.div<{ itemWidth: number }>`
   width: ${({ itemWidth }) => `${itemWidth}px`};
+  height: 130px;
   display: flex;
   align-items: center;
   width: inherit;
   position: relative;
 
   img {
-    border-radius: 20px;
-    width: 30%;
+    width: 40%;
+    height: inherit;
   }
 
   div {
     border: none;
-  }
-`;
-
-export const InSideWrapper = styled.div`
-  width: 100%;
-  height: inherit;
-  position: relative;
-
-  img {
-    position: absolute;
-    height: inherit;
-    z-index: 1;
-    width: inherit;
   }
 `;
 
