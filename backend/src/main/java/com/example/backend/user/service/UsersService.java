@@ -1,13 +1,16 @@
 package com.example.backend.user.service;
 
 import com.example.backend.config.security.jwt.TokenProvider;
+import com.example.backend.user.domain.RefreshToken;
 import com.example.backend.user.domain.User;
 import com.example.backend.user.dto.LoginUsers;
 import com.example.backend.user.dto.RegisterUsers;
 import com.example.backend.user.dto.TokenDto;
 import com.example.backend.user.exception.UsersError;
 import com.example.backend.user.exception.UsersException;
+import com.example.backend.user.repository.RefreshTokenRepository;
 import com.example.backend.user.repository.UsersRepository;
+import java.time.LocalDateTime;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +26,7 @@ public class UsersService {
 	private final UsersRepository usersRepository;
 	private final PasswordEncoder passwordEncoder;
 	private final TokenProvider tokenProvider;
+	private final RefreshTokenRepository refreshTokenRepository;
 
 
 	public void join(RegisterUsers parameter) {
@@ -58,6 +62,50 @@ public class UsersService {
 			throw new UsersException(UsersError.USERS_PASSWORD_NOT_SAME);
 		}
 
-		return tokenProvider.generatedToken(parameter.getEmail(), "ROLE_USER");
+		TokenDto tokenDto = tokenProvider.generateTokenDto(parameter.getEmail(), "ROLE_USER");
+
+		if(refreshTokenRepository.findByEmail(parameter.getEmail()).isPresent()){
+			RefreshToken refreshToken = refreshTokenRepository.findByEmail(parameter.getEmail()).get();
+			refreshToken.setRefreshToken(tokenDto.getRefreshToken());
+			refreshTokenRepository.save(refreshToken);
+			return tokenDto;
+		}
+
+		refreshTokenRepository.save(RefreshToken.builder()
+			.refreshToken(tokenDto.getRefreshToken())
+			.email(parameter.getEmail())
+			.expirationDt(LocalDateTime.now().plusDays(7))
+			.build());
+
+		return tokenDto;
+	}
+
+	public TokenDto reissueAccessToken(String refreshToken) {
+		// 요청받은 리프레쉬 토큰 찾기
+		RefreshToken token = refreshTokenRepository.findByRefreshToken(refreshToken)
+			.orElseThrow(() -> new UsersException(UsersError.USERS_TOKEN_NOT_SAME));
+
+		// 새 액세스 토큰과 리프레시 토큰 생성
+		TokenDto reissueTokenDto = tokenProvider.generateTokenDto(token.getEmail(), "ROLE_USER");
+		RefreshToken newRefreshToken = RefreshToken.builder()
+			.refreshToken(reissueTokenDto.getRefreshToken())
+			.email(token.getEmail())
+			.expirationDt(LocalDateTime.now().plusDays(7))
+			.build();
+
+		Optional<RefreshToken> existingRefreshToken = refreshTokenRepository.findByEmail(token.getEmail());
+
+		if (existingRefreshToken.isPresent()) {
+			// 리프레시 토큰을 업데이트
+			RefreshToken refreshTokenToUpdate = existingRefreshToken.get();
+			refreshTokenToUpdate.setRefreshToken(newRefreshToken.getRefreshToken());
+			refreshTokenToUpdate.setExpirationDt(newRefreshToken.getExpirationDt());
+			refreshTokenRepository.save(refreshTokenToUpdate);
+		} else {
+			// 새로운 리프레시 토큰을 추가
+			refreshTokenRepository.save(newRefreshToken);
+		}
+
+		return reissueTokenDto;
 	}
 }
