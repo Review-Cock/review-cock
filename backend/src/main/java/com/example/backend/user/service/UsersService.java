@@ -6,10 +6,12 @@ import com.example.backend.user.domain.User;
 import com.example.backend.user.dto.LoginUsers;
 import com.example.backend.user.dto.RegisterUsers;
 import com.example.backend.user.dto.TokenDto;
+import com.example.backend.user.dto.UserInfoDto;
 import com.example.backend.user.exception.UsersError;
 import com.example.backend.user.exception.UsersException;
 import com.example.backend.user.repository.RefreshTokenRepository;
 import com.example.backend.user.repository.UsersRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +29,8 @@ public class UsersService {
 	private final PasswordEncoder passwordEncoder;
 	private final TokenProvider tokenProvider;
 	private final RefreshTokenRepository refreshTokenRepository;
+	private final KakaoOAuthService kakaoOAuthService;
+	private final NaverOAuthService naverOAuthService;
 
 
 	public void join(RegisterUsers parameter) {
@@ -107,5 +111,67 @@ public class UsersService {
 		}
 
 		return reissueTokenDto;
+	}
+
+	public TokenDto createLoginTokenWithKakao(String code) {
+
+		String kakaoToken = kakaoOAuthService.getKakaoAccessToken(code);
+		UserInfoDto userInfoDto = kakaoOAuthService.createKakaoUser(kakaoToken);
+
+		Optional<User> usersOptional = usersRepository.findByEmail(userInfoDto.getEmail());
+
+		if (usersOptional.isEmpty()) {
+			throw new UsersException(UsersError.USERS_NOT_FOUND);
+		}
+
+		User users = usersOptional.get();
+
+		TokenDto tokenDto = tokenProvider.generateTokenDto(users.getEmail(), "ROLE_USER");
+
+		if(refreshTokenRepository.findByEmail(users.getEmail()).isPresent()){
+			RefreshToken refreshToken = refreshTokenRepository.findByEmail(users.getEmail()).get();
+			refreshToken.setRefreshToken(tokenDto.getRefreshToken());
+			refreshTokenRepository.save(refreshToken);
+			return tokenDto;
+		}
+
+		refreshTokenRepository.save(RefreshToken.builder()
+			.refreshToken(tokenDto.getRefreshToken())
+			.email(users.getEmail())
+			.expirationDt(LocalDateTime.now().plusDays(7))
+			.build());
+
+		return tokenDto;
+	}
+
+	public TokenDto createLoginTokenWithNaver(String code, String state) throws JsonProcessingException {
+
+		String naverToken = naverOAuthService.getAccessToken(code, state);
+		UserInfoDto userInfoDto = naverOAuthService.getUserInfo(naverToken, state);
+
+		Optional<User> usersOptional = usersRepository.findByEmail(userInfoDto.getEmail());
+
+		if (usersOptional.isEmpty()) {
+			throw new UsersException(UsersError.USERS_NOT_FOUND);
+		}
+
+		User users = usersOptional.get();
+
+		TokenDto tokenDto = tokenProvider.generateTokenDto(users.getEmail(), "ROLE_USER");
+
+		if(refreshTokenRepository.findByEmail(users.getEmail()).isPresent()){
+			RefreshToken refreshToken = refreshTokenRepository.findByEmail(users.getEmail()).get();
+			refreshToken.setRefreshToken(tokenDto.getRefreshToken());
+			refreshTokenRepository.save(refreshToken);
+			return tokenDto;
+		}
+
+		refreshTokenRepository.save(RefreshToken.builder()
+			.refreshToken(tokenDto.getRefreshToken())
+			.email(users.getEmail())
+			.expirationDt(LocalDateTime.now().plusDays(7))
+			.build());
+
+		return tokenDto;
 	}
 }
