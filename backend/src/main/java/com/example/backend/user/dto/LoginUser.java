@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class LoginUsers {
+public class LoginUser {
 
 	@NotBlank(message = "사용자 ID는 필수 항목입니다.")
 	private String email;

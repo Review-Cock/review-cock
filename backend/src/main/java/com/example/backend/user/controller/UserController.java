@@ -1,11 +1,11 @@
 package com.example.backend.user.controller;
 
 import com.example.backend.common.security.jwt.filter.JwtAuthenticateFilter;
-import com.example.backend.user.dto.LoginUsers;
-import com.example.backend.user.dto.RegisterUsers;
-import com.example.backend.user.dto.TokenDto;
+import com.example.backend.user.dto.LoginUser;
+import com.example.backend.user.dto.RegisterUser;
+import com.example.backend.user.dto.Token;
 import com.example.backend.user.exception.UsersException;
-import com.example.backend.user.service.UsersService;
+import com.example.backend.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -21,12 +21,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/users")
-public class UsersController {
+public class UserController {
 
-	private final UsersService usersService;
+	private final UserService usersService;
 
 	@PostMapping("/join")
-	public ResponseEntity<Void> join (@RequestBody @Validated RegisterUsers request) {
+	public ResponseEntity<Void> join (@RequestBody @Validated RegisterUser request) {
 		try {
 			usersService.join(request);
 			return ResponseEntity.status(HttpStatus.OK).build();
@@ -36,9 +36,9 @@ public class UsersController {
 	}
 
 	@PostMapping("/login")
-	public ResponseEntity<TokenDto> logIn(@RequestBody @Validated LoginUsers request) {
+	public ResponseEntity<Token> logIn(@RequestBody @Validated LoginUser request) {
 		try {
-			TokenDto tokenDto = usersService.logIn(request);
+			Token tokenDto = usersService.logIn(request);
 			HttpHeaders httpHeaders = new HttpHeaders();
 			httpHeaders.add(JwtAuthenticateFilter.TOKEN_HEADER,
 				JwtAuthenticateFilter.TOKEN_PREFIX + tokenDto.getAccessToken());
@@ -51,7 +51,7 @@ public class UsersController {
 	@PostMapping("/silent-refresh")
 	public ResponseEntity<String> reissueAccessToken(@RequestHeader("Authorization") String refreshToken) {
 		try {
-			TokenDto tokenDto = usersService.reissueAccessToken(refreshToken);
+			Token tokenDto = usersService.reissueAccessToken(refreshToken);
 
 			ResponseCookie cookie = ResponseCookie.from("refreshToken", tokenDto.getRefreshToken())
 				.httpOnly(true).secure(true).path("/").build();
