@@ -19,12 +19,12 @@ public class RegisterUser {
 	private String email;
 
 	@NotBlank(message = "사용자 비밀번호는 필수 항목입니다.")
-	@Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d)[a-zA-Z\\d]{8,20}$", message = "비밀번호는 영어와 숫자로 포함해서 8~20자리 이내로 입력해주세요.")
+	@Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[!@#$%^&*])[a-zA-Z\\d!@#$%^&*]{8,20}$", message = "비밀번호는 영어, 숫자, 특수문자 포함해서 8~20자리 이내로 입력해주세요.")
 	@Size(min = 8, max = 20, message = "8~20자 사이 이내로 입력해주세요.")
 	private String password;
 
 	@NotBlank(message = "사용자 비밀번호는 필수 항목입니다.")
-	@Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d)[a-zA-Z\\d]{8,20}$", message = "비밀번호는 영어와 숫자로 포함해서 8~20자리 이내로 입력해주세요.")
+	@Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[!@#$%^&*])[a-zA-Z\\d!@#$%^&*]{8,20}$", message = "비밀번호는 영어, 숫자, 특수문자 포함해서 8~20자리 이내로 입력해주세요.")
 	@Size(min = 8, max = 20, message = "8~20자 사이 이내로 입력해주세요.")
 	private String passwordCheck;
 
