@@ -19,7 +19,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
 @Entity
-public class RefreshToken {
+public class TokenInfo {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,7 +35,7 @@ public class RefreshToken {
 	private LocalDateTime expirationDt; // 토큰 만료 시간
 
 	@Builder
-	public RefreshToken(String refreshToken, String email, LocalDateTime expirationDt) {
+	public TokenInfo(String refreshToken, String email, LocalDateTime expirationDt) {
 		this.refreshToken = refreshToken;
 		this.email = email;
 		this.expirationDt = expirationDt;

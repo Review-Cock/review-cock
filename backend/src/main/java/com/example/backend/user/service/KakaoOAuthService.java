@@ -1,6 +1,6 @@
 package com.example.backend.user.service;
 
-import com.example.backend.user.dto.UserInfoDto;
+import com.example.backend.user.dto.OAuthUserInfo;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import java.io.BufferedReader;
@@ -82,10 +82,10 @@ public class KakaoOAuthService {
 			return accessToken;
 		}
 
-		public UserInfoDto createKakaoUser(String token) {
+		public OAuthUserInfo createKakaoUser(String token) {
 
 			String reqURL = "https://kapi.kakao.com/v2/user/me";
-			UserInfoDto userInfoDto = new UserInfoDto();
+			OAuthUserInfo userInfoDto = new OAuthUserInfo();
 
 			//access_token을 이용하여 사용자 정보 조회
 			try {

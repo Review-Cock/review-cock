@@ -1,9 +1,9 @@
 package com.example.backend.common.security.jwt;
 
-import com.example.backend.user.dto.AccessTokenDto;
-import com.example.backend.user.dto.RefreshTokenDto;
+import com.example.backend.user.dto.AccessToken;
+import com.example.backend.user.dto.RefreshToken;
 import com.example.backend.common.security.jwt.type.TokenType;
-import com.example.backend.user.dto.TokenDto;
+import com.example.backend.user.dto.Token;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -11,7 +11,6 @@ import jakarta.annotation.PostConstruct;
 import java.time.Duration;
 import java.util.Base64;
 import java.util.Date;
-import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -39,7 +38,7 @@ public class TokenProvider {
 		refreshSecretKey = Base64.getEncoder().encodeToString(refreshSecretKey.getBytes());
 	}
 
-	public AccessTokenDto generateAccessToken(String userEmail, String roles) {
+	public AccessToken generateAccessToken(String userEmail, String roles) {
 		Claims claims = Jwts.claims();
 		claims.put("userId", userEmail);
 		claims.put("roles", roles);
@@ -54,10 +53,10 @@ public class TokenProvider {
 			.signWith(SignatureAlgorithm.HS256, accessSecretKey)
 			.compact();
 
-		return new AccessTokenDto(accessToken);
+		return new AccessToken(accessToken);
 	}
 
-	public RefreshTokenDto generateRefreshToken(String userEmail, String roles) {
+	public RefreshToken generateRefreshToken(String userEmail, String roles) {
 		Claims claims = Jwts.claims();
 		claims.put("userId", userEmail);
 		claims.put("roles", roles);
@@ -72,12 +71,12 @@ public class TokenProvider {
 			.signWith(SignatureAlgorithm.HS256, refreshSecretKey)
 			.compact();
 
-		return new RefreshTokenDto(refreshToken);
+		return new RefreshToken(refreshToken);
 	}
 
-	public TokenDto generateTokenDto(String userEmail, String roles) {
-		AccessTokenDto accessTokenDto = generateAccessToken(userEmail, roles);
-		RefreshTokenDto refreshTokenDto = generateRefreshToken(userEmail, roles);
-		return new TokenDto(accessTokenDto.getAccessToken(), refreshTokenDto.getRefreshToken());
+	public Token generateTokenDto(String userEmail, String roles) {
+		AccessToken accessTokenDto = generateAccessToken(userEmail, roles);
+		RefreshToken refreshTokenDto = generateRefreshToken(userEmail, roles);
+		return new Token(accessTokenDto.getAccessToken(), refreshTokenDto.getRefreshToken());
 	}
 }

@@ -12,7 +12,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class RegisterUsers {
+public class RegisterUser {
 
 	@NotBlank(message = "사용자 e-mail은 필수 항목입니다.")
 	@Pattern(regexp = "^([a-zA-Z0-9_\\.-]+)@([\\da-zA-Z\\.-]+)\\.([a-zA-Z\\.]{2,6})$", message = "이메일 형식을 올바르게 입력해주세요.")

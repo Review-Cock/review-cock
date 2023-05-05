@@ -1,7 +1,7 @@
 package com.example.backend.common.security.data;
 
 import com.example.backend.user.domain.User;
-import com.example.backend.user.repository.UsersRepository;
+import com.example.backend.user.repository.UserRepository;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
 
-	private final UsersRepository usersRepository;
+	private final UserRepository usersRepository;
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 

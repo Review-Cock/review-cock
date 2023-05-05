@@ -1,6 +1,6 @@
 package com.example.backend.user.service;
 
-import com.example.backend.user.dto.UserInfoDto;
+import com.example.backend.user.dto.OAuthUserInfo;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -35,16 +35,7 @@ public class NaverOAuthService {
 	@Value("${spring.security.oauth2.client.provider.naver.user-info-uri")
 	private String NAVER_USER_INFO_URI;
 
-
-	private String TYPE;
-	private String CLIENT_ID;
-	private String REDIRECT_URI;
-
 	public String getAccessToken(String code, String state) {
-
-//		String clientID = "HASIZ5SA7lOx2r74hJQi";
-//		String clientSecret = "Zkb9jFRSZu";
-//		String redirectUri = "http://localhost:8080/oauth/naver/login";
 
 		// Combine the client ID and client secret into a single string with a colon separator
 		String credentials = NAVER_CLIENT_ID + ":" + NAVER_CLIENT_SECRET;
@@ -87,10 +78,8 @@ public class NaverOAuthService {
 		}
 	}
 
-	public UserInfoDto getUserInfo(String accessToken, String state)
+	public OAuthUserInfo getUserInfo(String accessToken, String state)
 		throws JsonProcessingException {
-//		String clientID = "HASIZ5SA7lOx2r74hJQi";
-//		String clientSecret = "Zkb9jFRSZu";
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
@@ -122,6 +111,6 @@ public class NaverOAuthService {
 		log.info(nickname);
 		log.info(email);
 
-		return new UserInfoDto(email, nickname);
+		return new OAuthUserInfo(email, nickname);
 	}
 }

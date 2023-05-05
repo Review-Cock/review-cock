@@ -1,13 +1,10 @@
 package com.example.backend.user.controller;
 
-import com.example.backend.user.dto.TokenDto;
+import com.example.backend.user.dto.Token;
 import com.example.backend.user.exception.UsersException;
-import com.example.backend.user.service.UsersService;
+import com.example.backend.user.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
-import java.io.IOException;
-import java.net.URLEncoder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -17,20 +14,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.view.RedirectView;
 
 @Slf4j
 @RestController
 @RequiredArgsConstructor
 public class OAuthController {
 
-	private final UsersService usersService;
+	private final UserService usersService;
 
 
 	@GetMapping("/oauth/kakao/callback")
 	public ResponseEntity<String> createLoginTokenWithKakao(@Valid @RequestParam("code") String code) {
 		try {
-			TokenDto tokenDto = usersService.createLoginTokenWithKakao(code);
+			Token tokenDto = usersService.createLoginTokenWithKakao(code);
 			ResponseCookie cookie = ResponseCookie.from("refreshToken", tokenDto.getRefreshToken())
 				.httpOnly(true).secure(true).path("/").build();
 			HttpHeaders headers = new HttpHeaders();
@@ -47,7 +43,7 @@ public class OAuthController {
 		@Valid @RequestParam(value = "code") String code, @RequestParam String state)
 		throws JsonProcessingException {
 		try {
-			TokenDto tokenDto = usersService.createLoginTokenWithNaver(code, state);
+			Token tokenDto = usersService.createLoginTokenWithNaver(code, state);
 			ResponseCookie cookie = ResponseCookie.from("refreshToken", tokenDto.getRefreshToken())
 				.httpOnly(true).secure(true).path("/").build();
 			HttpHeaders headers = new HttpHeaders();
