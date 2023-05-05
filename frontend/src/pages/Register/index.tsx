@@ -94,21 +94,6 @@ const Register = () => {
   };
 
   const handleSummit = () => {
-    if (!mainImage) {
-      alert('대표이미지는 필수입니다.');
-      return;
-    }
-
-    if (!detailImage) {
-      alert('상세이미지는 1장 이상이어야 합니다.');
-      return;
-    }
-
-    if (keywords.length === 0) {
-      alert('필수키워드를 입력해주세요!');
-      return;
-    }
-
     const dataTransfer = new DataTransfer();
     Array.from(mainImage).forEach((file) => dataTransfer.items.add(file));
     Array.from(detailImage).forEach((file) => dataTransfer.items.add(file));
@@ -147,6 +132,30 @@ const Register = () => {
 
     for (const image of Array.from(images)) {
       CampaignInfoFormData.append('images', image);
+    }
+    if (Number(recruitNumber) <= 0) {
+      alert('모집인원은 1보다 커야합니다.');
+      return;
+    }
+
+    if (new Date(registrationStartDate) < new Date()) {
+      alert('과거를 신청시작일로 지정할 수 없습니다.');
+      return;
+    }
+
+    if (!mainImage) {
+      alert('대표이미지는 필수입니다.');
+      return;
+    }
+
+    if (!detailImage) {
+      alert('상세이미지는 1장 이상이어야 합니다.');
+      return;
+    }
+
+    if (keywords.length === 0) {
+      alert('필수키워드를 입력해주세요!');
+      return;
     }
 
     RegisterMutation.mutate(CampaignInfoFormData);
