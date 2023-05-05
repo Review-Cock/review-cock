@@ -2,3 +2,7 @@ spring:
   config:
     import:
       - review-cock-security/application-secret.yml
+
+springdoc:
+  swagger-ui:
+    path: swagger

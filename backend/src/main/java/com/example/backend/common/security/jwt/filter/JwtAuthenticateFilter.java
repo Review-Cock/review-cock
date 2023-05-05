@@ -1,8 +1,8 @@
-package com.example.backend.config.security.jwt.filter;
+package com.example.backend.common.security.jwt.filter;
 
-import com.example.backend.config.security.exception.LoginException;
-import com.example.backend.config.security.jwt.type.TokenType;
-import com.example.backend.config.security.jwt.util.JwtTokenUtil;
+import com.example.backend.common.security.exception.LoginException;
+import com.example.backend.common.security.jwt.type.TokenType;
+import com.example.backend.common.security.jwt.util.JwtTokenUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

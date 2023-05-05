@@ -2,7 +2,6 @@ package com.example.backend.campaign.domain;
 
 import com.example.backend.keyword.domain.Keyword;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;

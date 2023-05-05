@@ -1,4 +1,4 @@
-package com.example.backend.config.security.jwt.util;
+package com.example.backend.common.security.jwt.util;
 
 import java.util.Map;
 import org.springframework.stereotype.Component;

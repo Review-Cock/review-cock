@@ -1,4 +1,4 @@
-package com.example.backend.config.security.exception;
+package com.example.backend.common.security.exception;
 
 public class LoginException extends RuntimeException {
     public LoginException(String message) {
