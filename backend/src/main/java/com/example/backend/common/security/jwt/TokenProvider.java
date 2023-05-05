@@ -1,6 +1,6 @@
-package com.example.backend.config.security.jwt;
+package com.example.backend.common.security.jwt;
 
-import com.example.backend.config.security.jwt.type.TokenType;
+import com.example.backend.common.security.jwt.type.TokenType;
 import com.example.backend.user.dto.TokenDto;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

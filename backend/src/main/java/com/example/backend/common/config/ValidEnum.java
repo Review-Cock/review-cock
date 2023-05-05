@@ -1,4 +1,4 @@
-package com.example.backend.config.common;
+package com.example.backend.common.config;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

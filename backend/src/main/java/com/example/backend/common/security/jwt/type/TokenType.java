@@ -1,4 +1,4 @@
-package com.example.backend.config.security.jwt.type;
+package com.example.backend.common.security.jwt.type;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

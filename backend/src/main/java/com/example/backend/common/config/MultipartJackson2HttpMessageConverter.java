@@ -1,4 +1,4 @@
-package com.example.backend.config.common;
+package com.example.backend.common.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.MediaType;

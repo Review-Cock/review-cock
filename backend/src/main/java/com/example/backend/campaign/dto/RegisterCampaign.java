@@ -1,16 +1,13 @@
 package com.example.backend.campaign.dto;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Set;
 
 import com.example.backend.campaign.domain.Campaign;
-import com.example.backend.campaign.domain.CampaignAddress;
 import com.example.backend.campaign.domain.CampaignCategory;
 import com.example.backend.campaign.domain.CampaignChannelType;
-import com.example.backend.campaign.domain.CampaignDate;
 import com.example.backend.campaign.domain.CampaignType;
-import com.example.backend.config.common.ValidEnum;
+import com.example.backend.common.config.ValidEnum;
 
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;
@@ -37,17 +34,15 @@ public class RegisterCampaign {
         private String content;
         @Positive(message = "모집 인원은 양수여야 합니다.")
         private int recruitNumber;
-        @NotBlank(message = "우편번호 입력은 필수입니다.")
-        private String zipcode;
         @NotBlank(message = "주소 입력은 필수입니다.")
         private String address;
-        private String detailAddress;
         @ValidEnum(message = "올바른 타입을 입력해주세요.", enumClass = CampaignType.class)
         private CampaignType type;
         @ValidEnum(message = "올바른 채널 타입을 입력해주세요.", enumClass = CampaignChannelType.class)
         private CampaignChannelType channelType;
         @NotBlank(message = "사이트 입력은 필수입니다.")
         private String siteUrl;
+        private Set<String> keywords;
         @FutureOrPresent(message = "등록일은 현재 시간 이후여야 합니다.")
         private LocalDate registrationStartDate;
         @FutureOrPresent(message = "등록일은 현재 시간 이후여야 합니다.")
@@ -60,34 +55,24 @@ public class RegisterCampaign {
         private LocalDate experienceEndDate;
 
         public Campaign toEntity() {
-            CampaignAddress campaignAddress = CampaignAddress.builder()
-                .zipcode(zipcode)
-                .address(address)
-                .detailAddress(detailAddress)
-                .build();
-            CampaignDate registrationDate = CampaignDate.builder()
-                .startDate(registrationStartDate)
-                .endDate(registrationEndDate)
-                .build();
-            CampaignDate experienceDate = CampaignDate.builder()
-                .startDate(experienceStartDate)
-                .endDate(experienceEndDate)
-                .build();
-
-            return Campaign.builder()
+            Campaign campaign = Campaign.builder()
                 .category(category)
                 .title(title)
                 .description(description)
                 .content(content)
                 .recruitNumber(recruitNumber)
-                .address(campaignAddress)
+                .address(address)
                 .type(type)
                 .channelType(channelType)
                 .siteUrl(siteUrl)
-                .registrationDate(registrationDate)
+                .registrationStartDate(registrationStartDate)
+                .registrationEndDate(registrationEndDate)
                 .presentationDate(presentationDate)
-                .experienceDate(experienceDate)
+                .experienceStartDate(experienceStartDate)
+                .experienceEndDate(experienceEndDate)
                 .build();
+
+            return campaign;
         }
     }
 
@@ -96,40 +81,12 @@ public class RegisterCampaign {
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class Response {
 
-        private CampaignCategory category;
-        private String title;
-        private String description;
-        private String content;
-        private int recruitNumber;
-        private CampaignAddress address;
-        private CampaignType type;
-        private CampaignChannelType channelType;
-        private String siteUrl;
-        private CampaignDate registrationDate;
-        private LocalDate presentationDate;
-        private CampaignDate experienceDate;
+        private boolean status;
 
-        public static Response of(Campaign campaign) {
+        public static Response of(boolean status) {
             return Response.builder()
-                .category(campaign.getCategory())
-                .title(campaign.getTitle())
-                .description(campaign.getDescription())
-                .content(campaign.getContent())
-                .recruitNumber(campaign.getRecruitNumber())
-                .address(campaign.getAddress())
-                .type(campaign.getType())
-                .channelType(campaign.getChannelType())
-                .siteUrl(campaign.getSiteUrl())
-                .registrationDate(campaign.getRegistrationDate())
-                .presentationDate(campaign.getPresentationDate())
-                .experienceDate(campaign.getExperienceDate())
+                .status(status)
                 .build();
-        }
-
-        public static List<Response> listOf(List<Campaign> campaigns) {
-            return campaigns.stream()
-                .map(Response::of)
-                .collect(Collectors.toList());
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.example.backend.config.security.data;
+package com.example.backend.common.security.data;
 
 import java.util.Collection;
 import java.util.List;

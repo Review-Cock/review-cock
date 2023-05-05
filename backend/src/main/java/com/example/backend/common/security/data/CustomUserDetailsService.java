@@ -1,4 +1,4 @@
-package com.example.backend.config.security.data;
+package com.example.backend.common.security.data;
 
 import com.example.backend.user.domain.User;
 import com.example.backend.user.repository.UsersRepository;

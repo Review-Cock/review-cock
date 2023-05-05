@@ -1,6 +1,6 @@
 package com.example.backend.user.controller;
 
-import com.example.backend.config.security.jwt.filter.JwtAuthenticateFilter;
+import com.example.backend.common.security.jwt.filter.JwtAuthenticateFilter;
 import com.example.backend.user.dto.LoginUsers;
 import com.example.backend.user.dto.RegisterUsers;
 import com.example.backend.user.dto.TokenDto;
