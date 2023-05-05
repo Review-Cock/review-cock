@@ -2,29 +2,29 @@ import React from 'react';
 import { Container, TitleText, PriceNameText, ApplicationText, ReionText } from './index.styles';
 
 interface CampaignItemProps {
-  region: string;
-  storeName: string;
-  priceName: string;
-  application: number;
-  total: number;
+  campaignType: string; // 참가형 or 방문
+  content: string; //이용권
+  name: string; // 상점
+  recruitNumber: string; // 총인원
+  application: string;
 }
 
 const CampaignItem = (props: CampaignItemProps) => {
-  const { region, storeName, priceName, application, total } = props;
+  const { campaignType, name, content, application, recruitNumber } = props;
 
   return (
     <Container>
-      <TitleText>{storeName}</TitleText>
-      <PriceNameText>{priceName}</PriceNameText>
+      <TitleText>{name}</TitleText>
+      <PriceNameText>{content}</PriceNameText>
       <div>
         <ApplicationText>
           <div>
             신청<span>{application}</span>명
           </div>
           <div>|</div>
-          <div>모집 {total}명</div>
+          <div>모집 {recruitNumber}명</div>
         </ApplicationText>
-        <ReionText>{region}</ReionText>
+        <ReionText>{campaignType}</ReionText>
       </div>
     </Container>
   );

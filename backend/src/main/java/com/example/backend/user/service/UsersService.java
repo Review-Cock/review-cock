@@ -1,7 +1,7 @@
 package com.example.backend.user.service;
 
-import com.example.backend.config.security.jwt.TokenProvider;
 import com.example.backend.user.domain.RefreshToken;
+import com.example.backend.common.security.jwt.TokenProvider;
 import com.example.backend.user.domain.User;
 import com.example.backend.user.dto.LoginUsers;
 import com.example.backend.user.dto.RegisterUsers;

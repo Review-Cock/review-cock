@@ -20,14 +20,22 @@ public class File {
     private Long id;
 
     @Column(nullable = false)
-    private String name;
+    private String originalName;
+
+    @Column(nullable = false)
+    private String extension;
+
+    @Column(nullable = false)
+    private String savedName;
 
     @Column(nullable = false)
     private String path;
 
     @Builder
-    public File(String name, String path) {
-        this.name = name;
+    public File(String originalName, String extension, String savedName, String path) {
+        this.originalName = originalName;
+        this.extension = extension;
+        this.savedName = savedName;
         this.path = path;
     }
 }

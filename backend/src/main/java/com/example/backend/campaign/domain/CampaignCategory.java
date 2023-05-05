@@ -1,41 +1,22 @@
 package com.example.backend.campaign.domain;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Entity
-public class CampaignCategory {
+public enum CampaignCategory {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    LIFE("생활"), SERVICE("서비스"), TODDLER("유아동"),
+    DIGITAL("디지털"), BEAUTY("뷰티"), FASHION("패션"),
+    BOOK("도서"), FOOD("식품"), PET("반려동물"),
 
-    @Column(nullable = false)
-    private String title;
+    FAMOUS_RESTAURANT("맛집"), ACCOMMODATION("숙박"),
+    CULTURE("문화"), DELIVERY("배달"), TAKEOUT("테이크아웃"), ETC("기타");
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
-    private List<Campaign> campaigns = new ArrayList<>();
+    private final String displayName;
 
-    @Builder
-    public CampaignCategory(String title) {
-        this.title = title;
-    }
-
-    public void addCampaign(Campaign campaign) {
-        this.campaigns.add(campaign);
+    CampaignCategory(final String displayName) {
+        this.displayName = displayName;
     }
 }

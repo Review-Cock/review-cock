@@ -22,7 +22,7 @@ const Oauth = ({ apiUrl }: IOauth) => {
         })
         .catch((error) => {
           console.log(error);
-          navigate('/login');
+          navigate('/users/login');
         });
     })();
   }, []);

@@ -28,25 +28,6 @@ export const RedStar = styled.div`
   margin-left: 3px;
 `;
 
-export const NickNameBox = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  input {
-    width: 78%;
-  }
-
-  button {
-    width: 20%;
-    background-color: #555555;
-    border-radius: 5px;
-    border: none;
-    color: white;
-    height: 100%;
-    cursor: pointer;
-  }
-`;
-
 export const JoinInput = styled.input`
   padding: 15px;
   background: #ffffff 0% 0% no-repeat padding-box;
