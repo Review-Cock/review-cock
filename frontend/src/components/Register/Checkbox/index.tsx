@@ -9,8 +9,25 @@ interface CheckboxProps {
 }
 
 const Checkbox = ({ type, onChangeType, onChangeCategory }: CheckboxProps) => {
-  const deliveryCategory = ['생활', '서비스', '유아동', '디지털', '뷰티', '패션', '도서', '식품', '반려동물'];
-  const regionCategory = ['맛집', '뷰티', '숙박', '문화', '배달', '테이크아웃', '기타'];
+  const deliveryCategory = [
+    ['생활', 'LIFE'],
+    ['서비스', 'SERVICE'],
+    ['유아동', 'TODDLER'],
+    ['디지털', 'DIGITAL'],
+    ['뷰티', 'BEAUTY'],
+    ['패션', 'FASHION'],
+    ['도서', 'BOOK'],
+    ['식품', 'FOOD'],
+    ['반려동물', 'PET'],
+  ];
+  const regionCategory = [
+    ['맛집', 'FAMOUS_RESTAURANT'],
+    ['숙박', 'ACCOMMODATION'],
+    ['문화', 'CULTURE'],
+    ['배달', 'DELIVERY'],
+    ['테이크아웃', 'TAKEOUT'],
+    ['기타', 'ETC'],
+  ];
   const [curCampaignType, setCurCampaignType] = useState('');
 
   const handleSnsTypeCheckbox = (e: React.MouseEvent<HTMLInputElement>) => {
@@ -51,11 +68,11 @@ const Checkbox = ({ type, onChangeType, onChangeCategory }: CheckboxProps) => {
       {type === 'snsType' && (
         <CheckBoxWrapper>
           <CheckBoxLabel>
-            <CheckBoxItem type="checkbox" name="snsType" value="blog" onClick={handleSnsTypeCheckbox} />
+            <CheckBoxItem type="checkbox" name="snsType" value="BLOG" onClick={handleSnsTypeCheckbox} />
             블로그
           </CheckBoxLabel>
           <CheckBoxLabel>
-            <CheckBoxItem type="checkbox" name="snsType" value="insta" onClick={handleSnsTypeCheckbox} />
+            <CheckBoxItem type="checkbox" name="snsType" value="INSTAGRAM" onClick={handleSnsTypeCheckbox} />
             인스타그램
           </CheckBoxLabel>
         </CheckBoxWrapper>
@@ -72,8 +89,8 @@ const Checkbox = ({ type, onChangeType, onChangeCategory }: CheckboxProps) => {
           </CheckBoxLabel>
           {curCampaignType === 'region' && (
             <SelectTag onChange={handleCategory}>
-              {regionCategory.map((name, i) => (
-                <option key={i} value={name}>
+              {regionCategory.map(([name, value], i) => (
+                <option key={i} value={value}>
                   {name}
                 </option>
               ))}
@@ -81,8 +98,8 @@ const Checkbox = ({ type, onChangeType, onChangeCategory }: CheckboxProps) => {
           )}
           {curCampaignType === 'delivery' && (
             <SelectTag onChange={handleCategory}>
-              {deliveryCategory.map((name, i) => (
-                <option key={i} value={name}>
+              {deliveryCategory.map(([name, value], i) => (
+                <option key={i} value={value}>
                   {name}
                 </option>
               ))}

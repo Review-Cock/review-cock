@@ -52,7 +52,7 @@ const Register = () => {
   };
 
   const RegisterMutation = useMutation(
-    (CampaignInfo: FormData) => axios.post('118.67.133.214:8080/api/campaign', CampaignInfo, config),
+    (CampaignInfo: FormData) => axios.post('/campaign/register', CampaignInfo, config),
     {
       onSuccess: (res) => {
         console.log(res);
@@ -68,67 +68,85 @@ const Register = () => {
   const navigate = useNavigate();
   const [hashTag, onChangeHashTag, setHashTag] = useInput('');
 
-  const [campaignDescription, onChangeCampaignDescription] = useInput('');
-  const [campaignType, , setCampaignType] = useInput('');
   const [category, setCategory] = useState('');
-  const [channelType, , setChannelType] = useInput('');
+  const [title, onChangeTitle] = useInput('');
+  const [description, onChangeDescription] = useInput('');
   const [content, onChangeContent] = useInput('');
-  const [expEndDateTime, onChangeExpEndDateTime] = useInput('');
-  const [expStartDateTime, onChangeExpStartDateTime] = useInput('');
+  const [recruitNumber, onChangeRecruitNumber] = useInput('');
+  const [address, , setAddress] = useInput('');
+  const [type, , setType] = useInput('');
+  const [channelType, , setChannelType] = useInput('');
+  const [siteUrl, onChangeSiteUrl] = useInput('');
+  const [keywords, setKeywords] = useState([]);
+  const [registrationStartDate, onChangeRegistrationStartDate] = useInput('');
+  const [registrationEndDate, onChangeRegistrationEndDate] = useInput('');
+  const [presentationDate, onChangePresentationDate] = useInput('');
+  const [experienceStartDate, onChangeExperienceStartDate] = useInput('');
+  const [experienceEndDate, onChangeExperienceEndDate] = useInput('');
   const [mainImage, setMainImage] = useState<FileList>();
   const [detailImage, setDetailImage] = useState<FileList>();
-  const [location, , setLocation] = useInput('');
-  const [name, onChangeName] = useInput('');
-  const [noticeDateTime, onChangeNoticeDateTime] = useInput('');
-  const [recruitNumber, onChangeRecruitNumber] = useInput('');
-  const [regStartDateTime, onChangeRegStartDateTime] = useInput('');
-  const [regEndDateTime, onChangeRegEndDateTime] = useInput('');
-  const [searchTags, setSearchTags] = useState([]);
-  const [siteUrl, onChangeSiteUrl] = useInput('');
 
   const handleHashTagKeydown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && hashTag !== '') {
-      setSearchTags((v) => [...v, hashTag]);
+      setKeywords((v) => [...v, hashTag]);
       setHashTag('');
     }
   };
 
   const handleSummit = () => {
-    const dataTransfer = new DataTransfer();
+    if (!mainImage) {
+      alert('대표이미지는 필수입니다.');
+      return;
+    }
 
+    if (!detailImage) {
+      alert('상세이미지는 1장 이상이어야 합니다.');
+      return;
+    }
+
+    if (keywords.length === 0) {
+      alert('필수키워드를 입력해주세요!');
+      return;
+    }
+
+    const dataTransfer = new DataTransfer();
     Array.from(mainImage).forEach((file) => dataTransfer.items.add(file));
     Array.from(detailImage).forEach((file) => dataTransfer.items.add(file));
 
-    const imageUrls = dataTransfer.files;
+    const images = dataTransfer.files;
     const CampaignInfo = {
-      campaignDescription,
-      campaignType,
       category,
-      channelType,
+      title,
+      description,
       content,
-      expEndDateTime,
-      expStartDateTime,
-      location,
-      name,
-      noticeDateTime,
       recruitNumber,
-      regStartDateTime,
-      regEndDateTime,
+      address,
+      type,
+      channelType,
       siteUrl,
+      registrationStartDate,
+      registrationEndDate,
+      presentationDate,
+      experienceStartDate,
+      experienceEndDate,
     };
 
     const CampaignInfoFormData = new FormData();
 
     for (const [key, value] of Object.entries(CampaignInfo)) {
+      if (!value || value.trim() === '') {
+        alert(`${key}가 입력되지 않았습니다.`);
+        return;
+      }
       CampaignInfoFormData.append(key, value);
     }
 
-    for (const tag of searchTags) {
-      CampaignInfoFormData.append('searchTags', tag);
+    for (const tag of keywords) {
+      CampaignInfoFormData.append('keywords', tag);
     }
 
-    for (const image of Array.from(imageUrls)) {
-      CampaignInfoFormData.append('imageUrls', image);
+    for (const image of Array.from(images)) {
+      CampaignInfoFormData.append('images', image);
     }
 
     RegisterMutation.mutate(CampaignInfoFormData);
@@ -147,8 +165,8 @@ const Register = () => {
             <InputLabel htmlFor="title">제목</InputLabel>
             <RedStar>*</RedStar>
             <TextInput
-              value={name}
-              onChange={onChangeName}
+              value={title}
+              onChange={onChangeTitle}
               type="text"
               name="title"
               id="title"
@@ -171,8 +189,8 @@ const Register = () => {
             <InputLabel htmlFor="detail">소개</InputLabel>
             <RedStar></RedStar>
             <TextInput
-              value={campaignDescription}
-              onChange={onChangeCampaignDescription}
+              value={description}
+              onChange={onChangeDescription}
               type="text"
               name="detail"
               id="detail"
@@ -211,12 +229,12 @@ const Register = () => {
                 type="text"
                 name="keyword"
                 id="keyword"
-                placeholder="키워드를 입력 후 엔터를 추가해주세요."
+                placeholder="Enter로 키워드 추가하기"
                 value={hashTag}
                 onChange={onChangeHashTag}
                 onKeyPress={handleHashTagKeydown}
               />
-              <HashTagBox tagList={searchTags} />
+              <HashTagBox tagList={keywords} />
             </div>
           </InputBox>
           <InputBox>
@@ -227,7 +245,7 @@ const Register = () => {
           <InputBox>
             <InputLabel htmlFor="">유형선택</InputLabel>
             <RedStar>*</RedStar>
-            <Checkbox onChangeCategory={setCategory} onChangeType={setCampaignType} type="campaignType" />
+            <Checkbox onChangeCategory={setCategory} onChangeType={setType} type="campaignType" />
           </InputBox>
         </CampainInfoBox>
 
@@ -236,8 +254,8 @@ const Register = () => {
             <InputLabel htmlFor="applyStart">신청기간</InputLabel>
             <RedStar>*</RedStar>
             <DateInput
-              value={regStartDateTime}
-              onChange={onChangeRegStartDateTime}
+              value={registrationStartDate}
+              onChange={onChangeRegistrationStartDate}
               type="date"
               name="applyStart"
               id="applyStart"
@@ -247,35 +265,10 @@ const Register = () => {
             />
             <Tilde>~</Tilde>
             <DateInput
-              value={regEndDateTime}
-              onChange={onChangeRegEndDateTime}
+              value={registrationEndDate}
+              onChange={onChangeRegistrationEndDate}
               name="applyEnd"
               id="applyEnd"
-              type="date"
-              data-placeholder="YYYY-MM-DD"
-              required
-              aria-required="true"
-            />
-          </InputBox>
-          <InputBox>
-            <InputLabel htmlFor="experienceStart">체험기간</InputLabel>
-            <RedStar>*</RedStar>
-            <DateInput
-              value={expStartDateTime}
-              onChange={onChangeExpStartDateTime}
-              type="date"
-              name="experienceStart"
-              id="experienceStart"
-              data-placeholder="YYYY-MM-DD"
-              required
-              aria-required="true"
-            />
-            <Tilde>~</Tilde>
-            <DateInput
-              value={expEndDateTime}
-              onChange={onChangeExpEndDateTime}
-              name="experienceEnd"
-              id="experienceEnd"
               type="date"
               data-placeholder="YYYY-MM-DD"
               required
@@ -286,11 +279,36 @@ const Register = () => {
             <InputLabel htmlFor="announce">발표일</InputLabel>
             <RedStar>*</RedStar>
             <DateInput
-              value={noticeDateTime}
-              onChange={onChangeNoticeDateTime}
+              value={presentationDate}
+              onChange={onChangePresentationDate}
               type="date"
               name="announce"
               id="announce"
+              data-placeholder="YYYY-MM-DD"
+              required
+              aria-required="true"
+            />
+          </InputBox>
+          <InputBox>
+            <InputLabel htmlFor="experienceStart">체험기간</InputLabel>
+            <RedStar>*</RedStar>
+            <DateInput
+              value={experienceStartDate}
+              onChange={onChangeExperienceStartDate}
+              type="date"
+              name="experienceStart"
+              id="experienceStart"
+              data-placeholder="YYYY-MM-DD"
+              required
+              aria-required="true"
+            />
+            <Tilde>~</Tilde>
+            <DateInput
+              value={experienceEndDate}
+              onChange={onChangeExperienceEndDate}
+              name="experienceEnd"
+              id="experienceEnd"
+              type="date"
               data-placeholder="YYYY-MM-DD"
               required
               aria-required="true"
@@ -302,7 +320,7 @@ const Register = () => {
           <InputBox>
             <InputLabel htmlFor="adress">주소</InputLabel>
             <RedStar>*</RedStar>
-            <FindPostcode onChangeAddress={setLocation} />
+            <FindPostcode onChangeAddress={setAddress} />
           </InputBox>
 
           <InputBox>
