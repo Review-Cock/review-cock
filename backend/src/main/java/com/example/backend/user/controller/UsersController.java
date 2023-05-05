@@ -9,10 +9,12 @@ import com.example.backend.user.service.UsersService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -44,6 +46,23 @@ public class UsersController {
 		} catch (UsersException e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
+	}
+
+	@PostMapping("/silent-refresh")
+	public ResponseEntity<String> reissueAccessToken(@RequestHeader("Authorization") String refreshToken) {
+		try {
+			TokenDto tokenDto = usersService.reissueAccessToken(refreshToken);
+
+			ResponseCookie cookie = ResponseCookie.from("refreshToken", tokenDto.getRefreshToken())
+				.httpOnly(true).secure(true).path("/").build();
+			HttpHeaders headers = new HttpHeaders();
+			headers.add(HttpHeaders.SET_COOKIE, cookie.toString());
+
+			return ResponseEntity.ok().headers(headers).body(tokenDto.getAccessToken());
+		} catch (UsersException e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+		}
+
 	}
 
 }
