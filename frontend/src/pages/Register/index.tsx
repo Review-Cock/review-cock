@@ -26,22 +26,21 @@ import {
 } from '@pages/Register/index.styles';
 
 interface ICampaignInfo {
-  campaignDescription: string;
-  campaignType: string;
   category: string;
-  channelType: string;
+  title: string;
+  description: string;
   content: string;
-  expEndDateTime: string;
-  expStartDateTime: string;
-  imageUrls: FileList;
-  location: string;
-  name: string;
-  noticeDateTime: string;
-  recruitNumber: string;
-  regStartDateTime: string;
-  regEndDateTime: string;
-  searchTags: string[];
+  recruitNumber: number;
+  address: string;
+  type: string;
+  channelType: string;
   siteUrl: string;
+  registrationStartDate: string;
+  registrationEndDate: string;
+  presentationDate: string;
+  experienceStartDate: string;
+  experienceEndDate: string;
+  keywords?: string[];
 }
 
 const Register = () => {
@@ -52,7 +51,7 @@ const Register = () => {
   };
 
   const RegisterMutation = useMutation(
-    (CampaignInfo: FormData) => axios.post('/campaign/register', CampaignInfo, config),
+    (CampaignInfo: FormData) => axios.post('/campaigns/register', CampaignInfo, config),
     {
       onSuccess: (res) => {
         console.log(res);
@@ -72,7 +71,7 @@ const Register = () => {
   const [title, onChangeTitle] = useInput('');
   const [description, onChangeDescription] = useInput('');
   const [content, onChangeContent] = useInput('');
-  const [recruitNumber, onChangeRecruitNumber] = useInput('');
+  const [recruitNumber, onChangeRecruitNumber] = useInput(0);
   const [address, , setAddress] = useInput('');
   const [type, , setType] = useInput('');
   const [channelType, , setChannelType] = useInput('');
@@ -94,12 +93,7 @@ const Register = () => {
   };
 
   const handleSummit = () => {
-    const dataTransfer = new DataTransfer();
-    Array.from(mainImage).forEach((file) => dataTransfer.items.add(file));
-    Array.from(detailImage).forEach((file) => dataTransfer.items.add(file));
-
-    const images = dataTransfer.files;
-    const CampaignInfo = {
+    const CampaignInfo: ICampaignInfo = {
       category,
       title,
       description,
@@ -116,33 +110,47 @@ const Register = () => {
       experienceEndDate,
     };
 
-    const CampaignInfoFormData = new FormData();
-
     for (const [key, value] of Object.entries(CampaignInfo)) {
       if (!value || value.trim() === '') {
         alert(`${key}가 입력되지 않았습니다.`);
         return;
       }
-      CampaignInfoFormData.append(key, value);
     }
 
-    for (const tag of keywords) {
-      CampaignInfoFormData.append('keywords', tag);
+    if (keywords.length === 0) {
+      alert('keyword가 입력되지 않았습니다.');
+      return;
     }
 
-    for (const image of Array.from(images)) {
-      CampaignInfoFormData.append('images', image);
-    }
     if (Number(recruitNumber) <= 0) {
       alert('모집인원은 1보다 커야합니다.');
       return;
     }
 
     if (new Date(registrationStartDate) < new Date()) {
-      alert('과거를 신청시작일로 지정할 수 없습니다.');
+      alert('신청시작일은 오늘 이후여야 합니다.');
       return;
     }
 
+    if (new Date(registrationEndDate) < new Date(registrationStartDate)) {
+      alert('신청마감일은 신청시작일 이후여야 합니다.');
+      return;
+    }
+
+    if (new Date(presentationDate) < new Date(registrationEndDate)) {
+      alert('발표일은 신청마감일 이후여야 합니다.');
+      return;
+    }
+
+    if (new Date(experienceStartDate) < new Date(presentationDate)) {
+      alert('체험시작일은 발표일 이후여야 합니다.');
+      return;
+    }
+
+    if (new Date(experienceEndDate) < new Date(experienceStartDate)) {
+      alert('체험마감일은 체험시작일 이후여야 합니다.');
+      return;
+    }
     if (!mainImage) {
       alert('대표이미지는 필수입니다.');
       return;
@@ -152,11 +160,22 @@ const Register = () => {
       alert('상세이미지는 1장 이상이어야 합니다.');
       return;
     }
+    CampaignInfo.keywords = keywords;
 
-    if (keywords.length === 0) {
-      alert('필수키워드를 입력해주세요!');
-      return;
+    const dataTransfer = new DataTransfer();
+
+    Array.from(mainImage).forEach((file) => dataTransfer.items.add(file));
+    Array.from(detailImage).forEach((file) => dataTransfer.items.add(file));
+
+    const images = dataTransfer.files;
+
+    const CampaignInfoFormData = new FormData();
+
+    for (const image of Array.from(images)) {
+      CampaignInfoFormData.append('images', image);
     }
+
+    CampaignInfoFormData.append('request', JSON.stringify(CampaignInfo));
 
     RegisterMutation.mutate(CampaignInfoFormData);
   };

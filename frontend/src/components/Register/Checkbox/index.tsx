@@ -80,14 +80,14 @@ const Checkbox = ({ type, onChangeType, onChangeCategory }: CheckboxProps) => {
       {type === 'campaignType' && (
         <CheckBoxWrapper>
           <CheckBoxLabel htmlFor="">
-            <CheckBoxItem type="checkbox" name="campaignType" value="region" onClick={handleCampaignTypeCheckbox} />
+            <CheckBoxItem type="checkbox" name="campaignType" value="EXPERIENCE" onClick={handleCampaignTypeCheckbox} />
             지역형
           </CheckBoxLabel>
           <CheckBoxLabel htmlFor="">
-            <CheckBoxItem type="checkbox" name="campaignType" value="delivery" onClick={handleCampaignTypeCheckbox} />
+            <CheckBoxItem type="checkbox" name="campaignType" value="SHIPPING" onClick={handleCampaignTypeCheckbox} />
             배송형
           </CheckBoxLabel>
-          {curCampaignType === 'region' && (
+          {curCampaignType === 'EXPERIENCE' && (
             <SelectTag onChange={handleCategory}>
               {regionCategory.map(([name, value], i) => (
                 <option key={i} value={value}>
@@ -96,7 +96,7 @@ const Checkbox = ({ type, onChangeType, onChangeCategory }: CheckboxProps) => {
               ))}
             </SelectTag>
           )}
-          {curCampaignType === 'delivery' && (
+          {curCampaignType === 'SHIPPING' && (
             <SelectTag onChange={handleCategory}>
               {deliveryCategory.map(([name, value], i) => (
                 <option key={i} value={value}>
