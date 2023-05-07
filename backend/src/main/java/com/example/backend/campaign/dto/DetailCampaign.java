@@ -12,7 +12,6 @@ import com.example.backend.campaign.domain.CampaignChannelType;
 import com.example.backend.campaign.domain.CampaignImage;
 import com.example.backend.campaign.domain.CampaignKeyword;
 import com.example.backend.campaign.domain.CampaignType;
-import com.example.backend.file.domain.File;
 import com.example.backend.keyword.domain.Keyword;
 
 import lombok.AccessLevel;
