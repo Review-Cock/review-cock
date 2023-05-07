@@ -25,6 +25,28 @@ public interface CampaignRepository extends JpaRepository<Campaign, Long> {
     @Query("select c from Campaign c"
         + " left join fetch c.images"
         + " left join fetch c.keywords"
+        + " where c.category = 'LIFE'"
         + " order by c.experienceEndDate")
-    List<Campaign> findDeadline(Pageable pageable);
+    List<Campaign> findDeadlineLife(Pageable pageable);
+
+    @Query("select c from Campaign c"
+        + " left join fetch c.images"
+        + " left join fetch c.keywords"
+        + " where c.category = 'SERVICE'"
+        + " order by c.experienceEndDate")
+    List<Campaign> findDeadlineService(Pageable pageable);
+
+    @Query("select c from Campaign c"
+        + " left join fetch c.images"
+        + " left join fetch c.keywords"
+        + " where c.category = 'FAMOUS_RESTAURANT'"
+        + " order by c.experienceEndDate")
+    List<Campaign> findDeadlineFamousRestaurant(Pageable pageable);
+
+    @Query("select c from Campaign c"
+        + " left join fetch c.images"
+        + " left join fetch c.keywords"
+        + " where c.category = 'ACCOMMODATION'"
+        + " order by c.experienceEndDate")
+    List<Campaign> findDeadlineAccommodation(Pageable pageable);
 }
