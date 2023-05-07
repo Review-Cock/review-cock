@@ -51,7 +51,7 @@ public class DetailCampaign {
         public static Response of(Campaign campaign) {
             Set<String> imagePaths = campaign.getImages().stream()
                 .map(CampaignImage::getFile)
-                .map(File::getPath)
+                .map(file -> file.getOriginalName())
                 .collect(Collectors.toSet());
             Set<String> keywords = campaign.getKeywords().stream()
                 .map(CampaignKeyword::getKeyword)
