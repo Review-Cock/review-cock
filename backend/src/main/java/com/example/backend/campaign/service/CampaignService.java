@@ -1,5 +1,6 @@
 package com.example.backend.campaign.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.domain.PageRequest;
@@ -8,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.backend.campaign.domain.Campaign;
-import com.example.backend.campaign.domain.CampaignKeyword;
 import com.example.backend.campaign.dto.DeadlineCampaign;
 import com.example.backend.campaign.dto.DetailCampaign;
 import com.example.backend.campaign.dto.PopularCampaign;
@@ -21,7 +21,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-@Transactional
+@Transactional(readOnly = true)
 @Service
 public class CampaignService {
 
@@ -29,6 +29,7 @@ public class CampaignService {
     private final KeywordService keywordService;
     private final FileService fileService;
 
+    @Transactional
     public void register(RegisterCampaign.Request request, MultipartFile coverImage, List<MultipartFile> detailImages) {
         Campaign campaign = request.toEntity();
         campaignRepository.save(campaign);
@@ -39,13 +40,17 @@ public class CampaignService {
     }
 
     public List<PopularCampaign.Response> popular() {
-        List<Campaign> campaigns = campaignRepository.findPopular(PageRequest.of(0, 5));
+        List<Campaign> campaigns = campaignRepository.findPopular(PageRequest.of(0, 20));
 
         return PopularCampaign.Response.listOf(campaigns);
     }
 
     public List<DeadlineCampaign.Response> deadline() {
-        List<Campaign> campaigns = campaignRepository.findDeadline(PageRequest.of(0, 5));
+        List<Campaign> campaigns = new ArrayList<>();
+        campaigns.  addAll(campaignRepository.findDeadlineAccommodation(PageRequest.of(0, 4)));
+        campaigns.addAll(campaignRepository.findDeadlineLife(PageRequest.of(0, 4)));
+        campaigns.addAll(campaignRepository.findDeadlineService(PageRequest.of(0, 4)));
+        campaigns.addAll(campaignRepository.findDeadlineFamousRestaurant(PageRequest.of(0, 4)));
 
         return DeadlineCampaign.Response.listOf(campaigns);
     }

@@ -12,7 +12,6 @@ import com.example.backend.campaign.domain.CampaignChannelType;
 import com.example.backend.campaign.domain.CampaignImage;
 import com.example.backend.campaign.domain.CampaignKeyword;
 import com.example.backend.campaign.domain.CampaignType;
-import com.example.backend.file.domain.File;
 import com.example.backend.keyword.domain.Keyword;
 
 import lombok.AccessLevel;
@@ -51,7 +50,7 @@ public class DetailCampaign {
         public static Response of(Campaign campaign) {
             Set<String> imagePaths = campaign.getImages().stream()
                 .map(CampaignImage::getFile)
-                .map(File::getPath)
+                .map(file -> file.getOriginalName())
                 .collect(Collectors.toSet());
             Set<String> keywords = campaign.getKeywords().stream()
                 .map(CampaignKeyword::getKeyword)

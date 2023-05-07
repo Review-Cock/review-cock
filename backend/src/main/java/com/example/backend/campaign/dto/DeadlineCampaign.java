@@ -7,10 +7,10 @@ import java.util.stream.Collectors;
 
 import com.example.backend.campaign.domain.Campaign;
 import com.example.backend.campaign.domain.CampaignCategory;
+import com.example.backend.campaign.domain.CampaignChannelType;
 import com.example.backend.campaign.domain.CampaignImage;
 import com.example.backend.campaign.domain.CampaignKeyword;
 import com.example.backend.campaign.domain.CampaignType;
-import com.example.backend.file.domain.File;
 import com.example.backend.keyword.domain.Keyword;
 
 import lombok.AccessLevel;
@@ -28,41 +28,29 @@ public class DeadlineCampaign {
         private String no;
         private CampaignCategory category;
         private String title;
+        private String content;
         private int recruitNumber;
         private int applyNumber;
         private CampaignType type;
-        private LocalDate registrationStartDate;
-        private LocalDate registrationEndDate;
-        private LocalDate presentationDate;
-        private LocalDate experienceStartDate;
-        private LocalDate experienceEndDate;
+        private CampaignChannelType channelType;
         private Set<String> imagePaths;
-        private Set<String> keywords;
 
         public static Response of(Campaign campaign) {
             Set<String> imagePaths = campaign.getImages().stream()
                 .map(CampaignImage::getFile)
-                .map(File::getPath)
-                .collect(Collectors.toSet());
-            Set<String> keywords = campaign.getKeywords().stream()
-                .map(CampaignKeyword::getKeyword)
-                .map(Keyword::getTitle)
+                .map(file -> file.getOriginalName())
                 .collect(Collectors.toSet());
 
             return Response.builder()
                 .no(campaign.getNo())
                 .category(campaign.getCategory())
                 .title(campaign.getTitle())
+                .content(campaign.getContent())
                 .recruitNumber(campaign.getRecruitNumber())
                 .applyNumber(campaign.getApplyNumber())
                 .type(campaign.getType())
-                .registrationStartDate(campaign.getRegistrationStartDate())
-                .registrationEndDate(campaign.getRegistrationEndDate())
-                .presentationDate(campaign.getPresentationDate())
-                .experienceStartDate(campaign.getExperienceStartDate())
-                .experienceEndDate(campaign.getExperienceEndDate())
+                .channelType(campaign.getChannelType())
                 .imagePaths(imagePaths)
-                .keywords(keywords)
                 .build();
         }
 
