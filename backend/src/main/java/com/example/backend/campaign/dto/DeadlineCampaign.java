@@ -38,7 +38,7 @@ public class DeadlineCampaign {
         public static Response of(Campaign campaign) {
             Set<String> imagePaths = campaign.getImages().stream()
                 .map(CampaignImage::getFile)
-                .map(file -> file.getOriginalName())
+                .map(file -> file.getSavedName())
                 .collect(Collectors.toSet());
 
             return Response.builder()
