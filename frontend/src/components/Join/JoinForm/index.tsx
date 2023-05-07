@@ -35,7 +35,7 @@ const JoinForm = () => {
 
   const JoinMutation = useMutation(
     ({ email, nickname, password, passwordCheck, phoneNumber }: IForm) =>
-      axios.post('', {
+      axios.post('/users/join', {
         email,
         nickname,
         password,
