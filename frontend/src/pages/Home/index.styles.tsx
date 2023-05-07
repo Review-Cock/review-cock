@@ -4,14 +4,12 @@ import styled from 'styled-components';
 export const Wrapper = styled.div`
   width: 100%;
   box-sizing: border-box;
-  /* display: flex; */
-  /* flex-direction: column; */
-  /* align-items: center; */
   padding: 0px 210px;
 `;
 
 export const Banner = styled.div`
   margin: 40px 0px;
+  width: 1000px;
 `;
 
 export const CarouselTopLink = styled(Link)`
@@ -28,6 +26,7 @@ export const CarouselTopBox = styled.img`
 
 export const HotCampaignList = styled.div`
   margin: 60px 0px;
+  width: 1000px;
 
   h2 {
     font-size: 36px;
@@ -42,13 +41,15 @@ export const HotCampaignList = styled.div`
 `;
 
 export const BannerMiddle = styled.img`
-  width: 100%;
+  width: 1000px;
   height: 200px;
   margin: 60px 0px;
+  gap: 10px;
 `;
 
 export const LastMinuteContainer = styled.div`
   margin: 60px 0px;
+  width: 1000px;
 
   h2 {
     font-size: 36px;
