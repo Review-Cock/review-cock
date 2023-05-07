@@ -35,7 +35,7 @@ export const LeftAndRightWrapper = styled.div<{ itemWidth: number }>`
   width: inherit;
   position: relative;
 
-  img {
+  & > img {
     width: 40%;
     height: inherit;
   }
@@ -77,15 +77,4 @@ export const ParticipationBox = styled.div`
       }
     }
   }
-`;
-
-export const LastMinuteMark = styled.div`
-  position: absolute;
-  z-index: 2;
-  top: 10px;
-  left: 10px;
-  background: #f58e8e 0% 0% no-repeat padding-box;
-  padding: 6px 8px;
-  border-radius: 10px;
-  color: whitesmoke;
 `;

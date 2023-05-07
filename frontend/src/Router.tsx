@@ -20,8 +20,8 @@ const Router = () => {
         <Route path="/users/logout" element={<Logout />} />
         <Route path="/users/help/id" element={<FindId />} />
         <Route path="/users/help/pwd" element={<FindPwd />} />
-        <Route path="/oauth/kakao/callback" element={<Oauth apiUrl="" />} />
-        <Route path="/oauth/naver/callback" element={<Oauth apiUrl="" />} />
+        {/* <Route path="/oauth/kakao/callback" element={<Oauth apiUrl="" />} /> */}
+        {/* <Route path="/oauth/naver/callback" element={<Oauth />} /> */}
         <Route path="/register" element={<Register />} />
         <Route path="/detail" element={<Detail />} />
       </Routes>

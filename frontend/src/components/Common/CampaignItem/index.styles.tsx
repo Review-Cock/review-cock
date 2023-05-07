@@ -80,10 +80,19 @@ export const ApplicationText = styled.div`
 export const ReionText = styled.div`
   display: flex;
   align-items: center;
+  justify-content: space-between;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
   font-size: 14px;
   font-family: Pretendard;
   color: #aaaaaa;
+
+  div:last-child {
+    img {
+      border-radius: 0;
+      width: 15px;
+      height: 15px;
+    }
+  }
 `;

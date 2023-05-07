@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Carousel from '../../components/Common/Carousel';
 import CampaignItemLayout from '../../Layouts/CampaignItemLayout';
@@ -27,6 +27,7 @@ import {
 import { useQuery } from 'react-query';
 import { useRecoilValue } from 'recoil';
 import { userState } from '@recoil/login';
+import axios from 'axios';
 
 const CarouselTopImgs = [
   { img: CarouselTopTimg1 },
@@ -37,94 +38,94 @@ const CarouselTopImgs = [
 
 const HotCampaignContents = [
   {
-    imageUrls: [slippersImg],
-    deadLine: '6일남음', // 처리해야함
-    campaignType: '참가형',
-    name: '슬리퍼 상점',
+    imagePaths: [slippersImg],
+    title: '슬리퍼 상점',
     content: '4만원 이용권',
-    application: '3', // 처리해야함
-    recruitNumber: '10',
-    link: '/',
+    type: '참가형',
+    applyNumber: 3,
+    recruitNumber: 10,
+    channelType: 'INSTAGRAM',
+    no: '/121d12d',
   },
   {
-    imageUrls: [slippersImg],
-    deadLine: '6일남음', // 처리해야함
-    campaignType: '참가형',
-    name: '슬리퍼 상점',
+    imagePaths: [slippersImg],
+    title: '슬리퍼 상점',
     content: '4만원 이용권',
-    application: '3', // 처리해야함
-    recruitNumber: '10',
-    link: '/',
+    type: '참가형',
+    applyNumber: 3, // 처리해야함
+    recruitNumber: 10,
+    channelType: '',
+    no: '/121d12d',
   },
   {
-    imageUrls: [slippersImg],
-    deadLine: '6일남음', // 처리해야함
-    campaignType: '참가형',
-    name: '슬리퍼 상점',
+    imagePaths: [slippersImg],
+    title: '슬리퍼 상점',
     content: '4만원 이용권',
-    application: '3', // 처리해야함
-    recruitNumber: '10',
-    link: '/',
+    type: '참가형',
+    applyNumber: 3, // 처리해야함
+    recruitNumber: 10,
+    channelType: '',
+    no: '/121d12d',
   },
   {
-    imageUrls: [slippersImg],
-    deadLine: '6일남음', // 처리해야함
-    campaignType: '참가형',
-    name: '슬리퍼 상점',
+    imagePaths: [slippersImg],
+    title: '슬리퍼 상점',
     content: '4만원 이용권',
-    application: '3', // 처리해야함
-    recruitNumber: '10',
-    link: '/',
+    type: '참가형',
+    applyNumber: 3, // 처리해야함
+    recruitNumber: 10,
+    channelType: '',
+    no: '/121d12d',
   },
   {
-    imageUrls: [slippersImg],
-    deadLine: '6일남음', // 처리해야함
-    campaignType: '참가형',
-    name: '슬리퍼 상점',
+    imagePaths: [slippersImg],
+    title: '슬리퍼 상점',
     content: '4만원 이용권',
-    application: '3', // 처리해야함
-    recruitNumber: '10',
-    link: '/',
+    type: '참가형',
+    applyNumber: 3, // 처리해야함
+    recruitNumber: 10,
+    channelType: '',
+    no: '/121d12d',
   },
   {
-    imageUrls: [slippersImg],
-    deadLine: '6일남음', // 처리해야함
-    campaignType: '참가형',
-    name: '슬리퍼 상점',
+    imagePaths: [slippersImg],
+    title: '슬리퍼 상점',
     content: '4만원 이용권',
-    application: '3', // 처리해야함
-    recruitNumber: '10',
-    link: '/',
+    type: '참가형',
+    applyNumber: 3, // 처리해야함
+    recruitNumber: 10,
+    channelType: '',
+    no: '/121d12d',
   },
   {
-    imageUrls: [slippersImg],
-    deadLine: '6일남음', // 처리해야함
-    campaignType: '참가형',
-    name: '슬리퍼 상점',
+    imagePaths: [slippersImg],
+    title: '슬리퍼 상점',
     content: '4만원 이용권',
-    application: '3', // 처리해야함
-    recruitNumber: '10',
-    link: '/',
+    type: '참가형',
+    applyNumber: 3, // 처리해야함
+    recruitNumber: 10,
+    channelType: '',
+    no: '/121d12d',
   },
   {
-    imageUrls: [slippersImg],
-    deadLine: '6일남음', // 처리해야함
-    campaignType: '참가형',
-    name: '슬리퍼 상점',
+    imagePaths: [slippersImg],
+    title: '슬리퍼 상점',
     content: '4만원 이용권',
-    application: '3', // 처리해야함
-    recruitNumber: '10',
-    link: '/',
+    type: '참가형',
+    applyNumber: 3, // 처리해야함
+    recruitNumber: 10,
+    channelType: '',
+    no: '/121d12d',
   },
   {
-    imageUrls: [slippersImg],
-    deadLine: '6일남음', // 처리해야함
-    campaignType: '참가형',
-    name: '슬리퍼 상점',
+    imagePaths: [slippersImg],
+    title: '슬리퍼 상점',
     content: '4만원 이용권',
-    application: '3', // 처리해야함
-    recruitNumber: '10',
-    link: '/',
+    type: '참가형',
+    applyNumber: 3, // 처리해야함
+    recruitNumber: 10,
+    channelType: '',
+    no: '/121d12d',
   },
 ];
 
@@ -134,214 +135,185 @@ const LastMinuteContents = [
     subContents: ['여행 숙박 캠페인', '여행을 통해서 얻는 깨달음의 재미'],
     contents: [
       {
-        imageUrls: [slippersImg, slippersImg, slippersImg],
-        deadLine: '6일남음', // 처리해야함
-        campaignType: '참가형',
-        name: '슬리퍼 상점',
+        imagePaths: [slippersImg],
+        title: '슬리퍼 상점',
         content: '4만원 이용권',
-        application: '3', // 처리해야함
-        recruitNumber: '10',
-        link: '/detail/qwe213123123123',
-        title: '여행을 통해서 얻는 깨달음의 재미',
-        reword: '여행 숙박 캠페인',
+        type: '참가형',
+        applyNumber: 3,
+        recruitNumber: 10,
+        channelType: 'INSTAGRAM',
+        no: '/121d12d',
       },
       {
-        imageUrls: [coffeeImg, slippersImg, slippersImg],
-        deadLine: '6일남음', // 처리해야함
-        campaignType: '참가형',
-        name: '슬리퍼 상점',
+        imagePaths: [slippersImg],
+        title: '슬리퍼 상점',
         content: '4만원 이용권',
-        application: '3', // 처리해야함
-        recruitNumber: '10',
-        link: '/',
-        title: '여행을 통해서 얻는 깨달음의 재미',
-        reword: '여행 숙박 캠페인',
+        type: '참가형',
+        applyNumber: 3,
+        recruitNumber: 10,
+        channelType: 'INSTAGRAM',
+        no: '/121d12d',
       },
       {
-        imageUrls: [slippersImg, slippersImg, slippersImg],
-        deadLine: '6일남음', // 처리해야함
-        campaignType: '참가형',
-        name: '슬리퍼 상점',
+        imagePaths: [slippersImg],
+        title: '슬리퍼 상점',
         content: '4만원 이용권',
-        application: '3', // 처리해야함
-        recruitNumber: '10',
-        link: '/',
-        title: '여행을 통해서 얻는 깨달음의 재미',
-        reword: '여행 숙박 캠페인',
+        type: '참가형',
+        applyNumber: 3,
+        recruitNumber: 10,
+        channelType: 'INSTAGRAM',
+        no: '/121d12d',
       },
       {
-        imageUrls: [coffeeImg, slippersImg, slippersImg],
-        deadLine: '6일남음', // 처리해야함
-        campaignType: '참가형',
-        name: '슬리퍼 상점',
+        imagePaths: [slippersImg],
+        title: '슬리퍼 상점',
         content: '4만원 이용권',
-        application: '3', // 처리해야함
-        recruitNumber: '10',
-        link: '/',
-        title: '여행을 통해서 얻는 깨달음의 재미',
-        reword: '여행 숙박 캠페인',
+        type: '참가형',
+        applyNumber: 3,
+        recruitNumber: 10,
+        channelType: 'INSTAGRAM',
+        no: '/121d12d',
       },
     ],
   },
+
   {
     subImg: coffeeImg,
     subContents: ['여행 숙박 캠페인', '여행을 통해서 얻는 깨달음의 재미'],
     contents: [
       {
-        imageUrls: [slippersImg, slippersImg, slippersImg],
-        deadLine: '6일남음', // 처리해야함
-        campaignType: '참가형',
-        name: '슬리퍼 상점',
+        imagePaths: [coffeeImg],
+        title: '슬리퍼 상점',
         content: '4만원 이용권',
-        application: '3', // 처리해야함
-        recruitNumber: '10',
-        link: '/',
-        title: '여행을 통해서 얻는 깨달음의 재미',
-        reword: '여행 숙박 캠페인',
+        type: '참가형',
+        applyNumber: 3,
+        recruitNumber: 10,
+        channelType: 'BLOG',
+        no: '/121d12d',
       },
       {
-        imageUrls: [coffeeImg, slippersImg, slippersImg],
-        deadLine: '6일남음', // 처리해야함
-        campaignType: '참가형',
-        name: '슬리퍼 상점',
+        imagePaths: [coffeeImg],
+        title: '슬리퍼 상점',
         content: '4만원 이용권',
-        application: '3', // 처리해야함
-        recruitNumber: '10',
-        link: '/',
-        title: '여행을 통해서 얻는 깨달음의 재미',
-        reword: '여행 숙박 캠페인',
+        type: '참가형',
+        applyNumber: 3,
+        recruitNumber: 10,
+        channelType: 'BLOG',
+        no: '/121d12d',
       },
       {
-        imageUrls: [slippersImg, slippersImg, slippersImg],
-        deadLine: '6일남음', // 처리해야함
-        campaignType: '참가형',
-        name: '슬리퍼 상점',
+        imagePaths: [coffeeImg],
+        title: '슬리퍼 상점',
         content: '4만원 이용권',
-        application: '3', // 처리해야함
-        recruitNumber: '10',
-        link: '/',
-        title: '여행을 통해서 얻는 깨달음의 재미',
-        reword: '여행 숙박 캠페인',
+        type: '참가형',
+        applyNumber: 3,
+        recruitNumber: 10,
+        channelType: 'BLOG',
+        no: '/121d12d',
       },
       {
-        imageUrls: [coffeeImg, slippersImg, slippersImg],
-        deadLine: '6일남음', // 처리해야함
-        campaignType: '참가형',
-        name: '슬리퍼 상점',
+        imagePaths: [coffeeImg],
+        title: '슬리퍼 상점',
         content: '4만원 이용권',
-        application: '3', // 처리해야함
-        recruitNumber: '10',
-        link: '/',
-        title: '여행을 통해서 얻는 깨달음의 재미',
-        reword: '여행 숙박 캠페인',
+        type: '참가형',
+        applyNumber: 3,
+        recruitNumber: 10,
+        channelType: 'BLOG',
+        no: '/121d12d',
       },
     ],
   },
+
   {
     subImg: slippersImg,
     subContents: ['여행 숙박 캠페인', '여행을 통해서 얻는 깨달음의 재미'],
     contents: [
       {
-        imageUrls: [slippersImg, slippersImg, slippersImg],
-        deadLine: '6일남음', // 처리해야함
-        campaignType: '참가형',
-        name: '슬리퍼 상점',
+        imagePaths: [slippersImg],
+        title: '슬리퍼 상점',
         content: '4만원 이용권',
-        application: '3', // 처리해야함
-        recruitNumber: '10',
-        link: '/',
-        title: '여행을 통해서 얻는 깨달음의 재미',
-        reword: '여행 숙박 캠페인',
+        type: '참가형',
+        applyNumber: 3,
+        recruitNumber: 10,
+        channelType: 'INSTAGRAM',
+        no: '/121d12d',
       },
       {
-        imageUrls: [coffeeImg, slippersImg, slippersImg],
-        deadLine: '6일남음', // 처리해야함
-        campaignType: '참가형',
-        name: '슬리퍼 상점',
+        imagePaths: [slippersImg],
+        title: '슬리퍼 상점',
         content: '4만원 이용권',
-        application: '3', // 처리해야함
-        recruitNumber: '10',
-        link: '/',
-        title: '여행을 통해서 얻는 깨달음의 재미',
-        reword: '여행 숙박 캠페인',
+        type: '참가형',
+        applyNumber: 3,
+        recruitNumber: 10,
+        channelType: 'INSTAGRAM',
+        no: '/121d12d',
       },
       {
-        imageUrls: [slippersImg, slippersImg, slippersImg],
-        deadLine: '6일남음', // 처리해야함
-        campaignType: '참가형',
-        name: '슬리퍼 상점',
+        imagePaths: [slippersImg],
+        title: '슬리퍼 상점',
         content: '4만원 이용권',
-        application: '3', // 처리해야함
-        recruitNumber: '10',
-        link: '/',
-        title: '여행을 통해서 얻는 깨달음의 재미',
-        reword: '여행 숙박 캠페인',
+        type: '참가형',
+        applyNumber: 3,
+        recruitNumber: 10,
+        channelType: 'INSTAGRAM',
+        no: '/121d12d',
       },
       {
-        imageUrls: [coffeeImg, slippersImg, slippersImg],
-        deadLine: '6일남음', // 처리해야함
-        campaignType: '참가형',
-        name: '슬리퍼 상점',
+        imagePaths: [slippersImg],
+        title: '슬리퍼 상점',
         content: '4만원 이용권',
-        application: '3', // 처리해야함
-        recruitNumber: '10',
-        link: '/',
-        title: '여행을 통해서 얻는 깨달음의 재미',
-        reword: '여행 숙박 캠페인',
+        type: '참가형',
+        applyNumber: 3,
+        recruitNumber: 10,
+        channelType: 'INSTAGRAM',
+        no: '/121d12d',
       },
     ],
   },
+
   {
     subImg: coffeeImg,
     subContents: ['여행 숙박 캠페인', '여행을 통해서 얻는 깨달음의 재미'],
     contents: [
       {
-        imageUrls: [slippersImg, slippersImg, slippersImg],
-        deadLine: '6일남음', // 처리해야함
-        campaignType: '참가형',
-        name: '슬리퍼 상점',
+        imagePaths: [coffeeImg],
+        title: '슬리퍼 상점',
         content: '4만원 이용권',
-        application: '3', // 처리해야함
-        recruitNumber: '10',
-        link: '/',
-        title: '여행을 통해서 얻는 깨달음의 재미',
-        reword: '여행 숙박 캠페인',
+        type: '참가형',
+        applyNumber: 3,
+        recruitNumber: 10,
+        channelType: 'BLOG',
+        no: '/121d12d',
       },
       {
-        imageUrls: [coffeeImg, slippersImg, slippersImg],
-        deadLine: '6일남음', // 처리해야함
-        campaignType: '참가형',
-        name: '슬리퍼 상점',
+        imagePaths: [coffeeImg],
+        title: '슬리퍼 상점',
         content: '4만원 이용권',
-        application: '3', // 처리해야함
-        recruitNumber: '10',
-        link: '/',
-        title: '여행을 통해서 얻는 깨달음의 재미',
-        reword: '여행 숙박 캠페인',
+        type: '참가형',
+        applyNumber: 3,
+        recruitNumber: 10,
+        channelType: 'BLOG',
+        no: '/121d12d',
       },
       {
-        imageUrls: [slippersImg, slippersImg, slippersImg],
-        deadLine: '6일남음', // 처리해야함
-        campaignType: '참가형',
-        name: '슬리퍼 상점',
+        imagePaths: [coffeeImg],
+        title: '슬리퍼 상점',
         content: '4만원 이용권',
-        application: '3', // 처리해야함
-        recruitNumber: '10',
-        link: '/',
-        title: '여행을 통해서 얻는 깨달음의 재미',
-        reword: '여행 숙박 캠페인',
+        type: '참가형',
+        applyNumber: 3,
+        recruitNumber: 10,
+        channelType: 'BLOG',
+        no: '/121d12d',
       },
       {
-        imageUrls: [coffeeImg, slippersImg, slippersImg],
-        deadLine: '6일남음', // 처리해야함
-        campaignType: '참가형',
-        name: '슬리퍼 상점',
+        imagePaths: [coffeeImg],
+        title: '슬리퍼 상점',
         content: '4만원 이용권',
-        application: '3', // 처리해야함
-        recruitNumber: '10',
-        link: '/',
-        title: '여행을 통해서 얻는 깨달음의 재미',
-        reword: '여행 숙박 캠페인',
+        type: '참가형',
+        applyNumber: 3,
+        recruitNumber: 10,
+        channelType: 'BLOG',
+        no: '/121d12d',
       },
     ],
   },
@@ -355,6 +327,17 @@ const Home = () => {
   //   'LastMinuteCampaign',
   //   getHotCampaigns,
   // );
+
+  useEffect(() => {
+    axios
+      .get('/campaigns/popular')
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   return (
     <MainPage>
@@ -377,17 +360,18 @@ const Home = () => {
             {HotCampaignContents.map((item, i) => {
               return (
                 <CampaignItemLayout
-                  key={i}
+                  key={item.no}
                   containerWidth={1000}
                   itemWidth={240}
-                  imageUrls={item.imageUrls}
-                  campaignType={item.campaignType}
-                  name={item.name}
+                  imagePaths={item.imagePaths}
+                  title={item.title}
                   content={item.content}
-                  application={item.application}
+                  type={item.type}
+                  applyNumber={item.applyNumber}
                   recruitNumber={item.recruitNumber}
+                  channelType={item.channelType}
                   direction="topAndBottom"
-                  link={item.link}
+                  link={item.no}
                 />
               );
             })}
@@ -414,17 +398,18 @@ const Home = () => {
                     return (
                       <li key={j}>
                         <CampaignItemLayout
-                          key={i}
+                          key={campaignContents.no}
                           containerWidth={240}
-                          itemWidth={250}
-                          imageUrls={campaignContents.imageUrls}
-                          campaignType={campaignContents.campaignType}
-                          name={campaignContents.name}
+                          itemWidth={240}
+                          imagePaths={campaignContents.imagePaths}
+                          title={campaignContents.title}
                           content={campaignContents.content}
-                          application={campaignContents.application}
+                          type={campaignContents.type}
+                          applyNumber={campaignContents.applyNumber}
                           recruitNumber={campaignContents.recruitNumber}
+                          channelType={campaignContents.channelType}
+                          link={campaignContents.no}
                           direction="leftAndRight"
-                          link={campaignContents.link}
                         />
                       </li>
                     );
@@ -455,7 +440,3 @@ const Home = () => {
 };
 
 export default Home;
-
-// 1. 변수명 바꾸기
-// 2. 리팩토링
-// 3. 고정 된 부분 수정

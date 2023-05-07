@@ -1,30 +1,36 @@
 import React from 'react';
 import { Container, TitleText, PriceNameText, ApplicationText, ReionText } from './index.styles';
+import blogImg from '../../../assets/blogIcon.png';
+import InstagramImg from '../../../assets/인스타로고.png';
 
 interface CampaignItemProps {
-  campaignType: string; // 참가형 or 방문
-  content: string; //이용권
-  name: string; // 상점
-  recruitNumber: string; // 총인원
-  application: string;
+  title: string;
+  type: string;
+  content: string;
+  applyNumber: number;
+  recruitNumber: number;
+  channelType: string;
 }
 
 const CampaignItem = (props: CampaignItemProps) => {
-  const { campaignType, name, content, application, recruitNumber } = props;
+  const { title, type, content, applyNumber, recruitNumber, channelType } = props;
 
   return (
     <Container>
-      <TitleText>{name}</TitleText>
+      <TitleText>{title}</TitleText>
       <PriceNameText>{content}</PriceNameText>
       <div>
         <ApplicationText>
           <div>
-            신청<span>{application}</span>명
+            신청<span>{applyNumber}</span>명
           </div>
           <div>|</div>
           <div>모집 {recruitNumber}명</div>
         </ApplicationText>
-        <ReionText>{campaignType}</ReionText>
+        <ReionText>
+          <div>{type}</div>
+          <div>{channelType === 'INSTAGRAM' ? <img src={InstagramImg} /> : <img src={blogImg} />}</div>
+        </ReionText>
       </div>
     </Container>
   );
