@@ -21,8 +21,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Slf4j
-@Service
 @RequiredArgsConstructor
+@Service
 public class UserService {
 
 	private final UserRepository usersRepository;
@@ -31,7 +31,6 @@ public class UserService {
 	private final RefreshTokenRepository refreshTokenRepository;
 	private final KakaoOAuthService kakaoOAuthService;
 	private final NaverOAuthService naverOAuthService;
-
 
 	public void join(RegisterUser parameter) {
 

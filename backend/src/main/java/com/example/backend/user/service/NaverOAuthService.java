@@ -19,8 +19,8 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 @Slf4j
-@Service
 @RequiredArgsConstructor
+@Service
 public class NaverOAuthService {
 
 	@Value("${spring.security.oauth2.client.registration.naver.client-id}")
@@ -36,7 +36,6 @@ public class NaverOAuthService {
 	private String NAVER_USER_INFO_URI;
 
 	public String getAccessToken(String code, String state) {
-
 		// Combine the client ID and client secret into a single string with a colon separator
 		String credentials = NAVER_CLIENT_ID + ":" + NAVER_CLIENT_SECRET;
 
