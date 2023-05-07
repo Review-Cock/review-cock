@@ -12,5 +12,4 @@ import lombok.Setter;
 public class AccessToken {
 
 	private String accessToken;
-
 }

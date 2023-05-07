@@ -18,12 +18,14 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
 @RequiredArgsConstructor
 @RequestMapping("/users")
+@RestController
 public class UserController {
 
 	private final UserService usersService;
+
+	private final static String REFRESH_TOKEN = "refreshToken";
 
 	@PostMapping("/join")
 	public ResponseEntity<Void> join (@RequestBody @Validated RegisterUser request) {
@@ -53,7 +55,7 @@ public class UserController {
 		try {
 			Token tokenDto = usersService.reissueAccessToken(refreshToken);
 
-			ResponseCookie cookie = ResponseCookie.from("refreshToken", tokenDto.getRefreshToken())
+			ResponseCookie cookie = ResponseCookie.from(REFRESH_TOKEN, tokenDto.getRefreshToken())
 				.httpOnly(true).secure(true).path("/").build();
 			HttpHeaders headers = new HttpHeaders();
 			headers.add(HttpHeaders.SET_COOKIE, cookie.toString());
@@ -62,7 +64,5 @@ public class UserController {
 		} catch (UsersException e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
-
 	}
-
 }

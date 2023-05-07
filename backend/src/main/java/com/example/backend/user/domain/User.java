@@ -1,4 +1,5 @@
 package com.example.backend.user.domain;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -19,6 +20,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @EntityListeners(AuditingEntityListener.class)
 @Entity
 public class User {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -44,7 +46,7 @@ public class User {
 	private LocalDateTime lastModifiedDate;
 
 	@Builder
-	public User(String email, String nickname, String password, String phoneNumber,
+	private User(String email, String nickname, String password, String phoneNumber,
 		LocalDateTime createdDate, LocalDateTime lastModifiedDate) {
 		this.email = email;
 		this.nickname = nickname;

@@ -12,10 +12,10 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Getter
-@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
 @Entity
@@ -25,20 +25,21 @@ public class TokenInfo {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(nullable = false)
-	private String refreshToken;
-
 	@Column(unique = true, nullable = false)
 	private String email;
 
+	@Setter
 	@Column(nullable = false)
-	private LocalDateTime expirationDt; // 토큰 만료 시간
+	private String refreshToken;
+
+	@Setter
+	@Column(nullable = false)
+	private LocalDateTime expirationDt;
 
 	@Builder
-	public TokenInfo(String refreshToken, String email, LocalDateTime expirationDt) {
-		this.refreshToken = refreshToken;
+	private TokenInfo(String email, String refreshToken, LocalDateTime expirationDt) {
 		this.email = email;
+		this.refreshToken = refreshToken;
 		this.expirationDt = expirationDt;
 	}
-
 }
