@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 export const Wrapper = styled.div`
-  width: 100%;
   box-sizing: border-box;
   padding: 0px 210px;
 `;
@@ -38,6 +37,11 @@ export const HotCampaignList = styled.div`
     line-height: 43px;
     font-family: Pretendard;
   }
+`;
+
+export const HotCampaignListWithoutCarousel = styled.div`
+  width: 1000px;
+  display: flex;
 `;
 
 export const BannerMiddle = styled.img`

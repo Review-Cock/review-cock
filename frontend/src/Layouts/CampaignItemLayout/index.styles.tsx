@@ -20,7 +20,7 @@ export const UpAndBottomWrapper = styled.div<{ itemWidth: number }>`
   img {
     border-radius: 20px 20px 0px 0px;
     width: inherit;
-    height: 50%;
+    height: 250px;
   }
   div {
     border-radius: 0px 0px 20px 20px;

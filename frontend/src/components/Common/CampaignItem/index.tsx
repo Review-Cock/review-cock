@@ -28,7 +28,7 @@ const CampaignItem = (props: CampaignItemProps) => {
           <div>모집 {recruitNumber}명</div>
         </ApplicationText>
         <ReionText>
-          <div>{type}</div>
+          <div>{type === 'EXPERIENCE' ? '지역형' : '배송형'}</div>
           <div>{channelType === 'INSTAGRAM' ? <img src={InstagramImg} /> : <img src={blogImg} />}</div>
         </ReionText>
       </div>
