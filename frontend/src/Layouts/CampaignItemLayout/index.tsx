@@ -36,7 +36,7 @@ const CampaignItemLayout = (props: CampaignItemLayoutProps) => {
       <LinkBox to={link}>
         {direction === 'topAndBottom' && (
           <UpAndBottomWrapper itemWidth={itemWidth}>
-            <img src={imagePaths[0]} alt="가게이미지" />
+            <img src={`/images/${imagePaths[0]}`} alt="가게이미지" />
             <CampaignItem
               type={type}
               title={title}
@@ -50,7 +50,7 @@ const CampaignItemLayout = (props: CampaignItemLayoutProps) => {
 
         {direction === 'leftAndRight' && (
           <LeftAndRightWrapper itemWidth={itemWidth}>
-            <img src={imagePaths[0]} alt="가게이미지" />
+            <img src={`/images/${imagePaths[0]}`} alt="가게이미지" />
             <CampaignItem
               type={type}
               title={title}
