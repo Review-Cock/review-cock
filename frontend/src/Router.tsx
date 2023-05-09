@@ -20,10 +20,10 @@ const Router = () => {
         <Route path="/users/logout" element={<Logout />} />
         <Route path="/users/help/id" element={<FindId />} />
         <Route path="/users/help/pwd" element={<FindPwd />} />
-        <Route path="/oauth/kakao/callback" element={<Oauth apiUrl="" />} />
-        <Route path="/oauth/naver/callback" element={<Oauth apiUrl="" />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/detail" element={<Detail />} />
+        {/* <Route path="/oauth/kakao/callback" element={<Oauth apiUrl="" />} /> */}
+        {/* <Route path="/oauth/naver/callback" element={<Oauth />} /> */}
+        <Route path="/campaigns/register" element={<Register />} />
+        <Route path="/campaigns/detail/:id" element={<Detail />} />
       </Routes>
     </BrowserRouter>
   );

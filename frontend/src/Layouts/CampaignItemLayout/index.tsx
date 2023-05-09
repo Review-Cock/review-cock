@@ -5,13 +5,14 @@ import { Container, LinkBox, UpAndBottomWrapper, LeftAndRightWrapper } from './i
 interface CampaignItemLayoutProps {
   containerWidth: number;
   itemWidth: number;
-  campaignType: string; // 참가형 or 방문
+  imagePaths: string[];
+  title: string; // 상점
   content: string; //이용권
-  imageUrls: string[];
-  name: string; // 상점
-  recruitNumber: string; // 총인원
+  type: string; // 참가형 or 방문
+  applyNumber: number;
+  recruitNumber: number; // 총인원
+  channelType: string;
   direction: string;
-  application: string;
   link: string;
 }
 
@@ -19,40 +20,44 @@ const CampaignItemLayout = (props: CampaignItemLayoutProps) => {
   const {
     containerWidth,
     itemWidth,
-    imageUrls,
-    campaignType,
-    name,
+    imagePaths,
+    title,
     content,
-    application,
+    type,
+    applyNumber,
     recruitNumber,
+    channelType,
     direction,
     link,
   } = props;
+
   return (
     <Container containerWidth={containerWidth}>
       <LinkBox to={link}>
         {direction === 'topAndBottom' && (
           <UpAndBottomWrapper itemWidth={itemWidth}>
-            <img src={imageUrls[0]} alt="가게이미지" />
+            <img src={`/images/${imagePaths[0]}`} alt="가게이미지" />
             <CampaignItem
-              campaignType={campaignType}
-              name={name}
+              type={type}
+              title={title}
               content={content}
-              application={application}
+              applyNumber={applyNumber}
               recruitNumber={recruitNumber}
+              channelType={channelType}
             />
           </UpAndBottomWrapper>
         )}
 
         {direction === 'leftAndRight' && (
           <LeftAndRightWrapper itemWidth={itemWidth}>
-            <img src={imageUrls[0]} alt="가게이미지" />
+            <img src={`/images/${imagePaths[0]}`} alt="가게이미지" />
             <CampaignItem
-              campaignType={campaignType}
-              name={name}
+              type={type}
+              title={title}
               content={content}
-              application={application}
+              applyNumber={applyNumber}
               recruitNumber={recruitNumber}
+              channelType={channelType}
             />
           </LeftAndRightWrapper>
         )}
