@@ -45,7 +45,7 @@ const JoinForm = () => {
     {
       onSuccess: (response) => {
         console.log(response);
-        navigate('/');
+        navigate('/users/login');
       },
       onError: (error) => {
         console.log(error);
