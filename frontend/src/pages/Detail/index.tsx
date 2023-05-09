@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
-import DefaultImage from '@assets/defaultImage.png';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
+import { useQuery } from 'react-query';
+import { userState } from '@recoil/login';
 
 import {
   NumberText,
@@ -33,40 +36,37 @@ import Calendar from '@components/Detail/Calendar';
 import blogIcon from '@assets/blogIcon.png';
 import instaIcon from '@assets/instaIcon.png';
 import useInput from '@hooks/useInput';
-import { useNavigate } from 'react-router-dom';
-
-const data = {
-  campaignDescription: '우리집으로 모여!!!!!!!!!!!',
-  campaignType: '11',
-  category: '맛집',
-  channelType: 'BLOG',
-  content: '얼마 이용권',
-  expEndDateTime: '2023-04-15T23:59:59',
-  expStartDateTime: '2023-04-10T00:00:00',
-  imageUrls: [DefaultImage, DefaultImage, DefaultImage],
-  location: '전북 전주시 완산구 선너머로 40',
-  name: '우리집',
-  noticeDateTime: '2023-04-09T23:59:59',
-  recruitNumber: 20,
-  regStartDateTime: '2023-04-01T00:00:00',
-  regEndDateTime: '2023-04-07T23:59:59',
-  searchTags: ['태그1', '태그2', '태그3', '긴이이이잉이인태그'],
-  siteUrl: 'www.abcd.com',
-  totalNumber: 20, // 신청한 인원 수
-};
+import axios from 'axios';
 
 const Detail = () => {
   const navigate = useNavigate();
+  const isLogin = useRecoilValue(userState);
+  const { id } = useParams();
   const [userSnsLink, onChangeUserSnsLink] = useInput('');
-  const [isLogin, setIsLogin] = useState(false);
   const [isMoreImage, setIsMoreImage] = useState(false);
 
+  const fetchCampaign = async () => {
+    const data = await axios.get(`/campaigns/detail?no=${id}`).then((res) => res.data);
+    console.log(data);
+    return data;
+  };
+
+  const { status, data, error } = useQuery('campaign', fetchCampaign);
+
+  if (status === 'loading') {
+    return <span>로딩중~~</span>;
+  }
+
+  if (status === 'error') {
+    return <span>에러</span>;
+  }
+
   const dates = {
-    regStart: new Date(data.regStartDateTime),
-    regEnd: new Date(data.regEndDateTime),
-    notice: new Date(data.noticeDateTime),
-    expStart: new Date(data.expStartDateTime),
-    expEnd: new Date(data.expEndDateTime),
+    regStart: new Date(data.registrationStartDate),
+    regEnd: new Date(data.registrationEndDate),
+    notice: new Date(data.presentationDate),
+    expStart: new Date(data.experienceStartDate),
+    expEnd: new Date(data.experienceEndDate),
   };
 
   const calDay = Math.floor((dates.regEnd.getTime() - new Date().getTime()) / (24 * 60 * 60 * 1000));
@@ -86,7 +86,7 @@ const Detail = () => {
   };
 
   const handleLoginBtn = () => {
-    navigate('/login');
+    navigate('/users/login');
   };
 
   return (
@@ -94,29 +94,30 @@ const Detail = () => {
       <Container>
         <LeftCotainer>
           <TitleWrapper>
-            <TitleText>{data.name}</TitleText>
+            <TitleText>{data.title}</TitleText>
             <p>
               <DisabledText>{data.content}</DisabledText>
             </p>
             <TitleTextBox>
               <p>
                 <NomalText>신청 </NomalText>
-                <NumberText>{data.totalNumber}명</NumberText> <DisabledText>| 모집 {data.recruitNumber}명</DisabledText>
+                <NumberText>{data.applyNumber}명</NumberText> <DisabledText>| 모집 {data.recruitNumber}명</DisabledText>
               </p>
               <p>
-                <DisabledText>{data.campaignType === 'region' ? '지역형' : '배송형'}</DisabledText>
+                <DisabledText>{data.type === 'EXPERIENCE' ? '지역형' : '배송형'}</DisabledText>
               </p>
               <div>
                 {data.channelType === 'BLOG' ? (
                   <IconImage src={blogIcon} alt="블로그" />
                 ) : (
-                  <IconImage src={instaIcon} alt="인스타" />
+                  <IconImage src={instaIcon} alt="인스타그램" />
                 )}
               </div>
             </TitleTextBox>
           </TitleWrapper>
-          <MainImage src={data.imageUrls[0]} alt="캠페인 이미지" />
-          {isMoreImage && data.imageUrls.map((url, index) => <MainImage key={index} src={url} />)}
+          <MainImage src={`/images/${data.imagePaths[0]}`} alt="캠페인 이미지" />
+          {isMoreImage &&
+            data.imagePaths.map((url: string, index: number) => <MainImage key={index} src={`/images/${url}`} />)}
           <SlideBtn
             onClick={() => {
               setIsMoreImage((v) => !v);
@@ -125,7 +126,7 @@ const Detail = () => {
             {isMoreImage ? '접기' : '상세이미지 더보기'}
           </SlideBtn>
 
-          {data.campaignType === 'region' ? (
+          {data.type === 'SHIPPING' ? (
             <CampaignTypeBox>
               <span>배송형 캠페인</span>
               <p>업체 배송한 상품에 대한 SNS리뷰를 작성하는 캠페인이에요.</p>
@@ -163,7 +164,7 @@ const Detail = () => {
                 <span>신청</span>
                 <span>
                   <NomalText>총</NomalText>
-                  <NumberText>{data.totalNumber}</NumberText>
+                  <NumberText>{data.applyNumber}</NumberText>
                   <DisabledText> 명</DisabledText>
                 </span>
               </div>
@@ -172,14 +173,14 @@ const Detail = () => {
           <CampaignInfoBox>
             <span>캠페인 소개</span>
             <CampaignInfoBoxItem>
-              <p>{data.campaignDescription}</p>
+              <p>{data.description}</p>
             </CampaignInfoBoxItem>
           </CampaignInfoBox>
           <CampaignInfoBox>
             <span>필수 키워드</span>
             <CampaignInfoBoxItem>
               <TagBox>
-                {data.searchTags.map((tag, index) => (
+                {data.keywords.map((tag: string, index: number) => (
                   <TagItem key={index}>{tag}</TagItem>
                 ))}
               </TagBox>
@@ -254,14 +255,14 @@ const Detail = () => {
                 <button onClick={handleApplyBtn}>배송체험 신청하기</button>
               </div>
             )}
-            {calDay > 0 && !isLogin && (
+            {calDay >= 0 && !isLogin && (
               <div>
                 <button onClick={handleLoginBtn}>로그인하고 신청하기</button>
               </div>
             )}
-            <KakaoMap campaignAddress={data.location} />
+            <KakaoMap campaignAddress={data.address} />
             <p>상세주소</p>
-            <p>{data.location}</p>
+            <p>{data.address}</p>
           </SubmitBox>
         </RightCotainer>
       </Container>
