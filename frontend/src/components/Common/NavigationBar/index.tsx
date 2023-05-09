@@ -97,7 +97,7 @@ const NavigationBar = () => {
           지역
           <DropDownMenu type="region" show={showRegion} />
         </DropBoxItem>
-        {isUser && <CategoryLinkItem to="/register">캠페인 등록</CategoryLinkItem>}
+        {isUser && <CategoryLinkItem to="/campaigns/register">캠페인 등록</CategoryLinkItem>}
       </CategoryWrapper>
     </Container>
   );
