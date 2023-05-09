@@ -30,10 +30,10 @@ public class CampaignService {
     private final FileService fileService;
 
     @Transactional
-    public void register(RegisterCampaign.Request request, MultipartFile coverImage, List<MultipartFile> detailImages) {
+    public void register(RegisterCampaign.Request request, List<MultipartFile> images) {
         Campaign campaign = request.toEntity();
         campaignRepository.save(campaign);
-        fileService.saveCampaignImages(campaign, coverImage, detailImages);
+        fileService.saveCampaignImages(campaign, images);
         request.getKeywords().stream()
             .map(keywordTitle -> keywordService.findOrCreate(keywordTitle))
             .forEach(keyword -> keywordService.saveCampaignKeywords(campaign, keyword));

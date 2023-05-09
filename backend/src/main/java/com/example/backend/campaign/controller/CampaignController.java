@@ -34,9 +34,8 @@ public class CampaignController {
         consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<Void> register(
         @RequestPart @Validated RegisterCampaign.Request request,
-        @RequestPart MultipartFile coverImage,
-        @RequestPart List<MultipartFile> detailImages) {
-        campaignService.register(request, coverImage, detailImages);
+        @RequestPart List<MultipartFile> images) {
+        campaignService.register(request, images);
 
         return ResponseEntity.ok().build();
     }
