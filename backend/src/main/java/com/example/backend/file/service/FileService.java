@@ -28,20 +28,24 @@ public class FileService {
 
     private final FileRepository fileRepository;
 
-    public void saveCampaignImages(Campaign campaign, MultipartFile coverImage, List<MultipartFile> detailImages) {
-        File savedCoverImage = save(coverImage);
-        CampaignImage savedCampaignCoverImage = CampaignImage.createImage(
-            campaign, savedCoverImage, CampaignImageType.COVER);
-        campaign.addImage(savedCampaignCoverImage);
-
+    public void saveCampaignImages(Campaign campaign, List<MultipartFile> detailImages) {
+        boolean coverFlag = true;
         for (MultipartFile multipartFile : detailImages) {
             if (multipartFile.isEmpty()) {
                 throw new RuntimeException();
             }
-            File savedDetailImage = save(multipartFile);
-            CampaignImage savedCampaignDetailImage = CampaignImage.createImage(
-                campaign, savedDetailImage, CampaignImageType.DETAIL);
-            campaign.addImage(savedCampaignDetailImage);
+            if (coverFlag) {
+                File savedCoverImage = save(multipartFile);
+                CampaignImage savedCampaignCoverImage = CampaignImage.createImage(
+                    campaign, savedCoverImage, CampaignImageType.COVER);
+                campaign.addImage(savedCampaignCoverImage);
+                coverFlag = false;
+            } else {
+                File savedDetailImage = save(multipartFile);
+                CampaignImage savedCampaignDetailImage = CampaignImage.createImage(
+                    campaign, savedDetailImage, CampaignImageType.DETAIL);
+                campaign.addImage(savedCampaignDetailImage);
+            }
         }
     }
 
@@ -55,6 +59,7 @@ public class FileService {
             multipartFile.transferTo(new java.io.File(path));
         } catch (IOException e) {
             throw new RuntimeException(e);
+            // TODO: remove image
         }
 
         File file = File.builder()
