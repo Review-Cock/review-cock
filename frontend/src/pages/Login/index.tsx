@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { SiNaver, SiKakaotalk } from 'react-icons/si';
 
 import LoginForm from '../../components/Login/LoginForm';
-import { JOIN_BUTTON, LOGIN_TITLE, SNS_NOTIFICATION } from '../../utils/LoginConstants';
+import { JOIN_BUTTON, LOGIN_TITLE, SNS_NOTIFICATION } from '../../utils/constants/loginConstants';
 import MainPage from '../../Layouts/MainPage';
 import { LoginBox, Title, SnSLoginBox, NaverLogin, KaKaoLogin, JoinBox } from './index.styles';
 
