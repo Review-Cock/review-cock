@@ -10,15 +10,19 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.example.backend.user.domain.User;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -34,6 +38,12 @@ public class Campaign {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User host;
+
+    @OneToMany(mappedBy = "campaign", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Participant> participants = new HashSet<>();
 
     @Column(nullable = false)
     private String no;
@@ -52,8 +62,6 @@ public class Campaign {
     private String content;
 
     private int recruitNumber;
-
-    private int applyNumber;
 
     @Column(nullable = false)
     private String address;
@@ -99,18 +107,17 @@ public class Campaign {
 
     @Builder
     private Campaign(
-        CampaignCategory category, String title, String description, String content,
-        int recruitNumber, int applyNumber, String address,
-        CampaignType type, CampaignChannelType channelType,
-        String siteUrl, LocalDate registrationStartDate, LocalDate registrationEndDate,
+        User host, CampaignCategory category, String title,
+        String description, String content, int recruitNumber, String address, CampaignType type,
+        CampaignChannelType channelType, String siteUrl, LocalDate registrationStartDate, LocalDate registrationEndDate,
         LocalDate presentationDate, LocalDate experienceStartDate, LocalDate experienceEndDate) {
+        this.host = host;
         this.no = UUID.randomUUID().toString();
         this.category = category;
         this.title = title;
         this.description = description;
         this.content = content;
         this.recruitNumber = recruitNumber;
-        this.applyNumber = applyNumber;
         this.address = address;
         this.type = type;
         this.channelType = channelType;
@@ -120,6 +127,14 @@ public class Campaign {
         this.presentationDate = presentationDate;
         this.experienceStartDate = experienceStartDate;
         this.experienceEndDate = experienceEndDate;
+    }
+
+    public void addParticipant(Participant participant) {
+        this.participants.add(participant);
+    }
+
+    public int getParticipantsSize() {
+        return this.participants.size();
     }
 
     public void addImage(CampaignImage image) {

@@ -9,13 +9,16 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.backend.campaign.domain.Campaign;
-import com.example.backend.campaign.dto.DeadlineCampaign;
-import com.example.backend.campaign.dto.DetailCampaign;
-import com.example.backend.campaign.dto.PopularCampaign;
-import com.example.backend.campaign.dto.RegisterCampaign;
+import com.example.backend.campaign.dto.request.RegisterCampaignRequest;
+import com.example.backend.campaign.dto.response.CampaignResponse;
+import com.example.backend.campaign.dto.response.DeadlineCampaignResponse;
+import com.example.backend.campaign.dto.response.PopularCampaignResponse;
 import com.example.backend.campaign.repository.CampaignRepository;
+import com.example.backend.common.exception.campaign.CampaignNotFoundException;
 import com.example.backend.file.service.FileService;
 import com.example.backend.keyword.service.KeywordService;
+import com.example.backend.user.domain.User;
+import com.example.backend.user.service.UserService;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -26,12 +29,30 @@ import lombok.RequiredArgsConstructor;
 public class CampaignService {
 
     private final CampaignRepository campaignRepository;
+    private final UserService userService;
     private final KeywordService keywordService;
     private final FileService fileService;
 
     @Transactional
-    public void register(RegisterCampaign.Request request, List<MultipartFile> images) {
-        Campaign campaign = request.toEntity();
+    public void register(Long hostId, RegisterCampaignRequest request, List<MultipartFile> images) {
+        User host = userService.findById(hostId);
+        Campaign campaign = Campaign.builder()
+            .host(host)
+            .category(request.getCategory())
+            .title(request.getTitle())
+            .description(request.getDescription())
+            .content(request.getContent())
+            .recruitNumber(request.getRecruitNumber())
+            .address(request.getAddress())
+            .type(request.getType())
+            .channelType(request.getChannelType())
+            .siteUrl(request.getSiteUrl())
+            .registrationStartDate(request.getRegistrationStartDate())
+            .registrationEndDate(request.getRegistrationEndDate())
+            .presentationDate(request.getPresentationDate())
+            .experienceStartDate(request.getExperienceStartDate())
+            .experienceEndDate(request.getExperienceEndDate())
+            .build();
         campaignRepository.save(campaign);
         fileService.saveCampaignImages(campaign, images);
         request.getKeywords().stream()
@@ -39,26 +60,26 @@ public class CampaignService {
             .forEach(keyword -> keywordService.saveCampaignKeywords(campaign, keyword));
     }
 
-    public List<PopularCampaign.Response> popular() {
+    public List<PopularCampaignResponse> popular() {
         List<Campaign> campaigns = campaignRepository.findPopular(PageRequest.of(0, 20));
 
-        return PopularCampaign.Response.listOf(campaigns);
+        return PopularCampaignResponse.listOf(campaigns);
     }
 
-    public List<DeadlineCampaign.Response> deadline() {
+    public List<DeadlineCampaignResponse> deadline() {
         List<Campaign> campaigns = new ArrayList<>();
         campaigns.  addAll(campaignRepository.findDeadlineAccommodation(PageRequest.of(0, 4)));
         campaigns.addAll(campaignRepository.findDeadlineLife(PageRequest.of(0, 4)));
         campaigns.addAll(campaignRepository.findDeadlineService(PageRequest.of(0, 4)));
         campaigns.addAll(campaignRepository.findDeadlineFamousRestaurant(PageRequest.of(0, 4)));
 
-        return DeadlineCampaign.Response.listOf(campaigns);
+        return DeadlineCampaignResponse.listOf(campaigns);
     }
 
-    public DetailCampaign.Response detail(String uuid) {
+    public CampaignResponse detail(String uuid) {
         Campaign campaign = campaignRepository.findByNo(uuid)
-            .orElseThrow(EntityNotFoundException::new); // TODO: Adds Custom Exception
+            .orElseThrow(CampaignNotFoundException::new);
 
-        return DetailCampaign.Response.of(campaign);
+        return CampaignResponse.of(campaign);
     }
 }

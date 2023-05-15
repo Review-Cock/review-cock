@@ -46,13 +46,10 @@ public class User {
 	private LocalDateTime lastModifiedDate;
 
 	@Builder
-	private User(String email, String nickname, String password, String phoneNumber,
-		LocalDateTime createdDate, LocalDateTime lastModifiedDate) {
+	private User(String email, String nickname, String password, String phoneNumber) {
 		this.email = email;
 		this.nickname = nickname;
 		this.password = password;
 		this.phoneNumber = phoneNumber;
-		this.createdDate = createdDate;
-		this.lastModifiedDate = lastModifiedDate;
 	}
 }
