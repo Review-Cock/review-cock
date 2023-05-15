@@ -19,7 +19,7 @@ public interface CampaignRepository extends JpaRepository<Campaign, Long> {
     @Query("select c from Campaign c"
         + " left join fetch c.images"
         + " left join fetch c.keywords"
-        + " order by c.applyNumber desc")
+        + " order by SIZE(c.participants) desc")
     List<Campaign> findPopular(Pageable pageable);
 
     @Query("select c from Campaign c"
