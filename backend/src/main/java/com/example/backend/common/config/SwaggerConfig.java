@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
@@ -27,6 +28,6 @@ public class SwaggerConfig {
                         .bearerFormat("JWT"))
             )
             .security(List.of(new SecurityRequirement().addList(securitySchemeName)))
-            .info(new Info().title("serviceTitle").version("serviceVersion"));
+            .info(new Info().title("리뷰콕 API Docs").version("v1"));
     }
 }
