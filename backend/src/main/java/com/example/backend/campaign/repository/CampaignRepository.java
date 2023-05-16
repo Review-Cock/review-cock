@@ -11,7 +11,6 @@ import com.example.backend.campaign.domain.Campaign;
 
 public interface CampaignRepository extends JpaRepository<Campaign, Long> {
 
-
     Optional<Campaign> findByNo(String no);
 
     // TODO: n+1
@@ -19,7 +18,7 @@ public interface CampaignRepository extends JpaRepository<Campaign, Long> {
     @Query("select c from Campaign c"
         + " left join fetch c.images"
         + " left join fetch c.keywords"
-        + " order by SIZE(c.participants) desc")
+        + " order by size(c.participants) desc")
     List<Campaign> findPopular(Pageable pageable);
 
     @Query("select c from Campaign c"
