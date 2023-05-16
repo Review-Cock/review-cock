@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -63,9 +64,8 @@ public class CampaignController {
     }
 
     @Operation(summary = "캠페인 상세 조회")
-    @Authenticated
-    @GetMapping("/detail/{no}")
-    public ResponseEntity<CampaignResponse> detail(@PathVariable String no) {
+    @GetMapping("/detail")
+    public ResponseEntity<CampaignResponse> detail(@RequestParam String no) {
         CampaignResponse response = campaignService.detail(no);
 
         return ResponseEntity.ok(response);
