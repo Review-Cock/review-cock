@@ -27,7 +27,7 @@ const LoginForm = () => {
 
   const onLogin = ({ email, password }: SignInForm) => {
     axios
-      .post('/users/login', {
+      .post('/auth/login', {
         email,
         password,
       })
@@ -39,7 +39,7 @@ const LoginForm = () => {
 
   const onSilentRefresh = () => {
     axios
-      .post('/silent-refresh', {
+      .post('/auth/token/refresh', {
         email,
         password,
       })
@@ -48,7 +48,7 @@ const LoginForm = () => {
         if (error?.response?.status === 401) {
           setUser(false);
           alert('세션이 만료되어 다시 로그인 해주세요');
-          navigate('/users/login');
+          navigate('/auth/login');
         }
       });
   };
