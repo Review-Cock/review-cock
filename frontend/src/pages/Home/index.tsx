@@ -28,7 +28,7 @@ import {
 
 import { useRecoilValue } from 'recoil';
 import { userState } from '@recoil/login';
-import axios from 'axios';
+import axiosInstance from '@utils/api/axiosInstance';
 
 const CarouselTopImgs = [
   { img: CarouselTopTimg1 },
@@ -77,7 +77,7 @@ const Home = () => {
   });
 
   useEffect(() => {
-    axios
+    axiosInstance
       .get('/campaigns/popular')
       .then((res) => {
         if (res.data.length !== 0) {
@@ -90,7 +90,7 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    axios
+    axiosInstance
       .get('/campaigns/deadline')
       .then((res) => {
         if (res.data.length !== 0) {

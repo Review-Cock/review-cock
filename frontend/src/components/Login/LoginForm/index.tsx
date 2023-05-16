@@ -3,9 +3,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import { EMAIL_REQUEST, LOGIN_BUTTON, PASSWORD_REQUEST } from '../../../utils/constants/loginConstants';
 import { useCookies } from 'react-cookie';
 import { LoginFormBox, LoginInput, CheckBoxLabel, CheckBox, IDManagementBox, FindIdBox } from './index.styles';
-import axios from 'axios';
 import { useRecoilState } from 'recoil';
 import { userState } from '@recoil/login';
+import axiosInstance from '@utils/api/axiosInstance';
 
 const JWT_EXPIRY_TIME = 24 * 3600 * 1000; // 만료 시간 (24시간 밀리 초로 표현)
 const REGEX_EMAIL = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/;
@@ -26,7 +26,7 @@ const LoginForm = () => {
   const [cookies, setCookie, removeCookie] = useCookies(['rememberEmail']);
 
   const onLogin = ({ email, password }: SignInForm) => {
-    axios
+    axiosInstance
       .post('/auth/login', {
         email,
         password,
@@ -38,7 +38,7 @@ const LoginForm = () => {
   };
 
   const onSilentRefresh = () => {
-    axios
+    axiosInstance
       .post('/auth/token/refresh', {
         email,
         password,
@@ -59,7 +59,7 @@ const LoginForm = () => {
 
     setCookie('rememberEmail', email);
     // accessToken 설정
-    axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+    axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
     navigate('/');
 
     setTimeout(onSilentRefresh, JWT_EXPIRY_TIME - 60000);
