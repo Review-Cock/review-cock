@@ -36,7 +36,7 @@ import Calendar from '@components/Detail/Calendar';
 import blogIcon from '@assets/blogIcon.png';
 import instaIcon from '@assets/instaIcon.png';
 import useInput from '@hooks/useInput';
-import axios from 'axios';
+import axiosInstance from '@utils/api/axiosInstance';
 
 const Detail = () => {
   const navigate = useNavigate();
@@ -46,7 +46,7 @@ const Detail = () => {
   const [isMoreImage, setIsMoreImage] = useState(false);
 
   const fetchCampaign = async () => {
-    const data = await axios.get(`/campaigns/detail?no=${id}`).then((res) => res.data);
+    const data = await axiosInstance.get(`/campaigns/detail?no=${id}`).then((res) => res.data);
     console.log(data);
     return data;
   };

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useMutation } from 'react-query';
-import axios from 'axios';
+import axiosInstance from '@utils/api/axiosInstance';
 
 import useInput from '@hooks/useInput';
 
@@ -51,10 +51,9 @@ const Register = () => {
   };
 
   const RegisterMutation = useMutation(
-    (CampaignInfo: FormData) => axios.post('/campaigns/register', CampaignInfo, config),
+    (CampaignInfo: FormData) => axiosInstance.post('/campaigns/register', CampaignInfo, config),
     {
       onSuccess: (res) => {
-        console.log(res);
         window.alert('새로운 캠페인이 등록되었습니다.');
         navigate('/');
       },
