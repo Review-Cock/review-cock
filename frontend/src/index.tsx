@@ -5,10 +5,6 @@ import { RecoilRoot } from 'recoil';
 import { Reset } from 'styled-reset';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import GlobalStyle from './GlobalStyle';
-import axios from 'axios';
-
-axios.defaults.baseURL = 'http://localhost:8080';
-axios.defaults.withCredentials = true;
 
 const queryClient = new QueryClient();
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);

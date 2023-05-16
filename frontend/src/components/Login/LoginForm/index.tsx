@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { EMAIL_REQUEST, LOGIN_BUTTON, PASSWORD_REQUEST } from '../../../utils/LoginConstants';
+import { EMAIL_REQUEST, LOGIN_BUTTON, PASSWORD_REQUEST } from '../../../utils/constants/loginConstants';
 import { useCookies } from 'react-cookie';
 import { LoginFormBox, LoginInput, CheckBoxLabel, CheckBox, IDManagementBox, FindIdBox } from './index.styles';
 import axios from 'axios';
