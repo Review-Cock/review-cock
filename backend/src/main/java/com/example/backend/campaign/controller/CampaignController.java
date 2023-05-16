@@ -6,9 +6,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -63,10 +64,20 @@ public class CampaignController {
 
     @Operation(summary = "캠페인 상세 조회")
     @Authenticated
-    @GetMapping("/detail")
-    public ResponseEntity<CampaignResponse> detail(@RequestParam("no") String uuid) {
-        CampaignResponse response = campaignService.detail(uuid);
+    @GetMapping("/detail/{no}")
+    public ResponseEntity<CampaignResponse> detail(@PathVariable String no) {
+        CampaignResponse response = campaignService.detail(no);
 
         return ResponseEntity.ok(response);
+    }
+
+    @Operation(summary = "캠페인 참가")
+    @Authenticated
+    @PostMapping("/participates/{no}")
+    public ResponseEntity<Void> participate(
+        @Parameter(hidden = true) @AuthenticationPrincipal Long userId, @PathVariable String no) {
+        campaignService.participate(no, userId);
+
+        return ResponseEntity.ok().build();
     }
 }

@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.backend.campaign.domain.Campaign;
+import com.example.backend.campaign.domain.Participant;
 import com.example.backend.campaign.dto.request.RegisterCampaignRequest;
 import com.example.backend.campaign.dto.response.CampaignResponse;
 import com.example.backend.campaign.dto.response.DeadlineCampaignResponse;
@@ -20,7 +21,6 @@ import com.example.backend.keyword.service.KeywordService;
 import com.example.backend.user.domain.User;
 import com.example.backend.user.service.UserService;
 
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -68,7 +68,7 @@ public class CampaignService {
 
     public List<DeadlineCampaignResponse> deadline() {
         List<Campaign> campaigns = new ArrayList<>();
-        campaigns.  addAll(campaignRepository.findDeadlineAccommodation(PageRequest.of(0, 4)));
+        campaigns.addAll(campaignRepository.findDeadlineAccommodation(PageRequest.of(0, 4)));
         campaigns.addAll(campaignRepository.findDeadlineLife(PageRequest.of(0, 4)));
         campaigns.addAll(campaignRepository.findDeadlineService(PageRequest.of(0, 4)));
         campaigns.addAll(campaignRepository.findDeadlineFamousRestaurant(PageRequest.of(0, 4)));
@@ -81,5 +81,16 @@ public class CampaignService {
             .orElseThrow(CampaignNotFoundException::new);
 
         return CampaignResponse.of(campaign);
+    }
+
+    @Transactional
+    public void participate(String no, Long userId) {
+        Campaign campaign = campaignRepository.findByNo(no)
+            .orElseThrow(CampaignNotFoundException::new);
+        User user = userService.findById(userId);
+        campaign.addParticipant(Participant.builder()
+            .user(user)
+            .campaign(campaign)
+            .build());
     }
 }
