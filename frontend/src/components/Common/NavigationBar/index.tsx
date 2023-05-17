@@ -55,7 +55,6 @@ const NavigationBar = () => {
       .then(() => {
         setIsUser(false);
         axiosInstance.defaults.headers.common['Authorization'] = null;
-        navigate('/');
       })
       .catch((e) => {
         setIsUser(false);
