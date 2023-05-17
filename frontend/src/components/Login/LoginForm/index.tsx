@@ -45,7 +45,7 @@ const LoginForm = () => {
       })
       .then(onLoginSuccess)
       .catch((error) => {
-        if (error?.response?.status === 401) {
+        if (error) {
           setUser(false);
           alert('세션이 만료되어 다시 로그인 해주세요');
           navigate('/auth/login');
