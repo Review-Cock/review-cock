@@ -14,9 +14,11 @@ import {
 } from './index.style';
 
 import DropDownMenu from '././DropDownMenu';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { userState } from '@recoil/login';
 import mainLogo from '@assets/mainLogo.png';
+import axiosInstance from '@utils/api/axiosInstance';
+import { LOGOUT_URL } from '@utils/constants/apiConstants';
 
 const NavigationBar = () => {
   const navigate = useNavigate();
@@ -24,7 +26,7 @@ const NavigationBar = () => {
   const [showRegion, setShowRegion] = useState(false);
   const [keyword, setKeyword] = useState('');
 
-  const isUser = useRecoilValue(userState);
+  const [isUser, setIsUser] = useRecoilState(userState);
 
   const handleDropBox = useCallback((target: string, type: boolean) => {
     if (target === 'delivery') {
@@ -45,6 +47,21 @@ const NavigationBar = () => {
     }
   };
 
+  const handleLogout = () => {
+    if (!confirm('정말 로그아웃 하시겠습니까?')) return;
+
+    axiosInstance
+      .post(LOGOUT_URL)
+      .then(() => {
+        setIsUser(false);
+        axiosInstance.defaults.headers.common['Authorization'] = null;
+      })
+      .catch((e) => {
+        setIsUser(false);
+        console.log(e);
+      });
+  };
+
   return (
     <Container>
       <MenuWrapper>
@@ -63,7 +80,9 @@ const NavigationBar = () => {
 
         {isUser ? (
           <LoginMenu>
-            <LoginLinkItem to="/users/logout">로그아웃</LoginLinkItem>
+            <LoginLinkItem to="/" onClick={handleLogout}>
+              로그아웃
+            </LoginLinkItem>
             <LoginLinkItem to="/profile">마이페이지</LoginLinkItem>
           </LoginMenu>
         ) : (
