@@ -47,7 +47,7 @@ const Detail = () => {
 
   const fetchCampaign = async () => {
     const data = await axiosInstance.get(`/campaigns/detail?no=${id}`).then((res) => res.data);
-    console.log(data);
+    data.address = data.address.split('(')[0];
     return data;
   };
 
