@@ -248,7 +248,7 @@ const Detail = () => {
           </TimeInfoWrapper>
           <Calendar dates={dates} />
           <SubmitBox>
-            {calDay > 0 && isLogin && (
+            {calDay >= 0 && isLogin && (
               <div>
                 <SnsLinkText htmlFor="snsLink">나의 SNS 링크</SnsLinkText>
                 <input value={userSnsLink} onChange={onChangeUserSnsLink} type="text" id="snsLink" />
