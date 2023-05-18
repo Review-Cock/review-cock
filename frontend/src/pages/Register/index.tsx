@@ -1,16 +1,3 @@
-import React, { useState } from 'react';
-import { useMutation } from 'react-query';
-import axiosInstance from '@utils/api/axiosInstance';
-
-import useInput from '@hooks/useInput';
-
-import MainPage from '@layouts/MainPage';
-import HashTagBox from '@components/Register/HashTagBox';
-import FindPostcode from '@components/Register/FindPostcode';
-import ImageUpload from '@components/Register/ImageUpload';
-import Checkbox from '@components/Register/Checkbox';
-import { useNavigate } from 'react-router-dom';
-
 import {
   Container,
   TitleBox,
@@ -24,6 +11,19 @@ import {
   Tilde,
   SubmitButton,
 } from '@pages/Register/index.styles';
+
+import React, { useState } from 'react';
+import { useMutation } from 'react-query';
+import { useNavigate } from 'react-router-dom';
+
+import useInput from '@hooks/useInput';
+
+import MainPage from '@layouts/MainPage';
+import HashTagBox from '@components/Register/HashTagBox';
+import FindPostcode from '@components/Register/FindPostcode';
+import ImageUpload from '@components/Register/ImageUpload';
+import Checkbox from '@components/Register/Checkbox';
+import { fetchRegisterCampaign } from '@utils/api/register';
 
 interface ICampaignInfo {
   category: string;
@@ -44,24 +44,15 @@ interface ICampaignInfo {
 }
 
 const Register = () => {
-  const config = {
-    headers: {
-      'content-type': 'multipart/form-data',
+  const { mutate: registerCampaign } = useMutation(fetchRegisterCampaign, {
+    onSuccess: () => {
+      window.alert('새로운 캠페인이 등록되었습니다.');
+      navigate('/');
     },
-  };
-
-  const RegisterMutation = useMutation(
-    (CampaignInfo: FormData) => axiosInstance.post('/campaigns/register', CampaignInfo, config),
-    {
-      onSuccess: () => {
-        window.alert('새로운 캠페인이 등록되었습니다.');
-        navigate('/');
-      },
-      onError: (error) => {
-        console.log(error);
-      },
+    onError: (error) => {
+      console.log(error);
     },
-  );
+  });
 
   const navigate = useNavigate();
   const [hashTag, onChangeHashTag, setHashTag] = useInput('');
@@ -176,7 +167,7 @@ const Register = () => {
 
     CampaignInfoFormData.append('request', JSON.stringify(CampaignInfo));
 
-    RegisterMutation.mutate(CampaignInfoFormData);
+    registerCampaign(CampaignInfoFormData);
   };
 
   return (
