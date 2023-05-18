@@ -10,6 +10,7 @@ interface CheckboxProps {
 
 const Checkbox = ({ type, onChangeType, onChangeCategory }: CheckboxProps) => {
   const deliveryCategory = [
+    ['선택', 'DEFAULT'],
     ['생활', 'LIFE'],
     ['서비스', 'SERVICE'],
     ['유아동', 'TODDLER'],
@@ -21,6 +22,7 @@ const Checkbox = ({ type, onChangeType, onChangeCategory }: CheckboxProps) => {
     ['반려동물', 'PET'],
   ];
   const regionCategory = [
+    ['선택', 'DEFAULT'],
     ['맛집', 'FAMOUS_RESTAURANT'],
     ['숙박', 'ACCOMMODATION'],
     ['문화', 'CULTURE'],

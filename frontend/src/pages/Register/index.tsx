@@ -30,7 +30,7 @@ interface ICampaignInfo {
   title: string;
   description: string;
   content: string;
-  recruitNumber: number;
+  recruitNumber: string;
   address: string;
   type: string;
   channelType: string;
@@ -53,7 +53,7 @@ const Register = () => {
   const RegisterMutation = useMutation(
     (CampaignInfo: FormData) => axiosInstance.post('/campaigns/register', CampaignInfo, config),
     {
-      onSuccess: (res) => {
+      onSuccess: () => {
         window.alert('새로운 캠페인이 등록되었습니다.');
         navigate('/');
       },
@@ -70,7 +70,7 @@ const Register = () => {
   const [title, onChangeTitle] = useInput('');
   const [description, onChangeDescription] = useInput('');
   const [content, onChangeContent] = useInput('');
-  const [recruitNumber, onChangeRecruitNumber] = useInput(0);
+  const [recruitNumber, onChangeRecruitNumber] = useInput('');
   const [address, , setAddress] = useInput('');
   const [type, , setType] = useInput('');
   const [channelType, , setChannelType] = useInput('');
