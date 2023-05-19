@@ -1,0 +1,10 @@
+export const KEYWORD_REQUEST = '필수 키워드가 입력되지 않았습니다.';
+export const RECRUITNUMBER_LARGER_ZERO = '모집인원은 0보다 커야합니다.';
+export const REGISTERSTART_AFTER_TODAY = '신청시작일은 오늘 이후여야 합니다.';
+export const REGISTEREND_AFTER_REGISTERSTART = '신청마감일은 신청시작일 이후여야 합니다.';
+export const PRESENT_AFTER_REGISTEREND = '발표일은 신청마감일 이후여야 합니다.';
+export const EXPERIENCESTART_AFTER_PRESENT = '체험시작일은 발표일 이후여야 합니다.';
+export const EXPERIENCEEND_AFTER_EXPERIENCESTART = '체험마감일은 체험시작일 이후여야 합니다.';
+export const MAINIMAGE_REQUEST = '대표이미지는 필수입니다.';
+export const DETAILIMAGE_LEAST_ONE = '상세이미지는 최소 1장 이상이어야 합니다.';
+export const CAMPAIGN_REGISTER = '새로운 캠페인이 등록되었습니다.';

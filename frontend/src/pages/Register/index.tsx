@@ -1,16 +1,3 @@
-import React, { useState } from 'react';
-import { useMutation } from 'react-query';
-import axiosInstance from '@utils/api/axiosInstance';
-
-import useInput from '@hooks/useInput';
-
-import MainPage from '@layouts/MainPage';
-import HashTagBox from '@components/Register/HashTagBox';
-import FindPostcode from '@components/Register/FindPostcode';
-import ImageUpload from '@components/Register/ImageUpload';
-import Checkbox from '@components/Register/Checkbox';
-import { useNavigate } from 'react-router-dom';
-
 import {
   Container,
   TitleBox,
@@ -25,12 +12,39 @@ import {
   SubmitButton,
 } from '@pages/Register/index.styles';
 
+import {
+  CAMPAIGN_REGISTER,
+  DETAILIMAGE_LEAST_ONE,
+  EXPERIENCEEND_AFTER_EXPERIENCESTART,
+  EXPERIENCESTART_AFTER_PRESENT,
+  KEYWORD_REQUEST,
+  MAINIMAGE_REQUEST,
+  PRESENT_AFTER_REGISTEREND,
+  RECRUITNUMBER_LARGER_ZERO,
+  REGISTEREND_AFTER_REGISTERSTART,
+  REGISTERSTART_AFTER_TODAY,
+} from '@utils/constants/registerConstants';
+
+import React, { useState } from 'react';
+import { useMutation } from 'react-query';
+import { useNavigate } from 'react-router-dom';
+
+import useInput from '@hooks/useInput';
+
+import MainPage from '@layouts/MainPage';
+import HashTagBox from '@components/Register/HashTagBox';
+import FindPostcode from '@components/Register/FindPostcode';
+import ImageUpload from '@components/Register/ImageUpload';
+import Checkbox from '@components/Register/Checkbox';
+
+import { fetchRegisterCampaign } from '@utils/api/register';
+
 interface ICampaignInfo {
   category: string;
   title: string;
   description: string;
   content: string;
-  recruitNumber: number;
+  recruitNumber: string;
   address: string;
   type: string;
   channelType: string;
@@ -44,24 +58,15 @@ interface ICampaignInfo {
 }
 
 const Register = () => {
-  const config = {
-    headers: {
-      'content-type': 'multipart/form-data',
+  const { mutate: registerCampaign } = useMutation(fetchRegisterCampaign, {
+    onSuccess: () => {
+      alert(CAMPAIGN_REGISTER);
+      navigate('/');
     },
-  };
-
-  const RegisterMutation = useMutation(
-    (CampaignInfo: FormData) => axiosInstance.post('/campaigns/register', CampaignInfo, config),
-    {
-      onSuccess: (res) => {
-        window.alert('새로운 캠페인이 등록되었습니다.');
-        navigate('/');
-      },
-      onError: (error) => {
-        console.log(error);
-      },
+    onError: (error) => {
+      console.log(error);
     },
-  );
+  });
 
   const navigate = useNavigate();
   const [hashTag, onChangeHashTag, setHashTag] = useInput('');
@@ -70,7 +75,7 @@ const Register = () => {
   const [title, onChangeTitle] = useInput('');
   const [description, onChangeDescription] = useInput('');
   const [content, onChangeContent] = useInput('');
-  const [recruitNumber, onChangeRecruitNumber] = useInput(0);
+  const [recruitNumber, onChangeRecruitNumber] = useInput('');
   const [address, , setAddress] = useInput('');
   const [type, , setType] = useInput('');
   const [channelType, , setChannelType] = useInput('');
@@ -117,46 +122,46 @@ const Register = () => {
     }
 
     if (keywords.length === 0) {
-      alert('keyword가 입력되지 않았습니다.');
+      alert(KEYWORD_REQUEST);
       return;
     }
 
     if (Number(recruitNumber) <= 0) {
-      alert('모집인원은 1보다 커야합니다.');
+      alert(RECRUITNUMBER_LARGER_ZERO);
       return;
     }
 
     if (new Date(registrationStartDate) < new Date()) {
-      alert('신청시작일은 오늘 이후여야 합니다.');
+      alert(REGISTERSTART_AFTER_TODAY);
       return;
     }
 
     if (new Date(registrationEndDate) < new Date(registrationStartDate)) {
-      alert('신청마감일은 신청시작일 이후여야 합니다.');
+      alert(REGISTEREND_AFTER_REGISTERSTART);
       return;
     }
 
     if (new Date(presentationDate) < new Date(registrationEndDate)) {
-      alert('발표일은 신청마감일 이후여야 합니다.');
+      alert(PRESENT_AFTER_REGISTEREND);
       return;
     }
 
     if (new Date(experienceStartDate) < new Date(presentationDate)) {
-      alert('체험시작일은 발표일 이후여야 합니다.');
+      alert(EXPERIENCESTART_AFTER_PRESENT);
       return;
     }
 
     if (new Date(experienceEndDate) < new Date(experienceStartDate)) {
-      alert('체험마감일은 체험시작일 이후여야 합니다.');
+      alert(EXPERIENCEEND_AFTER_EXPERIENCESTART);
       return;
     }
     if (!mainImage) {
-      alert('대표이미지는 필수입니다.');
+      alert(MAINIMAGE_REQUEST);
       return;
     }
 
     if (!detailImage) {
-      alert('상세이미지는 1장 이상이어야 합니다.');
+      alert(DETAILIMAGE_LEAST_ONE);
       return;
     }
     CampaignInfo.keywords = keywords;
@@ -176,7 +181,7 @@ const Register = () => {
 
     CampaignInfoFormData.append('request', JSON.stringify(CampaignInfo));
 
-    RegisterMutation.mutate(CampaignInfoFormData);
+    registerCampaign(CampaignInfoFormData);
   };
 
   return (
@@ -311,7 +316,6 @@ const Register = () => {
               type="date"
               name="announce"
               id="announce"
-              data-placeholder="YYYY-MM-DD"
               required
               aria-required="true"
             />
