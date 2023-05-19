@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useMutation } from 'react-query';
 
 import axiosInstance from '@utils/api/axiosInstance';
-import { JOIN_URL, LOGIN_URL } from '@utils/constants/apiConstants';
+import { JOIN_URL } from '@utils/constants/apiConstants';
 import {
   NOT_CORRECT_PASSWORD_MESSAGE,
   EMAIL_REQUEST_MESSAGE,
@@ -28,6 +28,7 @@ import {
   PHONENUMBER_MAXLENGTH,
   SUCCESS_JOIN_MESSAGE,
 } from '../../../utils/constants/joinConstants';
+import { LOGIN_URL } from '@utils/constants/routesConstants';
 
 interface IJoinForm {
   email: string;
