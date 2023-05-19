@@ -19,7 +19,7 @@ export const SUCCESS_JOIN_MESSAGE = '회원가입을 축하합니다';
 
 export const EMAIL_REQUEST_MESSAGE = 'Email 형식에 맞게 입력해주세요';
 export const NICKNAME_REQUEST_MESSAGE = 'Nickname을 입력해주세요';
-export const PASSWORD_REQUEST_MESSAGE = 'Password를 입력해주세요';
+export const PASSWORD_REQUEST_MESSAGE = '비밀번호는 8~16자를 입력해주세요';
 export const PASSWORD_RE_REQUEST_MESSAGE = '다시한번 Password를 입력해주세요';
 export const PHONENUMBER_REQUEST_MESSAGE = "' - ' 없이 연락처 9 ~ 11자리를 입력해주세요 Ex) 01012345678";
 export const BUSINESSNUMBER_REQUEST_MESSAGE = " ' - ' 없이 사업자번호 10자리를 입력해주세요";

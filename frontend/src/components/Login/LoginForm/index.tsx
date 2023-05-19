@@ -1,14 +1,29 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { EMAIL_REQUEST, LOGIN_BUTTON, PASSWORD_REQUEST } from '../../../utils/constants/loginConstants';
 import { useCookies } from 'react-cookie';
 import { LoginFormBox, LoginInput, CheckBoxLabel, CheckBox, IDManagementBox, FindIdBox } from './index.styles';
 import { useRecoilState } from 'recoil';
 import { userState } from '@recoil/login';
-import axiosInstance from '@utils/api/axiosInstance';
 
-const JWT_EXPIRY_TIME = 24 * 3600 * 1000; // 만료 시간 (24시간 밀리 초로 표현)
-const REGEX_EMAIL = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/;
+import {
+  EMAIL_REQUEST,
+  ACCESS_TOKEN_EXPIRY_TIME,
+  LOGIN_BUTTON,
+  MAXAGE_REMEMBER_EMAIL,
+  PASSWORD_REQUEST,
+  REMEMBER_EMAIL_KEY,
+  SESSION_EXPIRE_MESSAGE,
+} from '../../../utils/constants/loginConstants';
+import {
+  EMAIL_REGEX,
+  EMAIL_REQUEST_MESSAGE,
+  PASSWORD_MAXLENGTH,
+  PASSWORD_MINLENGTH,
+  PASSWORD_REQUEST_MESSAGE,
+} from '@utils/constants/joinConstants';
+import { LOGIN_API_URL, REFRESH_API_URL } from '@utils/constants/apiConstants';
+import { FIND_ID_URL, LOGIN_URL, FIND_PASSWORD_URL, HOME_URL } from '@utils/constants/routesConstants';
+import axiosInstance from '@utils/api/axiosInstance';
 
 export interface SignInForm {
   email: string;
@@ -23,11 +38,11 @@ const LoginForm = () => {
   const [user, setUser] = useRecoilState(userState);
 
   const navigate = useNavigate();
-  const [cookies, setCookie, removeCookie] = useCookies(['rememberEmail']);
+  const [cookies, setCookie, removeCookie] = useCookies([REMEMBER_EMAIL_KEY]);
 
   const onLogin = ({ email, password }: SignInForm) => {
     axiosInstance
-      .post('/auth/login', {
+      .post(LOGIN_API_URL, {
         email,
         password,
       })
@@ -39,7 +54,7 @@ const LoginForm = () => {
 
   const onSilentRefresh = () => {
     axiosInstance
-      .post('/auth/token/refresh', {
+      .post(REFRESH_API_URL, {
         email,
         password,
       })
@@ -47,8 +62,8 @@ const LoginForm = () => {
       .catch((error) => {
         if (error) {
           setUser(false);
-          alert('세션이 만료되어 다시 로그인 해주세요');
-          navigate('/auth/login');
+          alert(SESSION_EXPIRE_MESSAGE);
+          navigate(LOGIN_URL);
         }
       });
   };
@@ -57,12 +72,13 @@ const LoginForm = () => {
     const { accessToken } = response.data;
     setUser(true);
 
-    setCookie('rememberEmail', email);
+    setCookie(REMEMBER_EMAIL_KEY, email);
+
     // accessToken 설정
     axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-    navigate('/');
+    navigate(HOME_URL);
 
-    setTimeout(onSilentRefresh, JWT_EXPIRY_TIME - 60000);
+    setTimeout(onSilentRefresh, ACCESS_TOKEN_EXPIRY_TIME);
   };
 
   const handleEmail = useCallback(
@@ -82,14 +98,14 @@ const LoginForm = () => {
   const handleLoginSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!REGEX_EMAIL.test(email)) {
-      alert('이메일 형식에 맞게 입력해주세요');
+    if (!EMAIL_REGEX.test(email)) {
+      alert(EMAIL_REQUEST_MESSAGE);
       setEmail('');
       return;
     }
 
-    if (password.length < 8 || password.length > 16) {
-      alert('비밀번호는 8~16자를 입력해주세요');
+    if (password.length < PASSWORD_MINLENGTH || password.length > PASSWORD_MAXLENGTH) {
+      alert(PASSWORD_REQUEST_MESSAGE);
       setPassword('');
       return;
     }
@@ -100,9 +116,9 @@ const LoginForm = () => {
   const handleOnChange = (e: React.FormEvent<HTMLInputElement>) => {
     setIsRemember(e.currentTarget.checked);
     if (e.currentTarget.checked) {
-      setCookie('rememberEmail', email, { maxAge: 2000 });
+      setCookie(REMEMBER_EMAIL_KEY, email, { maxAge: MAXAGE_REMEMBER_EMAIL });
     } else {
-      removeCookie('rememberEmail');
+      removeCookie(REMEMBER_EMAIL_KEY);
     }
   };
 
@@ -133,9 +149,9 @@ const LoginForm = () => {
           </CheckBoxLabel>
         </div>
         <FindIdBox>
-          <Link to={'/users/help/id'}>아이디 찾기</Link>
+          <Link to={FIND_ID_URL}>아이디 찾기</Link>
           <div> | </div>
-          <Link to={'/users/help/pwd'}>비밀번호 찾기</Link>
+          <Link to={FIND_PASSWORD_URL}>비밀번호 찾기</Link>
         </FindIdBox>
       </IDManagementBox>
       <LoginInput type="submit" value={LOGIN_BUTTON} />
