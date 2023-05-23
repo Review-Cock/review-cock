@@ -1,5 +1,7 @@
 package com.example.backend.auth.controller;
 
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,8 +31,15 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestBody @Validated LoginRequest request) {
         LoginResponse response = authService.login(request);
+        ResponseCookie cookie = ResponseCookie.from("refreshToken", response.getRefreshToken())
+            .secure(true)
+            .sameSite("None")
+            .httpOnly(true)
+            .build();
 
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok()
+            .header(HttpHeaders.SET_COOKIE, cookie.toString())
+            .body(response);
     }
 
     @Operation(summary = "로그아웃")
@@ -44,7 +53,8 @@ public class AuthController {
 
     @Operation(summary = "토큰 재발급")
     @PostMapping("/token/refresh")
-    public ResponseEntity<AccessTokenResponse> reissueAccessToken(@Parameter(hidden = true) @AuthenticationPrincipal Long userId) {
+    public ResponseEntity<AccessTokenResponse> reissueAccessToken(
+        @Parameter(hidden = true) @AuthenticationPrincipal Long userId) {
         AccessTokenResponse response = authService.reissueAccessToken(userId);
 
         return ResponseEntity.ok(response);
