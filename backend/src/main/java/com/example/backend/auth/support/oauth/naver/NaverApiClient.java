@@ -22,8 +22,8 @@ public class NaverApiClient implements OAuthApiClient {
 
     private static final String GRANT_TYPE = "authorization_code";
 
-    @Value("${security.oauth2.naver.url.auth}")
-    private String authUrl;
+    @Value("${security.oauth2.naver.secret}")
+    private String clientSecret;
 
     @Value("${security.oauth2.naver.url.api}")
     private String apiUrl;
@@ -31,8 +31,8 @@ public class NaverApiClient implements OAuthApiClient {
     @Value("${security.oauth2.naver.client-id}")
     private String clientId;
 
-    @Value("${security.oauth2.naver.secret}")
-    private String clientSecret;
+    @Value("${security.oauth2.naver.url.auth}")
+    private String authUrl;
 
     private final RestTemplate restTemplate;
 
