@@ -27,11 +27,9 @@ public class CampaignKeyword {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "campaign_id", nullable = false)
     private Campaign campaign;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "keyword_id", nullable = false)
     private Keyword keyword;
 
     public static CampaignKeyword createKeyword(Campaign campaign, Keyword keyword) {

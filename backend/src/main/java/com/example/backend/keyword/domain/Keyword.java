@@ -19,7 +19,6 @@ public class Keyword {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     private String title;
 
     @Builder

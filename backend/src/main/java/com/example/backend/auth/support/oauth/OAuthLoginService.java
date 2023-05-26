@@ -22,6 +22,7 @@ public class OAuthLoginService {
 
     public LoginResponse login(OAuthLoginParams params) {
         OAuthInfoResponse response = requestOAuthInfoService.request(params);
+
         Long userId = findOrSaveUser(response);
         String accessToken = jwtTokenProvider.createAccessToken(userId);
         String refreshToken = jwtTokenProvider.createRefreshToken(userId);
@@ -38,7 +39,7 @@ public class OAuthLoginService {
     private Long newUser(OAuthInfoResponse response) {
         User user = User.builder()
             .email(response.getEmail())
-            .nickname(response.getNickname())
+            .nickname(response.getEmail())
             .phoneNumber("OAuthUser")
             .build();
 

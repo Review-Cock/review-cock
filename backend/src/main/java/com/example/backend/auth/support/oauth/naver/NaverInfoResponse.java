@@ -2,36 +2,28 @@ package com.example.backend.auth.support.oauth.naver;
 
 import com.example.backend.auth.support.oauth.OAuthInfoResponse;
 import com.example.backend.auth.support.oauth.OAuthProvider;
-import com.fasterxml.jackson.databind.PropertyNamingStrategies;
-import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class NaverInfoResponse implements OAuthInfoResponse {
 
+    @JsonProperty("response")
     private Response response;
 
     @Getter
-    @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
+    @JsonIgnoreProperties(ignoreUnknown = true)
     static class Response {
 
         private String email;
-        private String nickname;
     }
 
     @Override
     public String getEmail() {
-        return response.email;
-    }
-
-    @Override
-    public String getNickname() {
-        return response.nickname;
+        return response.getEmail();
     }
 
     @Override
