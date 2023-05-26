@@ -45,50 +45,37 @@ public class Campaign {
     @OneToMany(mappedBy = "campaign", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Participant> participants = new HashSet<>();
 
-    @Column(nullable = false)
     private String no;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private CampaignCategory category;
 
-    @Column(nullable = false)
     private String title;
 
-    @Column(nullable = false)
     private String description;
 
-    @Column(nullable = false)
     private String content;
 
     private int recruitNumber;
 
-    @Column(nullable = false)
     private String address;
 
     @Enumerated(EnumType.STRING)
     private CampaignType type;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private CampaignChannelType channelType;
 
-    @Column(nullable = false)
     private String siteUrl;
 
-    @Column(nullable = false)
     private LocalDate registrationStartDate;
 
-    @Column(nullable = false)
     private LocalDate registrationEndDate;
 
-    @Column(nullable = false)
     private LocalDate presentationDate;
 
-    @Column(nullable = false)
     private LocalDate experienceStartDate;
 
-    @Column(nullable = false)
     private LocalDate experienceEndDate;
 
     @OneToMany(mappedBy = "campaign", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -98,11 +85,9 @@ public class Campaign {
     private Set<CampaignKeyword> keywords = new HashSet<>();
 
     @CreatedDate
-    @Column(nullable = false, updatable = false)
     private LocalDateTime createdDate;
 
     @LastModifiedDate
-    @Column(nullable = false, updatable = false)
     private LocalDateTime lastModifiedDate;
 
     @Builder

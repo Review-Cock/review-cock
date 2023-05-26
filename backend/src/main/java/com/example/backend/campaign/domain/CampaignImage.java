@@ -30,15 +30,12 @@ public class CampaignImage {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "campaign_id", nullable = false)
     private Campaign campaign;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "file_id", nullable = false)
     private File file;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private CampaignImageType type;
 
     public static CampaignImage createImage(Campaign campaign, File file, CampaignImageType type) {

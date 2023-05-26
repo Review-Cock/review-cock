@@ -19,16 +19,12 @@ public class File {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     private String originalName;
 
-    @Column(nullable = false)
     private String extension;
 
-    @Column(nullable = false)
     private String savedName;
 
-    @Column(nullable = false)
     private String path;
 
     @Builder
