@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { useQuery } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import { userState } from '@recoil/login';
 
 import {
@@ -36,7 +36,9 @@ import Calendar from '@components/Detail/Calendar';
 import blogIcon from '@assets/blogIcon.png';
 import instaIcon from '@assets/instaIcon.png';
 import useInput from '@hooks/useInput';
-import axiosInstance from '@utils/api/axiosInstance';
+
+import { fetchApplyCampaign, fetchCampaign } from '@utils/api/detail';
+import { LOGIN_URL } from '@utils/constants/routesConstants';
 
 const Detail = () => {
   const navigate = useNavigate();
@@ -45,13 +47,8 @@ const Detail = () => {
   const [userSnsLink, onChangeUserSnsLink] = useInput('');
   const [isMoreImage, setIsMoreImage] = useState(false);
 
-  const fetchCampaign = async () => {
-    const data = await axiosInstance.get(`/campaigns/detail?no=${id}`).then((res) => res.data);
-    data.address = data.address.split('(')[0];
-    return data;
-  };
-
-  const { status, data, error } = useQuery('campaign', fetchCampaign);
+  const { status, data: campaignData } = useQuery('campaign', () => fetchCampaign(id));
+  const { mutate: applyCampaign } = useMutation(fetchApplyCampaign);
 
   if (status === 'loading') {
     return <span>로딩중~~</span>;
@@ -62,11 +59,11 @@ const Detail = () => {
   }
 
   const dates = {
-    regStart: new Date(data.registrationStartDate),
-    regEnd: new Date(data.registrationEndDate),
-    notice: new Date(data.presentationDate),
-    expStart: new Date(data.experienceStartDate),
-    expEnd: new Date(data.experienceEndDate),
+    regStart: new Date(campaignData.registrationStartDate),
+    regEnd: new Date(campaignData.registrationEndDate),
+    notice: new Date(campaignData.presentationDate),
+    expStart: new Date(campaignData.experienceStartDate),
+    expEnd: new Date(campaignData.experienceEndDate),
   };
 
   const calDay = Math.floor((dates.regEnd.getTime() - new Date().getTime()) / (24 * 60 * 60 * 1000));
@@ -82,11 +79,22 @@ const Detail = () => {
       alert('SNS 주소를 입력해주세요!');
       return;
     }
-    alert('신청성공!!');
+
+    applyCampaign(
+      { userSnsLink, id },
+      {
+        onSuccess: () => {
+          alert('성공적으로 신청되었습니다!');
+        },
+        onError: (error) => {
+          console.log(error);
+        },
+      },
+    );
   };
 
   const handleLoginBtn = () => {
-    navigate('/users/login');
+    navigate(LOGIN_URL);
   };
 
   return (
@@ -94,20 +102,21 @@ const Detail = () => {
       <Container>
         <LeftCotainer>
           <TitleWrapper>
-            <TitleText>{data.title}</TitleText>
+            <TitleText>{campaignData.title}</TitleText>
             <p>
-              <DisabledText>{data.content}</DisabledText>
+              <DisabledText>{campaignData.content}</DisabledText>
             </p>
             <TitleTextBox>
               <p>
                 <NomalText>신청 </NomalText>
-                <NumberText>{data.applyNumber}명</NumberText> <DisabledText>| 모집 {data.recruitNumber}명</DisabledText>
+                <NumberText>{campaignData.applyNumber}명</NumberText>{' '}
+                <DisabledText>| 모집 {campaignData.recruitNumber}명</DisabledText>
               </p>
               <p>
-                <DisabledText>{data.type === 'EXPERIENCE' ? '지역형' : '배송형'}</DisabledText>
+                <DisabledText>{campaignData.type === 'EXPERIENCE' ? '지역형' : '배송형'}</DisabledText>
               </p>
               <div>
-                {data.channelType === 'BLOG' ? (
+                {campaignData.channelType === 'BLOG' ? (
                   <IconImage src={blogIcon} alt="블로그" />
                 ) : (
                   <IconImage src={instaIcon} alt="인스타그램" />
@@ -115,9 +124,11 @@ const Detail = () => {
               </div>
             </TitleTextBox>
           </TitleWrapper>
-          <MainImage src={`/images/${data.imagePaths[0]}`} alt="캠페인 이미지" />
+          <MainImage src={`/images/${campaignData.imagePaths[0]}`} alt="캠페인 이미지" />
           {isMoreImage &&
-            data.imagePaths.map((url: string, index: number) => <MainImage key={index} src={`/images/${url}`} />)}
+            campaignData.imagePaths.map((url: string, index: number) => (
+              <MainImage key={index} src={`/images/${url}`} />
+            ))}
           <SlideBtn
             onClick={() => {
               setIsMoreImage((v) => !v);
@@ -126,7 +137,7 @@ const Detail = () => {
             {isMoreImage ? '접기' : '상세이미지 더보기'}
           </SlideBtn>
 
-          {data.type === 'SHIPPING' ? (
+          {campaignData.type === 'SHIPPING' ? (
             <CampaignTypeBox>
               <span>배송형 캠페인</span>
               <p>업체 배송한 상품에 대한 SNS리뷰를 작성하는 캠페인이에요.</p>
@@ -155,7 +166,7 @@ const Detail = () => {
                 <span>모집</span>
                 <span>
                   <NomalText>총</NomalText>
-                  <NumberText>{data.recruitNumber}</NumberText>
+                  <NumberText>{campaignData.recruitNumber}</NumberText>
                   <DisabledText> 명</DisabledText>
                 </span>
               </div>
@@ -164,7 +175,7 @@ const Detail = () => {
                 <span>신청</span>
                 <span>
                   <NomalText>총</NomalText>
-                  <NumberText>{data.applyNumber}</NumberText>
+                  <NumberText>{campaignData.applyNumber}</NumberText>
                   <DisabledText> 명</DisabledText>
                 </span>
               </div>
@@ -173,14 +184,14 @@ const Detail = () => {
           <CampaignInfoBox>
             <span>캠페인 소개</span>
             <CampaignInfoBoxItem>
-              <p>{data.description}</p>
+              <p>{campaignData.description}</p>
             </CampaignInfoBoxItem>
           </CampaignInfoBox>
           <CampaignInfoBox>
             <span>필수 키워드</span>
             <CampaignInfoBoxItem>
               <TagBox>
-                {data.keywords.map((tag: string, index: number) => (
+                {campaignData.keywords.map((tag: string, index: number) => (
                   <TagItem key={index}>{tag}</TagItem>
                 ))}
               </TagBox>
@@ -208,7 +219,7 @@ const Detail = () => {
                 <TagItem>구매링크</TagItem>
               </TagBox>
               <p>
-                <NumberText>{data.siteUrl}</NumberText>
+                <NumberText>{campaignData.siteUrl}</NumberText>
               </p>
               <TagDescriptionBox>
                 <p>
@@ -260,9 +271,10 @@ const Detail = () => {
                 <button onClick={handleLoginBtn}>로그인하고 신청하기</button>
               </div>
             )}
-            <KakaoMap campaignAddress={data.address} />
+            <KakaoMap campaignAddress={campaignData.mainAddress} />
             <p>상세주소</p>
-            <p>{data.address}</p>
+            <p>{campaignData.mainAddress}</p>
+            <p>{campaignData.detailAddress}</p>
           </SubmitBox>
         </RightCotainer>
       </Container>
