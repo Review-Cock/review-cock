@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -75,8 +76,9 @@ public class CampaignController {
     @Authenticated
     @PostMapping("/participates/{no}")
     public ResponseEntity<Void> participate(
-        @Parameter(hidden = true) @AuthenticationPrincipal Long userId, @PathVariable String no) {
-        campaignService.participate(no, userId);
+        @Parameter(hidden = true) @AuthenticationPrincipal Long userId,
+        @PathVariable String no, @RequestBody String snsLink) {
+        campaignService.participate(no, userId, snsLink);
 
         return ResponseEntity.ok().build();
     }

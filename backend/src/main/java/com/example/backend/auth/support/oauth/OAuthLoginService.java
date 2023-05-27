@@ -39,8 +39,7 @@ public class OAuthLoginService {
     private Long newUser(OAuthInfoResponse response) {
         User user = User.builder()
             .email(response.getEmail())
-            .nickname(response.getEmail())
-            .phoneNumber("OAuthUser")
+            .nickname(response.getNickname())
             .build();
 
         return userRepository.save(user).getId();

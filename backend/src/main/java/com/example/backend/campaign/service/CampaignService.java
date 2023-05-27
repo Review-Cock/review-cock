@@ -84,13 +84,14 @@ public class CampaignService {
     }
 
     @Transactional
-    public void participate(String no, Long userId) {
+    public void participate(String no, Long userId, String snsLink) {
         Campaign campaign = campaignRepository.findByNo(no)
             .orElseThrow(CampaignNotFoundException::new);
         User user = userService.findById(userId);
         campaign.addParticipant(Participant.builder()
             .user(user)
             .campaign(campaign)
+            .snsLink(snsLink)
             .build());
     }
 }
