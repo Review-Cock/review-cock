@@ -28,10 +28,13 @@ public class Participant {
     @ManyToOne(fetch = FetchType.LAZY)
     private Campaign campaign;
 
+    private String snsLink;
+
     @Builder
-    private Participant(User user, Campaign campaign) {
+    private Participant(User user, Campaign campaign, String snsLink) {
         this.user = user;
         this.campaign = campaign;
         this.campaign.addParticipant(this);
+        this.snsLink = snsLink;
     }
 }

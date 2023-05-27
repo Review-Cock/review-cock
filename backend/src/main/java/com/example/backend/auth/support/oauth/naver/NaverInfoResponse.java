@@ -17,13 +17,18 @@ public class NaverInfoResponse implements OAuthInfoResponse {
     @Getter
     @JsonIgnoreProperties(ignoreUnknown = true)
     static class Response {
-
         private String email;
+        private String nickname;
     }
 
     @Override
     public String getEmail() {
-        return response.getEmail();
+        return response.email;
+    }
+
+    @Override
+    public String getNickname() {
+        return response.nickname;
     }
 
     @Override
