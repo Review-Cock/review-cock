@@ -89,7 +89,7 @@ public class CampaignService {
         Campaign campaign = campaignRepository.findByNo(no)
             .orElseThrow(CampaignNotFoundException::new);
         User user = userService.findById(userId);
-        if (campaign.getParticipants().contains(user) ||
+        if (campaign.getParticipants().stream().map(Participant::getUser).anyMatch(pu -> pu.equals(user)) ||
             campaign.getHost().equals(user)) {
             // TODO: 참가 기간 validation
             throw new CampaignNotParticipateException();
