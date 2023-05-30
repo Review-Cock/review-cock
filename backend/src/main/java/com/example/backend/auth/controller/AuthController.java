@@ -4,6 +4,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -53,9 +54,8 @@ public class AuthController {
 
     @Operation(summary = "토큰 재발급")
     @PostMapping("/token/refresh")
-    public ResponseEntity<AccessTokenResponse> reissueAccessToken(
-        @Parameter(hidden = true) @AuthenticationPrincipal Long userId) {
-        AccessTokenResponse response = authService.reissueAccessToken(userId);
+    public ResponseEntity<AccessTokenResponse> reissueAccessToken(@CookieValue String refreshToken) {
+        AccessTokenResponse response = authService.reissueAccessToken(refreshToken);
 
         return ResponseEntity.ok(response);
     }

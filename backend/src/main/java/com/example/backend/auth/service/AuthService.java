@@ -3,9 +3,11 @@ package com.example.backend.auth.service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.backend.auth.domain.Token;
 import com.example.backend.auth.dto.response.AccessTokenResponse;
 import com.example.backend.auth.dto.request.LoginRequest;
 import com.example.backend.auth.dto.response.LoginResponse;
+import com.example.backend.auth.repository.TokenRepository;
 import com.example.backend.auth.support.JwtTokenProvider;
 import com.example.backend.auth.support.PasswordEncoder;
 import com.example.backend.common.exception.auth.InvalidTokenException;
@@ -24,6 +26,7 @@ public class AuthService {
     private final JwtTokenProvider jwtTokenProvider;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final TokenRepository tokenRepository;
 
     public LoginResponse login(LoginRequest request) {
         String email = request.getEmail();
@@ -42,12 +45,10 @@ public class AuthService {
     }
 
     @Transactional(readOnly = true)
-    public AccessTokenResponse reissueAccessToken(Long userId) {
-        boolean isExistUser = userRepository.existsById(userId);
-        if (!isExistUser) {
-            throw new InvalidTokenException();
-        }
-        String accessToken = jwtTokenProvider.createAccessToken(userId);
+    public AccessTokenResponse reissueAccessToken(String refreshToken) {
+        Token token = tokenRepository.findByRefreshToken(refreshToken)
+            .orElseThrow(InvalidTokenException::new);
+        String accessToken = jwtTokenProvider.createAccessToken(token.getUser().getId());
 
         return new AccessTokenResponse(accessToken);
     }
