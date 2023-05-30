@@ -54,7 +54,7 @@ public class AuthController {
 
     @Operation(summary = "토큰 재발급")
     @PostMapping("/token/refresh")
-    public ResponseEntity<AccessTokenResponse> reissueAccessToken(@CookieValue String refreshToken) {
+    public ResponseEntity<AccessTokenResponse> reissueAccessToken(@Parameter(hidden = true) @CookieValue String refreshToken) {
         AccessTokenResponse response = authService.reissueAccessToken(refreshToken);
 
         return ResponseEntity.ok(response);

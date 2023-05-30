@@ -26,8 +26,8 @@ public class AuthConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new AuthInterceptor(jwtTokenProvider))
             .addPathPatterns("/**");
-        registry.addInterceptor(new RefreshTokenAuthInterceptor(jwtTokenProvider, tokenRepository))
-            .addPathPatterns("/auth/token/refresh");
+        // registry.addInterceptor(new RefreshTokenAuthInterceptor(jwtTokenProvider, tokenRepository))
+        //     .addPathPatterns("/auth/token/refresh");
     }
 
     @Override
