@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import com.example.backend.common.exception.auth.InvalidTokenException;
 import com.example.backend.common.exception.auth.RequiredLoginException;
 import com.example.backend.common.exception.campaign.CampaignNotFoundException;
+import com.example.backend.common.exception.campaign.CampaignNotParticipateException;
 import com.example.backend.common.exception.user.InvalidEmailAndPasswordException;
 import com.example.backend.common.exception.user.UserNotFoundException;
 
@@ -69,6 +70,14 @@ public class ExceptionAdvice {
 
     @ExceptionHandler(CampaignNotFoundException.class)
     public ResponseEntity<ErrorResponse> handlerCampaignNotFoundException(CampaignNotFoundException e) {
+        log.error(e.getMessage());
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+            .body(new ErrorResponse(e.getMessage()));
+    }
+
+    @ExceptionHandler(CampaignNotParticipateException.class)
+    public ResponseEntity<ErrorResponse> handlerCampaignNotParticipateException(CampaignNotParticipateException e) {
         log.error(e.getMessage());
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)

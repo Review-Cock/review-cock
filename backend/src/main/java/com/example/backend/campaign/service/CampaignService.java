@@ -16,6 +16,7 @@ import com.example.backend.campaign.dto.response.DeadlineCampaignResponse;
 import com.example.backend.campaign.dto.response.PopularCampaignResponse;
 import com.example.backend.campaign.repository.CampaignRepository;
 import com.example.backend.common.exception.campaign.CampaignNotFoundException;
+import com.example.backend.common.exception.campaign.CampaignNotParticipateException;
 import com.example.backend.file.service.FileService;
 import com.example.backend.keyword.service.KeywordService;
 import com.example.backend.user.domain.User;
@@ -88,6 +89,11 @@ public class CampaignService {
         Campaign campaign = campaignRepository.findByNo(no)
             .orElseThrow(CampaignNotFoundException::new);
         User user = userService.findById(userId);
+        if (campaign.getParticipants().contains(user) ||
+            campaign.getHost().equals(user)) {
+            // TODO: 참가 기간 validation
+            throw new CampaignNotParticipateException();
+        }
         campaign.addParticipant(Participant.builder()
             .user(user)
             .campaign(campaign)

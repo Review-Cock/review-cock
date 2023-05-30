@@ -15,11 +15,11 @@ function App() {
       .post(REFRESH_API_URL)
       .then(onLoginSuccess)
       .catch((error) => {
-        if (error) {
-          setIsUser(false);
-          alert(SESSION_EXPIRE_MESSAGE);
-          window.location.href = LOGIN_URL;
-        }
+        // if (error) {
+        //   setIsUser(false);
+        //   alert(SESSION_EXPIRE_MESSAGE);
+        //   window.location.href = LOGIN_URL;
+        // }
       });
   };
 

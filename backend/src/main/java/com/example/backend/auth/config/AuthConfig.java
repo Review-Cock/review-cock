@@ -10,7 +10,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import com.example.backend.auth.repository.TokenRepository;
 import com.example.backend.auth.support.AuthInterceptor;
 import com.example.backend.auth.support.JwtTokenProvider;
-import com.example.backend.auth.support.RefreshTokenAuthInterceptor;
 import com.example.backend.auth.support.TokenResolver;
 
 import lombok.RequiredArgsConstructor;
