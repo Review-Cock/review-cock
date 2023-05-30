@@ -1,25 +1,32 @@
 import React, { useCallback, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
   Container,
+  LogoLink,
   MenuWrapper,
-  LogoBox,
   KeywordInputBox,
   KeywordInput,
   LoginMenu,
   LoginLinkItem,
+  CategoryLinkItem,
   CategoryWrapper,
   DropBoxItem,
-  CategoryLinkItem,
 } from './index.style';
 
 import DropDownMenu from '././DropDownMenu';
+import { useRecoilState } from 'recoil';
+import { userState } from '@recoil/login';
+import mainLogo from '@assets/mainLogo.png';
+import axiosInstance from '@utils/api/axiosInstance';
+import { LOGOUT_URL } from '@utils/constants/apiConstants';
 
 const NavigationBar = () => {
   const navigate = useNavigate();
   const [showDelivery, setShowDelivery] = useState(false);
   const [showRegion, setShowRegion] = useState(false);
   const [keyword, setKeyword] = useState('');
+
+  const [isUser, setIsUser] = useRecoilState(userState);
 
   const handleDropBox = useCallback((target: string, type: boolean) => {
     if (target === 'delivery') {
@@ -40,12 +47,27 @@ const NavigationBar = () => {
     }
   };
 
+  const handleLogout = () => {
+    if (!confirm('정말 로그아웃 하시겠습니까?')) return;
+
+    axiosInstance
+      .post(LOGOUT_URL)
+      .then(() => {
+        setIsUser(false);
+        axiosInstance.defaults.headers.common['Authorization'] = null;
+      })
+      .catch((e) => {
+        setIsUser(false);
+        console.log(e);
+      });
+  };
+
   return (
     <Container>
       <MenuWrapper>
-        <LogoBox>
-          <Link to="/">로고</Link>
-        </LogoBox>
+        <LogoLink to="/">
+          <img src={mainLogo} alt="메인 로고" />
+        </LogoLink>
         <KeywordInputBox>
           <KeywordInput
             type="text"
@@ -55,11 +77,21 @@ const NavigationBar = () => {
             onKeyDown={handleKeywordEnter}
           />
         </KeywordInputBox>
-        <LoginMenu>
-          <LoginLinkItem to="/login">로그인</LoginLinkItem>
-          <span>|</span>
-          <LoginLinkItem to="/join">회원가입</LoginLinkItem>
-        </LoginMenu>
+
+        {isUser ? (
+          <LoginMenu>
+            <LoginLinkItem to="/" onClick={handleLogout}>
+              로그아웃
+            </LoginLinkItem>
+            <LoginLinkItem to="/profile">마이페이지</LoginLinkItem>
+          </LoginMenu>
+        ) : (
+          <LoginMenu>
+            <LoginLinkItem to="/users/login">로그인</LoginLinkItem>
+            <span>|</span>
+            <LoginLinkItem to="/users/join">회원가입</LoginLinkItem>
+          </LoginMenu>
+        )}
       </MenuWrapper>
       <CategoryWrapper>
         <DropBoxItem
@@ -70,7 +102,7 @@ const NavigationBar = () => {
             handleDropBox('delivery', false);
           }}
         >
-          배송전체
+          배송
           <DropDownMenu type="delivery" show={showDelivery} />
         </DropBoxItem>
         <DropBoxItem
@@ -81,11 +113,10 @@ const NavigationBar = () => {
             handleDropBox('region', false);
           }}
         >
-          지역전체
+          지역
           <DropDownMenu type="region" show={showRegion} />
         </DropBoxItem>
-        <CategoryLinkItem to="/category/배송">배송</CategoryLinkItem>
-        <CategoryLinkItem to="/category/지역">지역</CategoryLinkItem>
+        {isUser && <CategoryLinkItem to="/campaigns/register">캠페인 등록</CategoryLinkItem>}
       </CategoryWrapper>
     </Container>
   );

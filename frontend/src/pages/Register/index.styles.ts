@@ -131,7 +131,7 @@ export const DateInput = styled.input`
   margin-right: 20px;
 
   ::before {
-    content: attr(data-placeholder);
+    /* content: attr(data-placeholder); */
     color: #cccccc;
     width: 100%;
   }

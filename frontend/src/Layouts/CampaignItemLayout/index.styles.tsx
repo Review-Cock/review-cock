@@ -20,37 +20,28 @@ export const UpAndBottomWrapper = styled.div<{ itemWidth: number }>`
   img {
     border-radius: 20px 20px 0px 0px;
     width: inherit;
-    height: 50%;
+    height: 250px;
+  }
+  div {
+    border-radius: 0px 0px 20px 20px;
   }
 `;
 
 export const LeftAndRightWrapper = styled.div<{ itemWidth: number }>`
   width: ${({ itemWidth }) => `${itemWidth}px`};
+  height: 130px;
   display: flex;
   align-items: center;
   width: inherit;
   position: relative;
 
-  img {
-    border-radius: 20px;
-    width: 30%;
+  & > img {
+    width: 40%;
+    height: inherit;
   }
 
   div {
     border: none;
-  }
-`;
-
-export const InSideWrapper = styled.div`
-  width: 100%;
-  height: inherit;
-  position: relative;
-
-  img {
-    position: absolute;
-    height: inherit;
-    z-index: 1;
-    width: inherit;
   }
 `;
 
@@ -86,15 +77,4 @@ export const ParticipationBox = styled.div`
       }
     }
   }
-`;
-
-export const LastMinuteMark = styled.div`
-  position: absolute;
-  z-index: 2;
-  top: 10px;
-  left: 10px;
-  background: #f58e8e 0% 0% no-repeat padding-box;
-  padding: 6px 8px;
-  border-radius: 10px;
-  color: whitesmoke;
 `;

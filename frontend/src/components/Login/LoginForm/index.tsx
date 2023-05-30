@@ -1,12 +1,31 @@
-import axios from 'axios';
 import React, { useCallback, useEffect, useState } from 'react';
-import { useMutation } from 'react-query';
 import { Link, useNavigate } from 'react-router-dom';
-import { EMAIL_REQUEST, LOGIN_BUTTON, PASSWORD_REQUEST } from '../../../utils/LoginConstants';
 import { useCookies } from 'react-cookie';
 import { LoginFormBox, LoginInput, CheckBoxLabel, CheckBox, IDManagementBox, FindIdBox } from './index.styles';
+import { useRecoilState } from 'recoil';
+import { userState } from '@recoil/login';
 
-export interface IUser {
+import {
+  EMAIL_REQUEST,
+  ACCESS_TOKEN_EXPIRY_TIME,
+  LOGIN_BUTTON,
+  MAXAGE_REMEMBER_EMAIL,
+  PASSWORD_REQUEST,
+  REMEMBER_EMAIL_KEY,
+  SESSION_EXPIRE_MESSAGE,
+} from '../../../utils/constants/loginConstants';
+import {
+  EMAIL_REGEX,
+  EMAIL_REQUEST_MESSAGE,
+  PASSWORD_MAXLENGTH,
+  PASSWORD_MINLENGTH,
+  PASSWORD_REQUEST_MESSAGE,
+} from '@utils/constants/joinConstants';
+import { LOGIN_API_URL, REFRESH_API_URL } from '@utils/constants/apiConstants';
+import { FIND_ID_URL, LOGIN_URL, FIND_PASSWORD_URL, HOME_URL } from '@utils/constants/routesConstants';
+import axiosInstance from '@utils/api/axiosInstance';
+
+export interface SignInForm {
   email: string;
   password: string;
 }
@@ -14,30 +33,57 @@ export interface IUser {
 const LoginForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
-  const navigate = useNavigate();
-  const [userid, setUserid] = useState('');
-  const [cookies, setCookie, removeCookie] = useCookies(['rememberUserId']);
   const [isRemember, setIsRemember] = useState(false);
 
-  const loginMutation = useMutation(({ email, password }: IUser) => axios.post('', { email, password }), {
-    onSuccess: (response) => {
-      console.log(response);
+  const [user, setUser] = useRecoilState(userState);
 
-      // 성공시 쿠키 저장
-      setCookie('rememberUserId', 'hi');
+  const navigate = useNavigate();
+  const [cookies, setCookie, removeCookie] = useCookies([REMEMBER_EMAIL_KEY]);
 
-      navigate('/');
-    },
-    onError: (error) => {
-      console.log(error);
-    },
-  });
+  const onLogin = ({ email, password }: SignInForm) => {
+    axiosInstance
+      .post(LOGIN_API_URL, {
+        email,
+        password,
+      })
+      .then(onLoginSuccess)
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const onSilentRefresh = () => {
+    axiosInstance
+      .post(REFRESH_API_URL, {
+        email,
+        password,
+      })
+      .then(onLoginSuccess)
+      .catch((error) => {
+        if (error) {
+          setUser(false);
+          alert(SESSION_EXPIRE_MESSAGE);
+          navigate(LOGIN_URL);
+        }
+      });
+  };
+
+  const onLoginSuccess = (response: any) => {
+    const { accessToken } = response.data;
+    setUser(true);
+
+    setCookie(REMEMBER_EMAIL_KEY, email);
+
+    // accessToken 설정
+    axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+    navigate(HOME_URL);
+
+    setTimeout(onSilentRefresh, ACCESS_TOKEN_EXPIRY_TIME);
+  };
 
   const handleEmail = useCallback(
     (e: React.FormEvent<HTMLInputElement>) => {
       setEmail(e.currentTarget.value);
-      setUserid(e.currentTarget.value);
     },
     [email],
   );
@@ -51,35 +97,49 @@ const LoginForm = () => {
 
   const handleLoginSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    loginMutation.mutate({ email, password });
+
+    if (!EMAIL_REGEX.test(email)) {
+      alert(EMAIL_REQUEST_MESSAGE);
+      setEmail('');
+      return;
+    }
+
+    if (password.length < PASSWORD_MINLENGTH || password.length > PASSWORD_MAXLENGTH) {
+      alert(PASSWORD_REQUEST_MESSAGE);
+      setPassword('');
+      return;
+    }
+
+    onLogin({ email, password });
   };
 
   const handleOnChange = (e: React.FormEvent<HTMLInputElement>) => {
     setIsRemember(e.currentTarget.checked);
-    if (!e.currentTarget.checked) {
-      removeCookie('rememberUserId');
+    if (e.currentTarget.checked) {
+      setCookie(REMEMBER_EMAIL_KEY, email, { maxAge: MAXAGE_REMEMBER_EMAIL });
+    } else {
+      removeCookie(REMEMBER_EMAIL_KEY);
     }
   };
 
   useEffect(() => {
-    if (cookies.rememberUserId !== undefined) {
-      setUserid(cookies.rememberUserId);
+    if (cookies.rememberEmail !== undefined) {
+      setEmail(cookies.rememberEmail);
       setIsRemember(true);
     }
   }, []);
 
   return (
     <LoginFormBox onSubmit={handleLoginSubmit}>
+      <LoginInput name="email" type="email" placeholder={EMAIL_REQUEST} onChange={handleEmail} value={email} required />
       <LoginInput
-        name="email"
-        type="email"
-        placeholder={EMAIL_REQUEST}
-        onChange={handleEmail}
+        name="password"
+        type="password"
+        placeholder={PASSWORD_REQUEST}
+        onChange={handlePassword}
+        value={password}
         required
-        id="userid"
-        defaultValue={userid}
       />
-      <LoginInput name="password" type="password" placeholder={PASSWORD_REQUEST} onChange={handlePassword} required />
 
       <IDManagementBox>
         <div>
@@ -89,9 +149,9 @@ const LoginForm = () => {
           </CheckBoxLabel>
         </div>
         <FindIdBox>
-          <Link to={''}>아이디 찾기</Link>
+          <Link to={FIND_ID_URL}>아이디 찾기</Link>
           <div> | </div>
-          <Link to={''}>비밀번호 찾기</Link>
+          <Link to={FIND_PASSWORD_URL}>비밀번호 찾기</Link>
         </FindIdBox>
       </IDManagementBox>
       <LoginInput type="submit" value={LOGIN_BUTTON} />

@@ -6,18 +6,22 @@ import Join from '@pages/Join';
 import Register from '@pages/Register';
 import Detail from '@pages/Detail';
 import Oauth from '@components/Login/Oauth/Oauth';
+import FindId from '@pages/FindId';
+import FindPwd from '@pages/FindPwd';
 
 const Router = () => {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/oauth/kakao/callback" element={<Oauth apiUrl="" />} />
-        <Route path="/oauth/naver/callback" element={<Oauth apiUrl="" />} />
-        <Route path="/join" element={<Join />} />;
-        <Route path="/register" element={<Register />} />;
-        <Route path="/detail" element={<Detail />} />;
+        <Route path="/users/join" element={<Join />} />
+        <Route path="/users/login" element={<Login />} />
+        <Route path="/users/help/id" element={<FindId />} />
+        <Route path="/users/help/pwd" element={<FindPwd />} />
+        <Route path="/oauth/kakao/callback" element={<Oauth apiUrl="kakao" />} />
+        <Route path="/oauth/naver/callback" element={<Oauth apiUrl="naver" />} />
+        <Route path="/campaigns/register" element={<Register />} />
+        <Route path="/campaigns/detail/:id" element={<Detail />} />
       </Routes>
     </BrowserRouter>
   );

@@ -13,13 +13,21 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   width: 400px;
-  height: 350px;
 `;
+
 export const Month = styled.div`
+  display: flex;
+  position: relative;
   margin-bottom: 25px;
   font-size: 20px;
   line-height: 26px;
   color: #222222;
+  & > div {
+    position: absolute;
+    right: 30px;
+    margin-left: 100px;
+    cursor: pointer;
+  }
 `;
 
 export const Week = styled.div`
@@ -52,7 +60,7 @@ export const OneWeek = styled.div`
   ${FontCss}
   font-size: 14px;
   line-height: 26px;
-  color: #888888;
+  color: black;
   & > :first-child {
     color: #e14d4d;
   }
@@ -63,4 +71,42 @@ export const OneWeek = styled.div`
 
 export const Day = styled.div`
   width: 100%;
+  &.different {
+    color: #888888;
+  }
+  & > div {
+    width: 55px;
+    height: 20px;
+    &.reg {
+      background-color: #f1d8d8;
+    }
+    &.notice {
+      background-color: #e76969;
+    }
+    &.exp {
+      background-color: #eaeaea;
+    }
+  }
+`;
+
+export const Types = styled.div`
+  display: flex;
+  align-items: center;
+  & > p {
+    margin: 0 10px;
+    font-size: 14px;
+  }
+  & > div {
+    width: 55px;
+    height: 20px;
+    &.reg {
+      background-color: #f1d8d8;
+    }
+    &.notice {
+      background-color: #e76969;
+    }
+    &.exp {
+      background-color: #eaeaea;
+    }
+  }
 `;

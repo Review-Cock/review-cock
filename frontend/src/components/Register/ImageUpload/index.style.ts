@@ -6,7 +6,7 @@ export const FileInput = styled.input`
 
 export const ImageBox = styled.div`
   width: 482px;
-  height: 167px;
+  height: 250px;
   background: #fef3f3 0% 0% no-repeat padding-box;
   border: 1px solid #cccccc;
   border-radius: 5px;
@@ -30,10 +30,21 @@ export const ImageBox = styled.div`
       cursor: pointer;
     }
   }
+`;
 
-  & > div {
-    width: 100%;
-    text-align: left;
-    margin-left: 20px;
+export const PreImageBox = styled.div`
+  height: 90%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  overflow: auto;
+  & img {
+    height: 200px;
+    margin: 0 10px 10px 30px;
+  }
+  & button {
+    position: relative;
+    top: -100px;
   }
 `;

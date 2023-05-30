@@ -14,9 +14,10 @@ interface ICarousel {
   children?: React.ReactNode;
   containerWidth: number;
   itemWidth: number;
+  itemLen: number;
 }
 
-function Carousel({ children, containerWidth, itemWidth, ...others }: ICarousel) {
+function Carousel({ children, containerWidth, itemWidth, itemLen, ...others }: ICarousel) {
   const [translateXAmount, setTranslateXAmount] = useState(0);
   const itemCount = Children.toArray(children).length;
   const translateXAmountLimit = itemCount * itemWidth;
@@ -30,12 +31,12 @@ function Carousel({ children, containerWidth, itemWidth, ...others }: ICarousel)
 
   const onClickLeft = useCallback(() => {
     const newTranslateXAmount = (translateXAmount + itemWidth) % translateXAmountLimit;
-    setTranslateXAmount(newTranslateXAmount > 0 ? -containerWidth : newTranslateXAmount);
+    setTranslateXAmount(newTranslateXAmount > 0 ? -(itemLen - 4) * itemWidth : newTranslateXAmount);
     setToggle(translateXAmount === 0 ? arr.length - 1 : Math.abs(translateXAmount / itemWidth) - 1);
   }, [translateXAmount, itemWidth, translateXAmountLimit, toggle]);
 
   const onClickRight = useCallback(() => {
-    translateXAmount === -containerWidth
+    translateXAmount === -(itemLen - 4) * itemWidth
       ? setTranslateXAmount(0)
       : setTranslateXAmount((translateXAmount - itemWidth) % translateXAmountLimit);
 
@@ -46,7 +47,7 @@ function Carousel({ children, containerWidth, itemWidth, ...others }: ICarousel)
     setTranslateXAmount(0);
   }, [itemWidth]);
 
-  const arr = Array.from({ length: containerWidth / itemWidth + 1 }, (_, i) => i);
+  const arr = Array.from({ length: itemLen - 3 }, (_, i) => i);
 
   return (
     <>

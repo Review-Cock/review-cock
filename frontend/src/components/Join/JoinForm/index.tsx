@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React from 'react';
+import CheckBoxForAgreement from '../CheckBoxForAgreement';
 import { useForm } from 'react-hook-form';
-import { useMutation } from 'react-query';
+import { JoinFormBox, Label, JoinInput, ErrorBox, RedStar } from './index.styles';
 import { useNavigate } from 'react-router-dom';
+import { useMutation } from 'react-query';
+
+import axiosInstance from '@utils/api/axiosInstance';
+import { JOIN_URL } from '@utils/constants/apiConstants';
 import {
   NOT_CORRECT_PASSWORD_MESSAGE,
   EMAIL_REQUEST_MESSAGE,
@@ -10,45 +14,54 @@ import {
   PASSWORD_REQUEST_MESSAGE,
   PASSWORD_RE_REQUEST_MESSAGE,
   PHONENUMBER_REQUEST_MESSAGE,
-} from '../../../utils/JoinConstants';
-import CheckBoxForAgreement from '../CheckBoxForAgreement';
-import { JoinFormBox, Label, JoinInput, ErrorBox, RedStar, NickNameBox } from './index.styles';
+  EMAIL_REGEX,
+  NICKNAME_REGEX,
+  NICKNAME_ERROR_MESSAGE,
+  PASSWORD_REGEX,
+  PASSWORD_ERROR_MESSAGE,
+  PHONENUMBER_REGEX,
+  NICKNAME_MINLENGTH,
+  NICKNAME_MAXLENGTH,
+  PASSWORD_MINLENGTH,
+  PASSWORD_MAXLENGTH,
+  PHONENUMBER_MINLENGTH,
+  PHONENUMBER_MAXLENGTH,
+  SUCCESS_JOIN_MESSAGE,
+} from '../../../utils/constants/joinConstants';
+import { LOGIN_URL } from '@utils/constants/routesConstants';
 
-interface IForm {
+interface IJoinForm {
   email: string;
   nickname: string;
   password: string;
-  passwordConfirm: string;
+  passwordCheck: string;
   phoneNumber: number;
 }
 
 const JoinForm = () => {
-  const navigate = useNavigate();
-  const [nickname, setNickname] = useState('');
-  const [disable, setDisable] = useState(false);
-
   const {
     register,
     handleSubmit,
     formState: { errors },
     setError,
-    setFocus,
     setValue,
-  } = useForm<IForm>();
+  } = useForm<IJoinForm>();
+
+  const navigate = useNavigate();
 
   const JoinMutation = useMutation(
-    ({ email, nickname, password, passwordConfirm, phoneNumber }: IForm) =>
-      axios.post('', {
+    ({ email, nickname, password, passwordCheck, phoneNumber }: IJoinForm) =>
+      axiosInstance.post(JOIN_URL, {
         email,
         nickname,
         password,
-        passwordConfirm,
+        passwordCheck,
         phoneNumber,
       }),
     {
-      onSuccess: (response) => {
-        console.log(response);
-        navigate('/');
+      onSuccess: () => {
+        alert(SUCCESS_JOIN_MESSAGE);
+        navigate(LOGIN_URL);
       },
       onError: (error) => {
         console.log(error);
@@ -56,52 +69,22 @@ const JoinForm = () => {
     },
   );
 
-  const onValid = (data: IForm) => {
-    const { email, nickname, password, passwordConfirm, phoneNumber } = data;
+  const onValid = (data: IJoinForm) => {
+    const { email, nickname, password, passwordCheck, phoneNumber } = data;
 
-    if (password !== passwordConfirm) {
-      setError('passwordConfirm', { message: NOT_CORRECT_PASSWORD_MESSAGE }, { shouldFocus: true });
+    if (password !== passwordCheck) {
+      setError('passwordCheck', { message: NOT_CORRECT_PASSWORD_MESSAGE }, { shouldFocus: true });
       setValue('password', '');
-      setValue('passwordConfirm', '');
-    } else if (!disable) {
-      alert('닉네임 중복확인 부탁드립니다');
-      setFocus('nickname');
+      setValue('passwordCheck', '');
     } else {
       JoinMutation.mutate({
         email,
         nickname,
         password,
-        passwordConfirm,
+        passwordCheck,
         phoneNumber,
       });
     }
-  };
-
-  const handleNickNameBtn = (e: React.MouseEvent<HTMLElement>) => {
-    e.preventDefault();
-
-    axios
-      .get('http://localhost:8080/test', {
-        params: {
-          nicknameDuplicateCheck: nickname,
-        },
-      })
-      .then((res) => {
-        // 성공시
-        if (res.status === 200) {
-          alert('중복확인이 완료되었습니다.');
-          setDisable(true);
-        }
-      })
-      .catch((error) => {
-        // 실패시
-        if (error.response.status === 409) {
-          alert('중복된 Nickname 입니다');
-          setNickname('');
-        } else {
-          console.log(error);
-        }
-      });
   };
 
   return (
@@ -111,67 +94,90 @@ const JoinForm = () => {
       </Label>
       <JoinInput
         id="email"
+        type="email"
+        placeholder={EMAIL_REQUEST_MESSAGE}
         {...register('email', {
           required: EMAIL_REQUEST_MESSAGE,
           pattern: {
-            value: /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/,
+            value: EMAIL_REGEX,
             message: EMAIL_REQUEST_MESSAGE,
           },
         })}
-        placeholder={EMAIL_REQUEST_MESSAGE}
-        type="email"
       />
       <ErrorBox>{errors.email?.message}</ErrorBox>
+
       <Label htmlFor="nickname">
         닉네임 <RedStar>*</RedStar>
       </Label>
-      <NickNameBox>
-        <JoinInput
-          id="nickname"
-          {...register('nickname', { required: NICKNAME_REQUEST_MESSAGE })}
-          placeholder={NICKNAME_REQUEST_MESSAGE}
-          onChange={(e: React.FormEvent<HTMLInputElement>) => setNickname(e.currentTarget.value)}
-          disabled={disable}
-          value={nickname}
-        />
-        <button onClick={handleNickNameBtn}>중복확인</button>
-      </NickNameBox>
+      <JoinInput
+        id="nickname"
+        type="text"
+        placeholder={NICKNAME_REQUEST_MESSAGE}
+        {...register('nickname', {
+          required: NICKNAME_REQUEST_MESSAGE,
+          pattern: {
+            value: NICKNAME_REGEX,
+            message: NICKNAME_ERROR_MESSAGE,
+          },
+          minLength: { value: NICKNAME_MINLENGTH, message: NICKNAME_ERROR_MESSAGE },
+          maxLength: { value: NICKNAME_MAXLENGTH, message: NICKNAME_ERROR_MESSAGE },
+        })}
+      />
+      <ErrorBox>{errors?.nickname?.message}</ErrorBox>
 
       <Label htmlFor="password">
         비밀번호 <RedStar>*</RedStar>
       </Label>
       <JoinInput
         id="password"
-        {...register('password', { required: PASSWORD_REQUEST_MESSAGE })}
-        placeholder={PASSWORD_REQUEST_MESSAGE}
         type="password"
+        placeholder={PASSWORD_REQUEST_MESSAGE}
+        {...register('password', {
+          required: PASSWORD_REQUEST_MESSAGE,
+          pattern: {
+            value: PASSWORD_REGEX,
+            message: PASSWORD_ERROR_MESSAGE,
+          },
+          minLength: { value: PASSWORD_MINLENGTH, message: PASSWORD_ERROR_MESSAGE },
+          maxLength: { value: PASSWORD_MAXLENGTH, message: PASSWORD_ERROR_MESSAGE },
+        })}
       />
+      <ErrorBox>{errors?.password?.message}</ErrorBox>
 
-      <Label htmlFor="passwordConfirm">
+      <Label htmlFor="passwordCheck">
         비밀번호 확인 <RedStar>*</RedStar>
       </Label>
       <JoinInput
-        id="passwordConfirm"
-        {...register('passwordConfirm', { required: PASSWORD_RE_REQUEST_MESSAGE })}
-        placeholder={PASSWORD_RE_REQUEST_MESSAGE}
+        id="passwordCheck"
         type="password"
+        placeholder={PASSWORD_RE_REQUEST_MESSAGE}
+        {...register('passwordCheck', {
+          required: PASSWORD_RE_REQUEST_MESSAGE,
+          pattern: {
+            value: PASSWORD_REGEX,
+            message: PASSWORD_ERROR_MESSAGE,
+          },
+          minLength: { value: PASSWORD_MINLENGTH, message: PASSWORD_ERROR_MESSAGE },
+          maxLength: { value: PASSWORD_MAXLENGTH, message: PASSWORD_ERROR_MESSAGE },
+        })}
       />
-      <ErrorBox>{errors?.passwordConfirm?.message}</ErrorBox>
+      <ErrorBox>{errors?.passwordCheck?.message}</ErrorBox>
 
       <Label htmlFor="phoneNumber">
         휴대전화 <RedStar>*</RedStar>
       </Label>
       <JoinInput
         id="phoneNumber"
+        placeholder={PHONENUMBER_REQUEST_MESSAGE}
         {...register('phoneNumber', {
           required: PHONENUMBER_REQUEST_MESSAGE,
           pattern: {
-            value: /\d{3}\d{4}\d{4}$/,
+            value: PHONENUMBER_REGEX,
             message: PHONENUMBER_REQUEST_MESSAGE,
           },
-          maxLength: { value: 11, message: PHONENUMBER_REQUEST_MESSAGE },
+          minLength: { value: PHONENUMBER_MINLENGTH, message: PHONENUMBER_REQUEST_MESSAGE },
+          maxLength: { value: PHONENUMBER_MAXLENGTH, message: PHONENUMBER_REQUEST_MESSAGE },
         })}
-        placeholder={PHONENUMBER_REQUEST_MESSAGE}
       />
       <ErrorBox>{errors?.phoneNumber?.message}</ErrorBox>
 
